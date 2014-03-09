@@ -1,0 +1,40 @@
+/*** Admin CSS [mostly] taken from WordPress SEO by Yoast ***/
+
+.postbox {
+	margin: 0 10px 10px 0;
+}
+
+#better_yourls_support {
+	border-color: #0000ff;
+	border-width: 2px;
+	font-weight: bold;
+}
+
+#better_yourls_support h3 {
+	color:  #0000ff;
+}
+
+#better_yourls_support form {
+	margin:  7px auto 0 auto;
+	text-align: center;
+}
+
+div.inside a, div.inside a.rsswidget {
+	font-family: 'Lucida Grande', Verdana, Arial, 'Bitstream Vera Sans', sans-serif;
+	text-decoration: none;
+}
+
+div.inside a:hover, div.inside a.rsswidget:hover {
+	text-decoration: underline;
+}
+
+div.inside ul {
+	margin-left: 20px;
+}
+
+div.inside ul li {
+	list-style: disc;
+	line-height:16px;
+}
+
+

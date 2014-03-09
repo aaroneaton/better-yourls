@@ -39,6 +39,7 @@ class Better_YOURLS_Actions {
 		//add filters and actions if we've set API info
 		if ( isset( $this->settings['domain'] ) && $this->settings['domain'] != '' && isset( $this->settings['key'] ) && $this->settings['key'] != '' ) {
 
+			add_filter( 'sharing_permalink', array( $this, 'sharing_permalink' ), 10, 2 );
 			add_filter( 'pre_get_shortlink', array( $this, 'pre_get_shortlink' ), 100, 4 );
 			add_action( 'admin_bar_menu', array( $this, 'admin_bar_menu' ), 100 );
 			add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_scripts' ) );
@@ -203,6 +204,26 @@ class Better_YOURLS_Actions {
 	}
 
 	/**
+	 * Adds the shortlink to Jetpack Sharing.
+	 *
+	 * @param string $link    the original link
+	 * @param int    $post_id the post id
+	 *
+	 * @return string the link to share
+	 */
+	public function sharing_permalink( $link, $post_id ) {
+
+		$yourls_shortlink = get_post_meta( $post_id, '_better_yourls_short_link', true );
+
+		if ( $yourls_shortlink !== false and $yourls_shortlink != '' ) {
+			return $yourls_shortlink;
+		}
+
+		return $link;
+
+	}
+
+	/**
 	 * Enqueue script with admin bar.
 	 *
 	 * @since 0.0.1
@@ -219,7 +240,7 @@ class Better_YOURLS_Actions {
 			wp_localize_script( 'better_yourls',
 			                    'better_yourls',
 			                    array(
-				                    'text' => __( 'Your YOURLS short link is: ', 'better-yourls' ),
+				                    'text'       => __( 'Your YOURLS short link is: ', 'better-yourls' ),
 				                    'yourls_url' => wp_get_shortlink( $post->ID ),
 			                    )
 			);

@@ -51,5 +51,8 @@ Integrates your blog with the <a href="http://yourls.org" target="_blank">YOURLS
 
 == Changelog ==
 
+= 0.0.2 =
+* Add Jetpack Sharing integration
+
 = 0.0.1 =
 * First release with basic functionality.

@@ -184,7 +184,7 @@ class Better_YOURLS_Admin {
 	 */
 	public function metabox_help() {
 
-		$support_page = '';
+		$support_page = 'https://wordpress.org/plugins/better-yourls/support/';
 
 		echo '<p>' .  __( 'If you need help getting this plugin or have found a bug please visit the <a href="' . $support_page . '" target="_blank">support forums</a>.', 'better-yourls' ) . '</p>';
 
@@ -222,8 +222,8 @@ class Better_YOURLS_Admin {
 	 */
 	public function metabox_support() {
 
-		$wp_page  = 'http://wordpress.org';
-		$homepage = '';
+		$wp_page  = 'https://wordpress.org/plugins/better-yourls/';
+		$homepage = 'https://wordpress.org/plugins/better-yourls/';
 
 		echo '<p>' . __( 'Have you found this plugin useful? Please help support it\'s continued development with a donation of $20, $50, or even $100.', 'better-yourls' ) . '</p>';
 

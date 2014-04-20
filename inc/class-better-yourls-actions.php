@@ -33,8 +33,6 @@ class Better_YOURLS_Actions {
 		$this->plugin_file = $plugin_file;
 		$this->settings    = get_option( 'better_yourls' );
 
-
-
 		//add filters and actions if we've set API info
 		if ( isset( $this->settings['domain'] ) && $this->settings['domain'] != '' && isset( $this->settings['key'] ) && $this->settings['key'] != '' ) {
 
@@ -118,39 +116,45 @@ class Better_YOURLS_Actions {
 	 */
 	public function create_yourls_url( $post_id, $keyword = '', $title = '' ) {
 
-		//setup call parameters
-		$yourls_url   = 'http://' . $this->settings['domain'] . '/yourls-api.php';
-		$timestamp    = time();
-		$yours_key    = $this->settings['key'];
-		$signature    = md5( $timestamp . $yours_key );
-		$action       = 'shorturl';
-		$format       = 'JSON';
-		$original_url = get_permalink( $post_id );
+		if ( $post_id != 0 ) {
 
-		//keyword and title aren't currently used but may be in the future
-		if ( $keyword != '' ) {
-			$keyword = '&keyword=' . sanitize_text_field( $keyword );
-		}
+			//setup call parameters
+			$yourls_url   = 'http://' . $this->settings['domain'] . '/yourls-api.php';
+			$timestamp    = time();
+			$yours_key    = $this->settings['key'];
+			$signature    = md5( $timestamp . $yours_key );
+			$action       = 'shorturl';
+			$format       = 'JSON';
+			$original_url = get_permalink( $post_id );
 
-		if ( $title != '' ) {
-			$title = '&title=' . $title == '' ? get_the_title( $post_id ) : sanitize_text_field( $title );
-		}
+			//keyword and title aren't currently used but may be in the future
+			if ( $keyword != '' ) {
+				$keyword = '&keyword=' . sanitize_text_field( $keyword );
+			}
 
-		$request = $yourls_url . '?timestamp=' . $timestamp . '&signature=' . $signature . '&action=' . $action . '&url=' . $original_url . '&format=' . $format . $keyword . $title;
+			$title = '&title=' . ( trim( $title ) == '' ? get_the_title( $post_id ) : sanitize_text_field( $title ) );
 
-		$response = wp_remote_get( $request );
+			$request = $yourls_url . '?timestamp=' . $timestamp . '&signature=' . $signature . '&action=' . $action . '&url=' . $original_url . '&format=' . $format . $keyword . $title;
 
-		if ( is_wp_error( $response ) ) {
+			$response = wp_remote_get( $request );
+
+			if ( is_wp_error( $response ) ) {
+				return false;
+			}
+
+			$short_link = isset( $response['body'] ) ? $response['body'] : false;
+
+			if ( $short_link === false ) {
+				return false;
+			}
+
+			return trim( $short_link );
+
+		} else {
+
 			return false;
+
 		}
-
-		$short_link = isset( $response['body'] ) ? $response['body'] : false;
-
-		if ( $short_link === false ) {
-			return false;
-		}
-
-		return trim( $short_link );
 
 	}
 

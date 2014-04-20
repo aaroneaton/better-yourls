@@ -147,7 +147,7 @@ class Better_YOURLS_Admin {
 
 		add_settings_field(
 			'better_yourls[key]',
-			__( 'YOURLS API Key', 'ithemes-security' ),
+			__( 'YOURLS  Token', 'ithemes-security' ),
 			array( $this, 'settings_field_key' ),
 			'settings_page_better_yourls',
 			'better_yourls'
@@ -403,7 +403,7 @@ class Better_YOURLS_Admin {
 		}
 
 		echo '<input class="text" name="better_yourls[key]" id="better_yourls_key" value="' . $key . '" type="text">';
-		echo '<label for="better_yourls_key"><p class="description"> ' . __( 'This path must be writable by your website. For added security, it is recommended you do not include it in your website root folder.', 'ithemes-security' ) . '</p></label>';
+		echo '<label for="better_yourls_key"><p class="description"> ' . __( 'This can be found on the tools page in your YOURLS installation..', 'ithemes-security' ) . '</p></label>';
 
 	}
 

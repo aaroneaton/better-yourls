@@ -133,7 +133,7 @@ class Better_YOURLS_Actions {
 		}
 
 		if ( $title != '' ) {
-			$title = '&title=' . sanitize_text_field( $title );
+			$title = '&title=' . $title == '' ? get_the_title( $post_id ) : sanitize_text_field( $title );
 		}
 
 		$request = $yourls_url . '?timestamp=' . $timestamp . '&signature=' . $signature . '&action=' . $action . '&url=' . $original_url . '&format=' . $format . $keyword . $title;

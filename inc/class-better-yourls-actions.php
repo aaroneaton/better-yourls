@@ -211,11 +211,11 @@ class Better_YOURLS_Actions {
 
 		} else {
 
-			$yourls_shortlink = $this->create_yourls_url( $id );
+			$yourls_shortlink = $this->create_yourls_url( $post_id );
 
 			if ( $yourls_shortlink !== false ) {
 
-				update_post_meta( $id, '_better_yourls_short_link', $yourls_shortlink );
+				update_post_meta( $post_id, '_better_yourls_short_link', $yourls_shortlink );
 
 				return $yourls_shortlink;
 

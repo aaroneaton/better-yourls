@@ -131,7 +131,7 @@ class Better_YOURLS_Admin {
 		//Add Settings sections
 		add_settings_section(
 			'better_yourls',
-			__( 'Configure Better YOURLS', 'ithemes-security' ),
+			__( 'Configure Better YOURLS', 'better-yourls' ),
 			array( $this, 'empty_callback_function' ),
 			'settings_page_better_yourls'
 		);
@@ -139,7 +139,7 @@ class Better_YOURLS_Admin {
 		//add settings fields
 		add_settings_field(
 			'better_yourls[domain]',
-			__( 'YOURLS Domain', 'ithemes-security' ),
+			__( 'YOURLS Domain', 'better-yourls' ),
 			array( $this, 'settings_field_domain' ),
 			'settings_page_better_yourls',
 			'better_yourls'
@@ -147,7 +147,7 @@ class Better_YOURLS_Admin {
 
 		add_settings_field(
 			'better_yourls[key]',
-			__( 'YOURLS  Token', 'ithemes-security' ),
+			__( 'YOURLS  Token', 'better-yourls' ),
 			array( $this, 'settings_field_key' ),
 			'settings_page_better_yourls',
 			'better_yourls'
@@ -206,7 +206,7 @@ class Better_YOURLS_Admin {
 		<?php settings_fields( 'settings_page_better_yourls' ); ?>
 		<?php do_settings_sections( 'settings_page_better_yourls' ); ?>
 		<p class="submit">
-			<input type="submit" class="button-primary" value="<?php _e( 'Save Changes', 'ithemes-security' ); ?>"/>
+			<input type="submit" class="button-primary" value="<?php _e( 'Save Changes', 'better-yourls' ); ?>"/>
 		</p>
 
 	<?php
@@ -292,7 +292,7 @@ class Better_YOURLS_Admin {
 		}
 
 		if ( $file == $this_plugin ) {
-			$links[] = '<a href="options-general.php?page=better_yourls">' . __( 'Settings', 'ithemes-security' ) . '</a>';
+			$links[] = '<a href="options-general.php?page=better_yourls">' . __( 'Settings', 'better-yourls' ) . '</a>';
 		}
 
 		return $links;
@@ -383,7 +383,7 @@ class Better_YOURLS_Admin {
 		}
 
 		echo '<input class="text" name="better_yourls[domain]" id="better_yourls_domain" value="' . $domain . '" type="text">';
-		echo '<label for="better_yourls_domain"><p class="description"> ' . __( 'The short domain you are using for YOURLS. Enter only the domain name.', 'ithemes-security' ) . '</p></label>';
+		echo '<label for="better_yourls_domain"><p class="description"> ' . __( 'The short domain you are using for YOURLS. Enter only the domain name.', 'better-yourls' ) . '</p></label>';
 
 	}
 
@@ -403,7 +403,7 @@ class Better_YOURLS_Admin {
 		}
 
 		echo '<input class="text" name="better_yourls[key]" id="better_yourls_key" value="' . $key . '" type="text">';
-		echo '<label for="better_yourls_key"><p class="description"> ' . __( 'This can be found on the tools page in your YOURLS installation..', 'ithemes-security' ) . '</p></label>';
+		echo '<label for="better_yourls_key"><p class="description"> ' . __( 'This can be found on the tools page in your YOURLS installation..', 'better-yourls' ) . '</p></label>';
 
 	}
 

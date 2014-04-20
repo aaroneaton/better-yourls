@@ -40,6 +40,15 @@ class Better_YOURLS_Admin {
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) ); //enqueue scripts for admin page
 		add_filter( 'plugin_action_links', array( $this, 'plugin_action_links' ), 10, 2 );
 
+		//require plugin setup information
+		if ( ! class_exists( 'Better_YOURLS_Setup' ) ) {
+			require( dirname( __FILE__ ) . '/class-better-yourls-setup.php' );
+		}
+
+		register_activation_hook( $this->plugin_file, array( 'Better_YOURLS_Setup', 'on_activate' ) );
+		register_deactivation_hook( $this->plugin_file, array( 'Better_YOURLS_Setup', 'on_deactivate' ) );
+		register_uninstall_hook( $this->plugin_file, array( 'Better_YOURLS_Setup', 'on_uninstall' ) );
+
 	}
 
 	/**

@@ -206,7 +206,21 @@ class Better_YOURLS_Actions {
 		$yourls_shortlink = get_post_meta( $post_id, '_better_yourls_short_link', true );
 
 		if ( $yourls_shortlink !== false and $yourls_shortlink != '' ) {
+
 			return $yourls_shortlink;
+
+		} else {
+
+			$yourls_shortlink = $this->create_yourls_url( $id );
+
+			if ( $yourls_shortlink !== false ) {
+
+				update_post_meta( $id, '_better_yourls_short_link', $yourls_shortlink );
+
+				return $yourls_shortlink;
+
+			}
+
 		}
 
 		return $link;

@@ -32,6 +32,9 @@ class Better_YOURLS_Admin {
 		$this->plugin_file = $plugin_file;
 		$this->settings    = get_option( 'better_yourls' );
 
+		//remember the text domain
+		load_plugin_textdomain( 'better-yourls', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) ); //enqueue scripts for admin page

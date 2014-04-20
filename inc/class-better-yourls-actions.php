@@ -33,8 +33,7 @@ class Better_YOURLS_Actions {
 		$this->plugin_file = $plugin_file;
 		$this->settings    = get_option( 'better_yourls' );
 
-		//remember the text domain
-		load_plugin_textdomain( 'better-yourls', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+
 
 		//add filters and actions if we've set API info
 		if ( isset( $this->settings['domain'] ) && $this->settings['domain'] != '' && isset( $this->settings['key'] ) && $this->settings['key'] != '' ) {

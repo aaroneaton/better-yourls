@@ -1,10 +1,12 @@
 === Better YOURLS ===
-Contributors: ChrisWiegman
-Donate link:
+Contributors: ChrisWiegman,
+Donate link: https://chriswiegman.com/donate
 Tags: yourls, shortlink, custom shortlink
 Requires at least: 3.5
-Tested up to: 3.8.1
-Stable tag: 0.0.1
+Tested up to: 3.9
+Stable tag: 1.0.0
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Integrate your blog with <a href="http://yourls.org" target="_blank">YOURLS</a> custom URL generator.
 
@@ -51,8 +53,10 @@ Integrates your blog with the <a href="http://yourls.org" target="_blank">YOURLS
 
 == Changelog ==
 
-= 0.0.2 =
-* Add Jetpack Sharing integration
+= 1.0.0 =
+* Initial Release
 
-= 0.0.1 =
-* First release with basic functionality.
+== Upgrade Notice ==
+
+= 1.0.0 =
+* Initial release. Thanks for Trying!

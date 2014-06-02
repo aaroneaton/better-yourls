@@ -116,7 +116,7 @@ class Better_YOURLS_Actions {
 	 */
 	public function create_yourls_url( $post_id, $keyword = '', $title = '' ) {
 
-		if ( is_preview() || ( isset( $_GET['action'] ) && $_GET['action'] === 'edit' ) ) {
+		if ( is_preview() || is_admin() ) {
 			return false;
 		}
 

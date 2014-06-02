@@ -116,6 +116,10 @@ class Better_YOURLS_Actions {
 	 */
 	public function create_yourls_url( $post_id, $keyword = '', $title = '' ) {
 
+		if ( is_preview() || ( isset( $_GET['action'] ) && $_GET['action'] === 'edit' ) ) {
+			return false;
+		}
+
 		if ( $post_id != 0 ) {
 
 			//setup call parameters

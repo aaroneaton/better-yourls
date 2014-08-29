@@ -152,13 +152,15 @@ class Better_YOURLS_Actions {
 				return false;
 			}
 
-			return trim( $short_link );
+			$url = esc_url( trim( $short_link ) );
 
-		} else {
-
-			return false;
+			if ( $this->validate_url( $url ) === true ) {
+				return $url;
+			}
 
 		}
+
+		return false;
 
 	}
 
@@ -232,6 +234,23 @@ class Better_YOURLS_Actions {
 		}
 
 		return $link;
+
+	}
+
+	/**
+	 * Validates a URL
+	 *
+	 * @since 1.2
+	 *
+	 * @param string $url the url to validate
+	 *
+	 * @return bool true if valid url else false
+	 */
+	private function validate_url( $url ) {
+
+		$pattern = "/^(http|https|ftp):\/\/([A-Z0-9][A-Z0-9_-]*(?:\.[A-Z0-9][A-Z0-9_-]*)+):?(\d+)?\/?/i";
+
+		return (bool) preg_match( $pattern, $url );
 
 	}
 

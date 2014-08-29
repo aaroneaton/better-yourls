@@ -132,7 +132,7 @@ class Better_YOURLS_Admin {
 		add_settings_section(
 			'better_yourls',
 			__( 'Configure Better YOURLS', 'better-yourls' ),
-			array( $this, 'empty_callback_function' ),
+			'__return_empty_string',
 			'settings_page_better_yourls'
 		);
 
@@ -163,19 +163,6 @@ class Better_YOURLS_Admin {
 	}
 
 	/**
-	 * Empty callback function.
-	 *
-	 * Added for formality.
-	 *
-	 * @since 0.0.1
-	 *
-	 * @return void
-	 */
-	public function empty_callback_function() {
-
-	}
-
-	/**
 	 * Build the help metabox.
 	 *
 	 * @since 0.0.1
@@ -186,7 +173,7 @@ class Better_YOURLS_Admin {
 
 		$support_page = 'https://wordpress.org/plugins/better-yourls/support/';
 
-		echo '<p>' .  __( 'If you need help getting this plugin or have found a bug please visit the <a href="' . $support_page . '" target="_blank">support forums</a>.', 'better-yourls' ) . '</p>';
+		echo '<p>' . __( 'If you need help getting this plugin or have found a bug please visit the <a href="' . $support_page . '" target="_blank">support forums</a>.', 'better-yourls' ) . '</p>';
 
 	}
 

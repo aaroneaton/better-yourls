@@ -53,6 +53,10 @@ Integrates your blog with the <a href="http://yourls.org" target="_blank">YOURLS
 
 == Changelog ==
 
+= 1.0.2 =
+* Improved URL validation to avoid saving extraneous data
+* Minor typo fixes
+
 = 1.0.1 =
 * Don't generate URLs in admin, wait for the first post view.
 

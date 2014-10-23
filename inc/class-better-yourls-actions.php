@@ -29,7 +29,7 @@ class Better_YOURLS_Actions {
 	 */
 	public function __construct( $plugin_file ) {
 
-		//set degault options
+		//set default options
 		$this->plugin_file = $plugin_file;
 		$this->settings    = get_option( 'better_yourls' );
 

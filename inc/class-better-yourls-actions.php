@@ -181,7 +181,7 @@ class Better_YOURLS_Actions {
 
 			$yourls_shortlink = get_post_meta( $id, '_better_yourls_short_link', true );
 
-			if ( $yourls_shortlink !== false && $yourls_shortlink != '' ) {
+			if ( $yourls_shortlink !== false && $yourls_shortlink != '' && $this->validate_url( $yourls_shortlink ) === true ) {
 
 				return $yourls_shortlink;
 
@@ -189,7 +189,7 @@ class Better_YOURLS_Actions {
 
 				$yourls_shortlink = $this->create_yourls_url( $id );
 
-				if ( $yourls_shortlink !== false ) {
+				if ( $yourls_shortlink !== false && $this->validate_url( $yourls_shortlink ) === true ) {
 
 					update_post_meta( $id, '_better_yourls_short_link', $yourls_shortlink );
 
@@ -200,6 +200,8 @@ class Better_YOURLS_Actions {
 			}
 
 		}
+
+		return false;
 
 	}
 

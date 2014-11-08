@@ -1,10 +1,10 @@
 === Better YOURLS ===
-Contributors: ChrisWiegman,
-Donate link: https://chriswiegman.com/donate
+Contributors: ChrisWiegman
+Donate link: https://www.chriswiegman.com
 Tags: yourls, shortlink, custom shortlink
 Requires at least: 3.5
 Tested up to: 4.0
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,6 +52,13 @@ Integrates your blog with the <a href="http://yourls.org" target="_blank">YOURLS
 1. Easy to use with only 2 options.
 
 == Changelog ==
+
+= 1.0.3 =
+* Added hook to generate short url on post transition
+* Added get_shortlink hook to cover normal shortlink generation
+* No longer try to generate a shortlink in pre_get_shortlink. Just return it if it already exists
+* More efficient shortlink creation
+* General code cleanup
 
 = 1.0.2 =
 * Improved URL validation to avoid saving extraneous data

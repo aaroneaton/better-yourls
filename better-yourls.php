@@ -3,7 +3,7 @@
 	Plugin Name: Better YOURLS
 	Plugin URI: http://chriswiegman.com
 	Description: Replace WordPress shortlinks with custom YOURLS domain.
-	Version: 1.0.2
+	Version: 1.0.3
 	Text Domain: better-yourls
 	Domain Path: /languages
 	Author: Chris Wiegman

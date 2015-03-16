@@ -221,7 +221,7 @@ class Better_YOURLS_Actions {
 		}
 
 		//If we've already created a shortlink return it or just return the default
-		$link = get_post_meta( $id, '_better_yourls_short_link', true );
+		$link = get_post_meta( $post->ID, '_better_yourls_short_link', true );
 
 		if ( $link == '' ) {
 			return $short_link;

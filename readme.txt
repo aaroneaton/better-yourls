@@ -3,8 +3,8 @@ Contributors: ChrisWiegman
 Donate link: https://www.chriswiegman.com
 Tags: yourls, shortlink, custom shortlink
 Requires at least: 4.0
-Tested up to: 4.1
-Stable tag: 1.0.4
+Tested up to: 4.1.1
+Stable tag: 1.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,6 +53,12 @@ Integrates your blog with the <a href="http://yourls.org" target="_blank">YOURLS
 
 == Changelog ==
 
+= 1.0.5 =
+* Fixed: Fixed an issue preventing the shortlink from displaying for some URLS (see https://github.com/ChrisWiegman/Better-YOURLS/pull/1)
+
+= 1.0.4 =
+* Minor typo fixes and test with version 4.1
+
 = 1.0.3 =
 * Added hook to generate short url on post transition
 * Added get_shortlink hook to cover normal shortlink generation
@@ -71,6 +77,9 @@ Integrates your blog with the <a href="http://yourls.org" target="_blank">YOURLS
 * Initial Release
 
 == Upgrade Notice ==
+
+= 1.0.5 =
+* This is a bugfix release that is recommended for all users.
 
 = 1.0.1 =
 * This fixes a small bug that could lead to your URL reporting as "Auto Draft" in the URLs admin.

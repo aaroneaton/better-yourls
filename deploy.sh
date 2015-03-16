@@ -3,6 +3,8 @@
 # http://thereforei.am/2011/04/21/git-to-svn-automated-wordpress-plugin-deployment/
 # A modification of Dean Clatworthy's deploy script as found here: https://github.com/deanc/wordpress-plugin-git-svn
 # The difference is that this script lives in the plugin's git repo & doesn't require an existing SVN repo.
+# This version is a further modification of Paul Clark's script from https://github.com/pdclark/deploy-plugin-to-wordpress-dot-org 
+# and is modified to hard-code the plugin slug as well as to assume the GIT version has already been tagged.
 
 # main config
 PLUGINSLUG='better-yourls' # returns basename of current directory

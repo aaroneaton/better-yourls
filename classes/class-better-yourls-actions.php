@@ -1,21 +1,18 @@
 <?php
 
 /**
- * @package better_yourls
- */
-
-/**
  * YOURLS actions.
  *
  * Non admin-specific actions.
  *
- * @since 0.0.1
+ * @package better_yourls
+ *
+ * @since   0.0.1
  *
  */
 class Better_YOURLS_Actions {
 
-	private
-		$settings;
+	protected $settings;
 
 	/**
 	 * Better YOURLS constructor.
@@ -48,7 +45,7 @@ class Better_YOURLS_Actions {
 	public function action_plugins_loaded() {
 
 		//remember the text domain
-		load_plugin_textdomain( 'better-yourls', false, dirname( dirname( __FILE__ ) ) . '/lang' );
+		load_plugin_textdomain( 'better_yourls', false, dirname( dirname( __FILE__ ) ) . '/lang' );
 
 	}
 
@@ -59,7 +56,7 @@ class Better_YOURLS_Actions {
 	 *
 	 * @return void
 	 */
-	function admin_bar_menu() {
+	public function admin_bar_menu() {
 
 		global $wp_admin_bar, $post;
 
@@ -79,7 +76,7 @@ class Better_YOURLS_Actions {
 				array(
 					'href'  => '',
 					'id'    => 'better_yourls',
-					'title' => __( 'YOURLS', 'better-yourls' ),
+					'title' => __( 'YOURLS', 'better_yourls' ),
 				)
 			);
 
@@ -88,7 +85,7 @@ class Better_YOURLS_Actions {
 					'href'   => '',
 					'parent' => 'better_yourls',
 					'id'     => 'better_yourls-link',
-					'title'  => __( 'YOURLS Link', 'better-yourls' ),
+					'title'  => __( 'YOURLS Link', 'better_yourls' ),
 				)
 			);
 
@@ -96,7 +93,7 @@ class Better_YOURLS_Actions {
 				array(
 					'parent' => 'better_yourls',
 					'id'     => 'better_yourls-stats',
-					'title'  => __( 'Link Stats', 'better-yourls' ),
+					'title'  => __( 'Link Stats', 'better_yourls' ),
 					'href'   => $stats_url,
 					'meta'   => array(
 						'target' => '_blank',
@@ -314,12 +311,23 @@ class Better_YOURLS_Actions {
 
 		if ( is_admin_bar_showing() && isset( $post->ID ) && current_user_can( 'edit_post', $post->ID ) ) {
 
-			wp_enqueue_script( 'better_yourls', BYOURLS_URL . '/assets/js/better-yourls.js', array( 'jquery' ), BYOURLS_VERSION );
+			if ( defined( 'WP_DEBUG' ) && true === WP_DEBUG ) {
+
+				wp_register_script( 'better_yourls', BYOURLS_URL . '/assets/js/better-yourls.js', array( 'jquery' ), BYOURLS_VERSION );
+
+			} else {
+
+				wp_register_script( 'better_yourls', BYOURLS_URL . '/assets/js/better-yourls.min.js', array( 'jquery' ), BYOURLS_VERSION );
+
+			}
+
+			wp_enqueue_script( 'better_yourls' );
+
 			wp_localize_script(
 				'better_yourls',
 				'better_yourls',
 				array(
-					'text'       => __( 'Your YOURLS short link is: ', 'better-yourls' ),
+					'text'       => __( 'Your YOURLS short link is: ', 'better_yourls' ),
 					'yourls_url' => wp_get_shortlink( $post->ID ),
 				)
 			);

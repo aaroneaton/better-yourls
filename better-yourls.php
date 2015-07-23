@@ -15,20 +15,29 @@ Copyright 2015 Chris Wiegman  (email: info@chriswiegman.com)
 define( 'BYOURLS_VERSION', '1.0.5' );
 define( 'BYOURLS_URL', plugin_dir_url( __FILE__ ) );
 
-//Load front end items
-if ( ! class_exists( 'Better_YOURLS_Actions' ) ) {
-	require( dirname( __FILE__ ) . '/classes/class-better-yourls-actions.php' );
-}
+add_action( 'plugins_loaded', 'better_yourls_loader' );
 
-new Better_Yourls_Actions();
+function better_yourls_loader() {
 
-//Load Dashboard items
-if ( is_admin() ) {
+	//remember the text domain
+	load_plugin_textdomain( 'better_yourls', false, dirname( dirname( __FILE__ ) ) . '/lang' );
 
-	if ( ! class_exists( 'Better_YOURLS_Admin' ) ) {
-		require( dirname( __FILE__ ) . '/classes/class-better-yourls-admin.php' );
+	//Load front end items
+	if ( ! class_exists( 'Better_YOURLS_Actions' ) ) {
+		require( dirname( __FILE__ ) . '/classes/class-better-yourls-actions.php' );
 	}
 
-	new Better_Yourls_Admin();
+	new Better_Yourls_Actions();
+
+	//Load Dashboard items
+	if ( is_admin() ) {
+
+		if ( ! class_exists( 'Better_YOURLS_Admin' ) ) {
+			require( dirname( __FILE__ ) . '/classes/class-better-yourls-admin.php' );
+		}
+
+		new Better_Yourls_Admin();
+
+	}
 
 }

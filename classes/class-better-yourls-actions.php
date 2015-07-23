@@ -47,15 +47,6 @@ class Better_YOURLS_Actions {
 
 		}
 
-		add_action( 'plugins_loaded', array( $this, 'action_plugins_loaded' ) );
-
-	}
-
-	public function action_plugins_loaded() {
-
-		//remember the text domain
-		load_plugin_textdomain( 'better_yourls', false, dirname( dirname( __FILE__ ) ) . '/lang' );
-
 	}
 
 	/**

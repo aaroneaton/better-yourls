@@ -310,13 +310,13 @@ class Better_YOURLS_Actions {
 
 		if ( is_admin_bar_showing() && isset( $post->ID ) && current_user_can( 'edit_post', $post->ID ) ) {
 
-			wp_enqueue_script( 'better_yourls', plugins_url( '/js/better-yourls.js', $this->plugin_file ), array( 'jquery' ), '0.0.1' );
 			wp_localize_script( 'better_yourls',
 			                    'better_yourls',
 			                    array(
 				                    'text'       => __( 'Your YOURLS short link is: ', 'better-yourls' ),
 				                    'yourls_url' => wp_get_shortlink( $post->ID ),
 			                    )
+			wp_enqueue_script( 'better_yourls', BYOURLS_URL . '/assets/js/better-yourls.js', array( 'jquery' ), BYOURLS_VERSION );
 			);
 
 		}

@@ -44,9 +44,10 @@ class Better_YOURLS_Actions {
 			add_action( 'admin_bar_menu', array( $this, 'admin_bar_menu' ), 100 );
 			add_action( 'transition_post_status', array( $this, 'transition_post_status' ), 10, 3 );
 			add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_scripts' ) );
-			add_action( 'plugins_loaded', array( $this, 'action_plugins_loaded' ) );
 
 		}
+
+		add_action( 'plugins_loaded', array( $this, 'action_plugins_loaded' ) );
 
 	}
 

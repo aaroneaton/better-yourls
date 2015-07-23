@@ -25,6 +25,6 @@ if ( ! class_exists( 'Better_YOURLS_Actions' ) ) {
 if ( is_admin() && ! class_exists( 'Better_YOURLS_Admin' ) ) {
 
 	require( dirname( __FILE__ ) . '/classes/class-better-yourls-admin.php' );
-	new Better_Yourls_Admin( __FILE__ );
+	new Better_Yourls_Admin();
 
 }

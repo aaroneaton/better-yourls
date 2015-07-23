@@ -14,40 +14,23 @@
  */
 class Better_YOURLS_Admin {
 
-	private
-		$plugin_file,
-		$settings;
+	private $settings;
 
 	/**
 	 * Better YOURLS admin constructor.
 	 *
 	 * @since 0.0.1
 	 *
-	 * @param string $plugin_file the main plugin file
-	 *
 	 * @return Better_Yourls_Admin
 	 */
-	public function __construct( $plugin_file ) {
+	public function __construct() {
 
-		$this->plugin_file = $plugin_file;
-		$this->settings    = get_option( 'better_yourls' );
-
-		//remember the text domain
-		load_plugin_textdomain( 'better-yourls', false, dirname( plugin_basename( __FILE__ ) ) . '/lang/' );
+		$this->settings = get_option( 'better_yourls' );
 
 		add_action( 'admin_init', array( $this, 'admin_init' ) );
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) ); //enqueue scripts for admin page
 		add_filter( 'plugin_action_links', array( $this, 'plugin_action_links' ), 10, 2 );
-
-		//require plugin setup information
-		if ( ! class_exists( 'Better_YOURLS_Setup' ) ) {
-			require( dirname( __FILE__ ) . '/class-better-yourls-setup.php' );
-		}
-
-		register_activation_hook( $this->plugin_file, array( 'Better_YOURLS_Setup', 'on_activate' ) );
-		register_deactivation_hook( $this->plugin_file, array( 'Better_YOURLS_Setup', 'on_deactivate' ) );
-		register_uninstall_hook( $this->plugin_file, array( 'Better_YOURLS_Setup', 'on_uninstall' ) );
 
 	}
 
@@ -62,9 +45,10 @@ class Better_YOURLS_Admin {
 
 		if ( get_current_screen()->id == 'settings_page_better_yourls' ) {
 
-			wp_enqueue_script( 'better_yourls_footer', plugins_url( '/js/admin-footer.js', $this->plugin_file ), 'jquery', '0.0.1', true );
+			wp_register_script( 'better_yourls_footer', BYOURLS_URL . '/js/admin-footer.js', array( 'jquery' ), BYOURLS_VERSION, true );
+			wp_enqueue_script( 'better_yourls_footer' );
 
-			wp_register_style( 'better_yourls_admin', plugins_url( '/css/admin.css', $this->plugin_file ) ); //add multi-select css
+			wp_register_style( 'better_yourls_admin', BYOURLS_URL .  '/css/admin.css', array(), BYOURLS_VERSION ); //add multi-select css
 			wp_enqueue_style( 'better_yourls_admin' );
 
 		}
@@ -219,7 +203,7 @@ class Better_YOURLS_Admin {
 		<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 			<input type="hidden" name="cmd" value="_s-xclick">
 			<input type="hidden" name="hosted_button_id" value="XMS5DSYBPUUNU">
-			<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0"
+			<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif"
 			       name="submit" alt="PayPal - The safer, easier way to pay online!">
 			<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
 		</form>
@@ -363,10 +347,10 @@ class Better_YOURLS_Admin {
 	 */
 	public function settings_field_domain() {
 
+		$domain = '';
+
 		if ( isset( $this->settings['domain'] ) ) {
 			$domain = sanitize_text_field( $this->settings['domain'] );
-		} else {
-			$domain = '';
 		}
 
 		echo '<input class="text" name="better_yourls[domain]" id="better_yourls_domain" value="' . $domain . '" type="text">';
@@ -383,15 +367,14 @@ class Better_YOURLS_Admin {
 	 */
 	public function settings_field_key() {
 
+		$key = '';
+
 		if ( isset( $this->settings['key'] ) ) {
 			$key = sanitize_text_field( $this->settings['key'] );
-		} else {
-			$key = '';
 		}
 
 		echo '<input class="text" name="better_yourls[key]" id="better_yourls_key" value="' . $key . '" type="text">';
 		echo '<label for="better_yourls_key"><p class="description"> ' . __( 'This can be found on the tools page in your YOURLS installation..', 'better-yourls' ) . '</p></label>';
 
 	}
-
 }

@@ -12,10 +12,13 @@ License: GPLv2
 Copyright 2015 Chris Wiegman  (email: info@chriswiegman.com)
 */
 
+define( 'BYOURLS_VERSION', '1.0.5' );
+define( 'BYOURLS_URL', plugin_dir_url( __FILE__ ) );
+
 if ( ! class_exists( 'Better_YOURLS_Actions' ) ) {
 
 	require( dirname( __FILE__ ) . '/classes/class-better-yourls-actions.php' );
-	new Better_Yourls_Actions( __FILE__ );
+	new Better_Yourls_Actions();
 
 }
 

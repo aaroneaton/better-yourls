@@ -32,11 +32,3 @@ if ( is_admin() ) {
 	new Better_Yourls_Admin();
 
 }
-
-//Handle activation and deactivation
-if ( ! class_exists( 'Better_YOURLS_Setup' ) ) {
-	require( dirname( __FILE__ ) . '/classes/class-better-yourls-setup.php' );
-}
-
-register_activation_hook( __FILE__, array( 'Better_YOURLS_Setup', 'on_activate' ) );
-register_deactivation_hook( __FILE__, array( 'Better_YOURLS_Setup', 'on_deactivate' ) );

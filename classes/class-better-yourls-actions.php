@@ -15,7 +15,6 @@
 class Better_YOURLS_Actions {
 
 	private
-		$plugin_file,
 		$settings;
 
 	/**
@@ -23,15 +22,12 @@ class Better_YOURLS_Actions {
 	 *
 	 * @since 0.0.1
 	 *
-	 * @param string $plugin_file the main plugin file
-	 *
 	 * @return Better_Yourls_Actions
 	 */
-	public function __construct( $plugin_file ) {
+	public function __construct() {
 
 		//set default options
-		$this->plugin_file = $plugin_file;
-		$this->settings    = get_option( 'better_yourls' );
+		$this->settings = get_option( 'better_yourls' );
 
 		//add filters and actions if we've set API info
 		if ( isset( $this->settings['domain'] ) && $this->settings['domain'] != '' && isset( $this->settings['key'] ) && $this->settings['key'] != '' ) {

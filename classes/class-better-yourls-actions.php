@@ -119,11 +119,11 @@ class Better_YOURLS_Actions {
 			return false;
 		}
 
-		if ( $post_id != 0 ) {
+		if ( 0 != $post_id ) {
 
 			$yourls_shortlink = get_post_meta( $post_id, '_better_yourls_short_link', true );
 
-			if ( $yourls_shortlink != false ) {
+			if ( false != $yourls_shortlink ) {
 				return $yourls_shortlink;
 			}
 
@@ -137,7 +137,7 @@ class Better_YOURLS_Actions {
 			$original_url = get_permalink( $post_id );
 
 			//keyword and title aren't currently used but may be in the future
-			if ( $keyword != '' ) {
+			if ( '' != $keyword ) {
 				$keyword = '&keyword=' . sanitize_text_field( $keyword );
 			}
 
@@ -153,7 +153,7 @@ class Better_YOURLS_Actions {
 
 			$short_link = isset( $response['body'] ) ? $response['body'] : false;
 
-			if ( $short_link === false ) {
+			if ( false === $short_link ) {
 				return false;
 			}
 
@@ -166,7 +166,6 @@ class Better_YOURLS_Actions {
 				return $url;
 
 			}
-
 		}
 
 		return false;
@@ -186,16 +185,17 @@ class Better_YOURLS_Actions {
 	public function get_shortlink( $short_link, $id ) {
 
 		if ( is_singular() === false ) {
-			return;
+			return false;
 		}
 
 		$link = $this->create_yourls_url( $id );
 
-		if ( $link !== false ) {
+		if ( false !== $link ) {
 			return $link;
 		}
 
 		return $short_link;
+
 	}
 
 	/**
@@ -219,7 +219,7 @@ class Better_YOURLS_Actions {
 		//If we've already created a shortlink return it or just return the default
 		$link = get_post_meta( $post->ID, '_better_yourls_short_link', true );
 
-		if ( $link == '' ) {
+		if ( '' == $link ) {
 			return $short_link;
 		}
 
@@ -239,7 +239,7 @@ class Better_YOURLS_Actions {
 
 		$yourls_shortlink = $this->create_yourls_url( $post_id );
 
-		if ( $yourls_shortlink !== false and $yourls_shortlink != '' ) {
+		if ( false !== $yourls_shortlink && '' != $yourls_shortlink ) {
 
 			return $yourls_shortlink;
 
@@ -262,7 +262,7 @@ class Better_YOURLS_Actions {
 	 */
 	public function transition_post_status( $new_status, $old_status, $post ) {
 
-		if ( ! current_user_can( 'edit_post', $post->ID ) || $new_status != 'publish' ) {
+		if ( ! current_user_can( 'edit_post', $post->ID ) || 'publish' != $new_status ) {
 			return;
 		}
 
@@ -270,7 +270,7 @@ class Better_YOURLS_Actions {
 		$link = $this->create_yourls_url( $post->ID );
 
 		//Save the short URL
-		if ( $link !== false ) {
+		if ( false !== $link ) {
 			update_post_meta( $post->ID, '_better_yourls_short_link', $link );
 		}
 
@@ -306,17 +306,16 @@ class Better_YOURLS_Actions {
 
 		if ( is_admin_bar_showing() && isset( $post->ID ) && current_user_can( 'edit_post', $post->ID ) ) {
 
-			wp_localize_script( 'better_yourls',
-			                    'better_yourls',
-			                    array(
-				                    'text'       => __( 'Your YOURLS short link is: ', 'better-yourls' ),
-				                    'yourls_url' => wp_get_shortlink( $post->ID ),
-			                    )
 			wp_enqueue_script( 'better_yourls', BYOURLS_URL . '/assets/js/better-yourls.js', array( 'jquery' ), BYOURLS_VERSION );
+			wp_localize_script(
+				'better_yourls',
+				'better_yourls',
+				array(
+					'text'       => __( 'Your YOURLS short link is: ', 'better-yourls' ),
+					'yourls_url' => wp_get_shortlink( $post->ID ),
+				)
 			);
 
 		}
-
 	}
-
 }

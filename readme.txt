@@ -1,9 +1,9 @@
 === Better YOURLS ===
 Contributors: ChrisWiegman
-Donate link: https://www.chriswiegman.com
+Donate link: https://www.chriswiegman.com/
 Tags: yourls, shortlink, custom shortlink
-Requires at least: 4.0
-Tested up to: 4.1.1
+Requires at least: 4.2
+Tested up to: 4.3
 Stable tag: 1.0.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -52,6 +52,9 @@ Integrates your blog with the <a href="http://yourls.org" target="_blank">YOURLS
 1. Easy to use with only 2 options.
 
 == Changelog ==
+
+= 2.0.0 =
+* Enhancement: complete refactor for better efficiency and less bugs
 
 = 1.0.5 =
 * Fixed: Fixed an issue preventing the shortlink from displaying for some URLS (see https://github.com/ChrisWiegman/Better-YOURLS/pull/1)

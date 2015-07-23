@@ -7,7 +7,7 @@ Version: 1.0.5
 Text Domain: better-yourls
 Domain Path: /lang
 Author: Chris Wiegman
-Author URI: https://www,chriswiegman.com/
+Author URI: https://www.chriswiegman.com/
 License: GPLv2
 Copyright 2015 Chris Wiegman  (email: info@chriswiegman.com)
 */

@@ -69,7 +69,7 @@ class Better_YOURLs_Uninstaller {
 	 *
 	 * Gracefully exit the uninstaller if we should not be here
 	 *
-	 * @since 0.2.0
+	 * @since 2.0.0
 	 *
 	 * @return void
 	 */

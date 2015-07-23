@@ -8,9 +8,17 @@
  *
  * @since 0.0.1
  *
+ * @author  Chris Wiegman <chris@chriswiegman.com>
  */
 class Better_YOURLS_Admin {
 
+	/**
+	 * The saved Better YOURLs settings
+	 *
+	 * @since 0.0.1
+	 *
+	 * @var array|bool
+	 */
 	protected $settings;
 
 	/**

@@ -22,7 +22,7 @@ module.exports = function ( grunt ) {
 						'assets/js/better-yourls.min.js' : [
 							'assets/js/better-yourls.js'
 						],
-						'assets/js/admin-footer.min.js' : [
+						'assets/js/admin-footer.min.js'  : [
 							'assets/js/admin-footer.js'
 						]
 					}
@@ -74,39 +74,21 @@ module.exports = function ( grunt ) {
 					},
 
 					files : {
-						'assets/css/better-yourls.css'            : 'assets/css/better-yourls.scss'
+						'assets/css/better-yourls.css' : 'assets/css/better-yourls.scss'
 					}
 
 				}
 
 			},
 
-			pot : {
+			makepot : {
 
-				options : {
-					text_domain : 'better_yourls',
-					dest        : 'lang/',
-					keywords    : [ //WordPress localisation functions
-						'__:1',
-						'_e:1',
-						'_x:1,2c',
-						'esc_html__:1',
-						'esc_html_e:1',
-						'esc_html_x:1,2c',
-						'esc_attr__:1',
-						'esc_attr_e:1',
-						'esc_attr_x:1,2c',
-						'_ex:1,2c',
-						'_n:1,2',
-						'_nx:1,2,4c',
-						'_n_noop:1,2',
-						'_nx_noop:1,2,3c'
-					]
-				},
-
-				files : {
-					src    : ['**/*.php'], //Parse all php files
-					expand : true
+				target : {
+					options : {
+						type       : 'wp-plugin',
+						domainPath : '/lang',
+						mainFile   : 'better-yourls.php'
+					}
 				}
 
 			},
@@ -143,7 +125,7 @@ module.exports = function ( grunt ) {
 	);
 
 	// A very basic default task.
-	grunt.registerTask ( 'default', ['uglify:production', 'sass', 'autoprefixer', 'cssmin', 'pot', 'watch'] );
-	grunt.registerTask ( 'prod', ['uglify:production', 'sass', 'autoprefixer', 'cssmin', 'pot'] );
+	grunt.registerTask ( 'prod', ['uglify:production', 'sass', 'autoprefixer', 'cssmin', 'makepot'] );
+	grunt.registerTask ( 'default', ['prod', 'watch'] );
 
 };

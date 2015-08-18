@@ -32,10 +32,11 @@ class Better_YOURLS_Admin {
 
 		$this->settings = get_option( 'better_yourls' );
 
-		add_action( 'admin_init', array( $this, 'admin_init' ) );
-		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) ); //enqueue scripts for admin page
-		add_filter( 'plugin_action_links', array( $this, 'plugin_action_links' ), 10, 2 );
+		add_action( 'admin_enqueue_scripts', array( $this, 'action_admin_enqueue_scripts' ) ); //enqueue scripts for admin page
+		add_action( 'admin_init', array( $this, 'action_admin_init' ) );
+		add_action( 'admin_menu', array( $this, 'action_admin_menu' ) );
+
+		add_filter( 'plugin_action_links', array( $this, 'filter_plugin_action_links' ), 10, 2 );
 
 	}
 
@@ -46,7 +47,7 @@ class Better_YOURLS_Admin {
 	 *
 	 * @return void
 	 */
-	public function admin_enqueue_scripts() {
+	public function action_admin_enqueue_scripts() {
 
 		if ( get_current_screen()->id == 'settings_page_better_yourls' ) {
 
@@ -76,7 +77,7 @@ class Better_YOURLS_Admin {
 	 *
 	 * @return void
 	 */
-	public function admin_menu() {
+	public function action_admin_menu() {
 
 		$page = add_options_page(
 			__( 'Better YOURLS', 'better_yourls' ),
@@ -99,7 +100,7 @@ class Better_YOURLS_Admin {
 	 *
 	 * @return void
 	 */
-	public function admin_init() {
+	public function action_admin_init() {
 
 		//add meta boxes
 		add_meta_box(
@@ -268,7 +269,7 @@ class Better_YOURLS_Admin {
 	 *
 	 * @return object Array of WordPress links
 	 */
-	public function plugin_action_links( $links, $file ) {
+	public function filter_plugin_action_links( $links, $file ) {
 
 		static $this_plugin;
 

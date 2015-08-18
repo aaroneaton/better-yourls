@@ -182,6 +182,8 @@ class Better_YOURLS_Actions {
 	 *
 	 * Filters the default WordPress shortlink
 	 *
+	 * @since 0.0.1
+	 *
 	 * @param bool $short_link the shortlink to filter (defaults to false)
 	 * @param int  $id         the post id
 	 *
@@ -207,6 +209,8 @@ class Better_YOURLS_Actions {
 	 * Filter wp shortlink before display.
 	 *
 	 * Filters the default WordPress shortlink
+	 *
+	 * @since 0.0.1
 	 *
 	 * @param bool $short_link the shortlink to filter (defaults to false)
 	 * @param int  $id         the post id
@@ -234,6 +238,8 @@ class Better_YOURLS_Actions {
 
 	/**
 	 * Adds the shortlink to Jetpack Sharing.
+	 *
+	 * @since 0.0.1
 	 *
 	 * @param string $link    the original link
 	 * @param int    $post_id the post id

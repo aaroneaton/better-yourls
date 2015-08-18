@@ -106,6 +106,70 @@ class Better_YOURLS_Actions {
 	}
 
 	/**
+	 * Create YOURLs link when we save a post
+	 *
+	 * @since 1.0.3
+	 *
+	 * @param string  $new_status New post status.
+	 * @param string  $old_status Old post status.
+	 * @param WP_Post $post       Post object.
+	 *
+	 * @return void
+	 */
+	public function action_transition_post_status( $new_status, $old_status, $post ) {
+
+		if ( ! current_user_can( 'edit_post', $post->ID ) || 'publish' != $new_status ) {
+			return;
+		}
+
+		//Get the short URL
+		$link = $this->create_yourls_url( $post->ID );
+
+		//Save the short URL
+		if ( false !== $link ) {
+			update_post_meta( $post->ID, '_better_yourls_short_link', $link );
+		}
+
+	}
+
+	/**
+	 * Enqueue script with admin bar.
+	 *
+	 * @since 0.0.1
+	 *
+	 * @return void
+	 */
+	public function action_wp_enqueue_scripts() {
+
+		global $post;
+
+		if ( is_admin_bar_showing() && isset( $post->ID ) && current_user_can( 'edit_post', $post->ID ) ) {
+
+			if ( defined( 'WP_DEBUG' ) && true === WP_DEBUG ) {
+
+				wp_register_script( 'better_yourls', BYOURLS_URL . '/assets/js/better-yourls.js', array( 'jquery' ), BYOURLS_VERSION );
+
+			} else {
+
+				wp_register_script( 'better_yourls', BYOURLS_URL . '/assets/js/better-yourls.min.js', array( 'jquery' ), BYOURLS_VERSION );
+
+			}
+
+			wp_enqueue_script( 'better_yourls' );
+
+			wp_localize_script(
+				'better_yourls',
+				'better_yourls',
+				array(
+					'text'       => __( 'Your YOURLS short link is: ', 'better_yourls' ),
+					'yourls_url' => wp_get_shortlink( $post->ID ),
+				)
+			);
+
+		}
+	}
+
+	/**
 	 * Creates YOURLS link.
 	 *
 	 * Creates YOURLS link if not in post meta and saves new link to post meta where appropriate.
@@ -261,33 +325,6 @@ class Better_YOURLS_Actions {
 	}
 
 	/**
-	 * Create YOURLs link when we save a post
-	 *
-	 * @since 1.0.3
-	 *
-	 * @param string  $new_status New post status.
-	 * @param string  $old_status Old post status.
-	 * @param WP_Post $post       Post object.
-	 *
-	 * @return void
-	 */
-	public function action_transition_post_status( $new_status, $old_status, $post ) {
-
-		if ( ! current_user_can( 'edit_post', $post->ID ) || 'publish' != $new_status ) {
-			return;
-		}
-
-		//Get the short URL
-		$link = $this->create_yourls_url( $post->ID );
-
-		//Save the short URL
-		if ( false !== $link ) {
-			update_post_meta( $post->ID, '_better_yourls_short_link', $link );
-		}
-
-	}
-
-	/**
 	 * Validates a URL
 	 *
 	 * @since 1.2
@@ -302,42 +339,5 @@ class Better_YOURLS_Actions {
 
 		return (bool) preg_match( $pattern, $url );
 
-	}
-
-	/**
-	 * Enqueue script with admin bar.
-	 *
-	 * @since 0.0.1
-	 *
-	 * @return void
-	 */
-	public function action_wp_enqueue_scripts() {
-
-		global $post;
-
-		if ( is_admin_bar_showing() && isset( $post->ID ) && current_user_can( 'edit_post', $post->ID ) ) {
-
-			if ( defined( 'WP_DEBUG' ) && true === WP_DEBUG ) {
-
-				wp_register_script( 'better_yourls', BYOURLS_URL . '/assets/js/better-yourls.js', array( 'jquery' ), BYOURLS_VERSION );
-
-			} else {
-
-				wp_register_script( 'better_yourls', BYOURLS_URL . '/assets/js/better-yourls.min.js', array( 'jquery' ), BYOURLS_VERSION );
-
-			}
-
-			wp_enqueue_script( 'better_yourls' );
-
-			wp_localize_script(
-				'better_yourls',
-				'better_yourls',
-				array(
-					'text'       => __( 'Your YOURLS short link is: ', 'better_yourls' ),
-					'yourls_url' => wp_get_shortlink( $post->ID ),
-				)
-			);
-
-		}
 	}
 }

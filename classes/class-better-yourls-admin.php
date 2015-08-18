@@ -67,28 +67,6 @@ class Better_YOURLS_Admin {
 			wp_enqueue_style( 'better_yourls_admin' );
 
 		}
-
-	}
-
-	/**
-	 * Handles the building of admin menus and calls required functions to render admin pages.
-	 *
-	 * @since 0.0.1
-	 *
-	 * @return void
-	 */
-	public function action_admin_menu() {
-
-		$page = add_options_page(
-			__( 'Better YOURLS', 'better_yourls' ),
-			__( 'Better YOURLS', 'better_yourls' ),
-			'manage_options',
-			'better_yourls',
-			array( $this, 'render_page' )
-		);
-
-		add_action( 'load-' . $page, array( $this, 'page_actions' ) ); //Load page structure
-
 	}
 
 	/**
@@ -159,6 +137,54 @@ class Better_YOURLS_Admin {
 			array( $this, 'sanitize_module_input' )
 		);
 
+	}
+
+	/**
+	 * Handles the building of admin menus and calls required functions to render admin pages.
+	 *
+	 * @since 0.0.1
+	 *
+	 * @return void
+	 */
+	public function action_admin_menu() {
+
+		$page = add_options_page(
+			__( 'Better YOURLS', 'better_yourls' ),
+			__( 'Better YOURLS', 'better_yourls' ),
+			'manage_options',
+			'better_yourls',
+			array( $this, 'render_page' )
+		);
+
+		add_action( 'load-' . $page, array( $this, 'page_actions' ) ); //Load page structure
+
+	}
+
+	/**
+	 * Add action link to plugin page.
+	 *
+	 * Adds plugin settings link to plugin page in WordPress admin area.
+	 *
+	 * @since 0.0.1
+	 *
+	 * @param object $links Array of WordPress links
+	 * @param string $file  String name of current file
+	 *
+	 * @return object Array of WordPress links
+	 */
+	public function filter_plugin_action_links( $links, $file ) {
+
+		static $this_plugin;
+
+		if ( empty( $this_plugin ) ) {
+			$this_plugin = 'better-yourls/better-yourls.php';
+		}
+
+		if ( $file == $this_plugin ) {
+			$links[] = '<a href="options-general.php?page=better_yourls">' . __( 'Settings', 'better_yourls' ) . '</a>';
+		}
+
+		return $links;
 	}
 
 	/**
@@ -255,33 +281,6 @@ class Better_YOURLS_Admin {
 		wp_enqueue_script( 'wp-lists' );
 		wp_enqueue_script( 'postbox' );
 
-	}
-
-	/**
-	 * Add action link to plugin page.
-	 *
-	 * Adds plugin settings link to plugin page in WordPress admin area.
-	 *
-	 * @since 0.0.1
-	 *
-	 * @param object $links Array of WordPress links
-	 * @param string $file  String name of current file
-	 *
-	 * @return object Array of WordPress links
-	 */
-	public function filter_plugin_action_links( $links, $file ) {
-
-		static $this_plugin;
-
-		if ( empty( $this_plugin ) ) {
-			$this_plugin = 'better-yourls/better-yourls.php';
-		}
-
-		if ( $file == $this_plugin ) {
-			$links[] = '<a href="options-general.php?page=better_yourls">' . __( 'Settings', 'better_yourls' ) . '</a>';
-		}
-
-		return $links;
 	}
 
 	/**

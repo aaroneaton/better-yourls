@@ -38,7 +38,7 @@ class Better_YOURLS_Actions {
 		if ( isset( $this->settings['domain'] ) && $this->settings['domain'] != '' && isset( $this->settings['key'] ) && $this->settings['key'] != '' ) {
 
 			add_action( 'admin_bar_menu', array( $this, 'action_admin_bar_menu' ), 100 );
-			add_action( 'transition_post_status', array( $this, 'action_transition_post_status' ), 10, 3 );
+			add_action( 'save_post', array( $this, 'action_save_post' ), 10, 3 );
 			add_action( 'wp_enqueue_scripts', array( $this, 'action_wp_enqueue_scripts' ) );
 
 			add_filter( 'get_shortlink', array( $this, 'filter_get_shortlink' ), 10, 3 );
@@ -110,24 +110,34 @@ class Better_YOURLS_Actions {
 	 *
 	 * @since 1.0.3
 	 *
-	 * @param string  $new_status New post status.
-	 * @param string  $old_status Old post status.
-	 * @param WP_Post $post       Post object.
+	 * @param int $post_id The post ID.
 	 *
 	 * @return void
 	 */
-	public function action_transition_post_status( $new_status, $old_status, $post ) {
+	public function action_save_post( $post_id ) {
 
-		if ( ! current_user_can( 'edit_post', $post->ID ) || 'publish' != $new_status ) {
+		//Get the short URL. Note this will use the meta if it was already saved
+		$link = $this->create_yourls_url( $post_id );
+
+		/**
+		 * Filter Better YOURLs post statuses
+		 *
+		 * The post statuses upon which a URL should be generated.
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param array Array of post statuses.
+		 */
+		$post_statuses = apply_filters( 'better_yourls_post_statuses', array( 'publish', 'future' ) );
+
+		// Make sure we're not generating this for drafts or anything else weird
+		if ( ! in_array( get_post_status( $post_id ), $post_statuses ) ) {
 			return;
 		}
 
-		//Get the short URL
-		$link = $this->create_yourls_url( $post->ID );
-
-		//Save the short URL
-		if ( false !== $link ) {
-			update_post_meta( $post->ID, '_better_yourls_short_link', $link );
+		//Save the short URL only if it was generated correctly
+		if ( $link ) {
+			update_post_meta( $post_id, '_better_yourls_short_link', $link );
 		}
 
 	}
@@ -192,27 +202,29 @@ class Better_YOURLS_Actions {
 
 			$yourls_shortlink = get_post_meta( $post_id, '_better_yourls_short_link', true );
 
-			if ( false != $yourls_shortlink ) {
+			if ( $yourls_shortlink ) {
 				return $yourls_shortlink;
 			}
 
 			//setup call parameters
-			$yourls_url   = 'http://' . $this->settings['domain'] . '/yourls-api.php';
-			$timestamp    = time();
-			$yours_key    = $this->settings['key'];
-			$signature    = md5( $timestamp . $yours_key );
-			$action       = 'shorturl';
-			$format       = 'JSON';
-			$original_url = get_permalink( $post_id );
+			$yourls_url = 'http://' . $this->settings['domain'] . '/yourls-api.php';
+			$timestamp  = current_time( 'timestamp' );
+
+			$request_args = array(
+				'title'     => ( '' == trim( $title ) ) ? get_the_title( $post_id ) : sanitize_text_field( $title ),
+				'timestamp' => $timestamp,
+				'signature' => md5( $timestamp . $this->settings['key'] ),
+				'action'    => 'shorturl',
+				'url'       => get_permalink( $post_id ),
+				'format'    => 'JSON',
+			);
 
 			//keyword and title aren't currently used but may be in the future
 			if ( '' != $keyword ) {
-				$keyword = '&keyword=' . sanitize_text_field( $keyword );
+				$request_args['keyword'] = sanitize_text_field( $keyword );
 			}
 
-			$title = '&title=' . ( trim( $title ) == '' ? get_the_title( $post_id ) : sanitize_text_field( $title ) );
-
-			$request = $yourls_url . '?timestamp=' . $timestamp . '&signature=' . $signature . '&action=' . $action . '&url=' . $original_url . '&format=' . $format . $keyword . $title;
+			$request = esc_url_raw( add_query_arg( $request_args, $yourls_url ) );
 
 			$response = wp_remote_get( $request );
 

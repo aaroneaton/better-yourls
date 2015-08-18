@@ -37,13 +37,13 @@ class Better_YOURLS_Actions {
 		//add filters and actions if we've set API info
 		if ( isset( $this->settings['domain'] ) && $this->settings['domain'] != '' && isset( $this->settings['key'] ) && $this->settings['key'] != '' ) {
 
-			add_filter( 'get_shortlink', array( $this, 'get_shortlink' ), 10, 3 );
-			add_filter( 'pre_get_shortlink', array( $this, 'pre_get_shortlink' ), 11, 2 );
-			add_filter( 'sharing_permalink', array( $this, 'sharing_permalink' ), 10, 2 );
+			add_filter( 'get_shortlink', array( $this, 'filter_get_shortlink' ), 10, 3 );
+			add_filter( 'pre_get_shortlink', array( $this, 'filter_pre_get_shortlink' ), 11, 2 );
+			add_filter( 'sharing_permalink', array( $this, 'filter_sharing_permalink' ), 10, 2 );
 
-			add_action( 'admin_bar_menu', array( $this, 'admin_bar_menu' ), 100 );
-			add_action( 'transition_post_status', array( $this, 'transition_post_status' ), 10, 3 );
-			add_action( 'wp_enqueue_scripts', array( $this, 'wp_enqueue_scripts' ) );
+			add_action( 'admin_bar_menu', array( $this, 'action_admin_bar_menu' ), 100 );
+			add_action( 'transition_post_status', array( $this, 'action_transition_post_status' ), 10, 3 );
+			add_action( 'wp_enqueue_scripts', array( $this, 'action_wp_enqueue_scripts' ) );
 
 		}
 
@@ -56,7 +56,7 @@ class Better_YOURLS_Actions {
 	 *
 	 * @return void
 	 */
-	public function admin_bar_menu() {
+	public function action_admin_bar_menu() {
 
 		global $wp_admin_bar, $post;
 
@@ -187,7 +187,7 @@ class Better_YOURLS_Actions {
 	 *
 	 * @return bool the shortlink or false
 	 */
-	public function get_shortlink( $short_link, $id ) {
+	public function filter_get_shortlink( $short_link, $id ) {
 
 		if ( is_singular() === false ) {
 			return false;
@@ -213,7 +213,7 @@ class Better_YOURLS_Actions {
 	 *
 	 * @return bool the shortlink or false
 	 */
-	public function pre_get_shortlink( $short_link, $id ) {
+	public function filter_pre_get_shortlink( $short_link, $id ) {
 
 		$post = get_post( $id );
 
@@ -240,7 +240,7 @@ class Better_YOURLS_Actions {
 	 *
 	 * @return string the link to share
 	 */
-	public function sharing_permalink( $link, $post_id ) {
+	public function filter_sharing_permalink( $link, $post_id ) {
 
 		$yourls_shortlink = $this->create_yourls_url( $post_id );
 
@@ -265,7 +265,7 @@ class Better_YOURLS_Actions {
 	 *
 	 * @return void
 	 */
-	public function transition_post_status( $new_status, $old_status, $post ) {
+	public function action_transition_post_status( $new_status, $old_status, $post ) {
 
 		if ( ! current_user_can( 'edit_post', $post->ID ) || 'publish' != $new_status ) {
 			return;
@@ -305,7 +305,7 @@ class Better_YOURLS_Actions {
 	 *
 	 * @return void
 	 */
-	public function wp_enqueue_scripts() {
+	public function action_wp_enqueue_scripts() {
 
 		global $post;
 

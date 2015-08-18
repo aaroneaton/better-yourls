@@ -37,13 +37,13 @@ class Better_YOURLS_Actions {
 		//add filters and actions if we've set API info
 		if ( isset( $this->settings['domain'] ) && $this->settings['domain'] != '' && isset( $this->settings['key'] ) && $this->settings['key'] != '' ) {
 
-			add_filter( 'get_shortlink', array( $this, 'filter_get_shortlink' ), 10, 3 );
-			add_filter( 'pre_get_shortlink', array( $this, 'filter_pre_get_shortlink' ), 11, 2 );
-			add_filter( 'sharing_permalink', array( $this, 'filter_sharing_permalink' ), 10, 2 );
-
 			add_action( 'admin_bar_menu', array( $this, 'action_admin_bar_menu' ), 100 );
 			add_action( 'transition_post_status', array( $this, 'action_transition_post_status' ), 10, 3 );
 			add_action( 'wp_enqueue_scripts', array( $this, 'action_wp_enqueue_scripts' ) );
+
+			add_filter( 'get_shortlink', array( $this, 'filter_get_shortlink' ), 10, 3 );
+			add_filter( 'pre_get_shortlink', array( $this, 'filter_pre_get_shortlink' ), 11, 2 );
+			add_filter( 'sharing_permalink', array( $this, 'filter_sharing_permalink' ), 10, 2 );
 
 		}
 

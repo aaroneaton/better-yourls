@@ -8,7 +8,7 @@
 		"grunt"               : "*",
 		"grunt-contrib-uglify": "*",
 		"grunt-contrib-watch" : "*",
-		"grunt-contrib-sass"  : "*",
+		"grunt-sass"  : "*",
 		"grunt-contrib-cssmin": "*",
 		"load-grunt-tasks"    : "*",
 		"grunt-autoprefixer"  : "*",

@@ -69,7 +69,7 @@ module.exports = function ( grunt ) {
 
 					options : {
 						style     : 'expanded',
-						sourcemap : 'auto',
+						sourceMap : true,
 						noCache   : true
 					},
 
@@ -125,7 +125,6 @@ module.exports = function ( grunt ) {
 	);
 
 	// A very basic default task.
-	grunt.registerTask ( 'prod', ['uglify:production', 'sass', 'autoprefixer', 'cssmin', 'makepot'] );
-	grunt.registerTask ( 'default', ['prod', 'watch'] );
+	grunt.registerTask ( 'default', ['uglify:production', 'sass', 'autoprefixer', 'cssmin', 'makepot'] );
 
 };

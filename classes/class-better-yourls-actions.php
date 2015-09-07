@@ -37,8 +37,10 @@ class Better_YOURLS_Actions {
 		//add filters and actions if we've set API info
 		if ( isset( $this->settings['domain'] ) && $this->settings['domain'] != '' && isset( $this->settings['key'] ) && $this->settings['key'] != '' ) {
 
+			add_action( 'add_meta_boxes', array( $this, 'action_add_meta_boxes' ) );
 			add_action( 'admin_bar_menu', array( $this, 'action_admin_bar_menu' ), 100 );
-			add_action( 'save_post', array( $this, 'action_save_post' ), 10, 3 );
+			add_action( 'save_post', array( $this, 'action_save_post' ), 10, 2 );
+			add_action( 'save_post', array( $this, 'action_save_post_early' ), 1, 2 );
 			add_action( 'wp_enqueue_scripts', array( $this, 'action_wp_enqueue_scripts' ) );
 
 			add_filter( 'get_shortlink', array( $this, 'filter_get_shortlink' ), 10, 3 );
@@ -46,6 +48,30 @@ class Better_YOURLS_Actions {
 			add_filter( 'sharing_permalink', array( $this, 'filter_sharing_permalink' ), 10, 2 );
 
 		}
+
+	}
+
+	/**
+	 * Adds meta box
+	 *
+	 * Adds the metabox for a custom link
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return void
+	 */
+	public function action_add_meta_boxes() {
+
+		global $post;
+
+		add_meta_box(
+			'yourls_keywork',
+			__( 'YOURLs Keyword', 'better_yourls' ),
+			array( $this, 'yourls_keyword_metabox' ),
+			$post->post_type,
+			'side',
+			'high'
+		);
 
 	}
 
@@ -110,14 +136,15 @@ class Better_YOURLS_Actions {
 	 *
 	 * @since 1.0.3
 	 *
-	 * @param int $post_id The post ID.
+	 * @param int     $post_id The post ID.
+	 * @param WP_Post $post    Post object.
 	 *
 	 * @return void
 	 */
-	public function action_save_post( $post_id ) {
+	public function action_save_post( $post_id, $post ) {
 
-		//Get the short URL. Note this will use the meta if it was already saved
-		$link = $this->create_yourls_url( $post_id );
+		$a    = $post;
+		$stop = 1;
 
 		/**
 		 * Filter Better YOURLs post statuses
@@ -134,6 +161,9 @@ class Better_YOURLS_Actions {
 		if ( ! in_array( get_post_status( $post_id ), $post_statuses ) ) {
 			return;
 		}
+
+		//Get the short URL. Note this will use the meta if it was already saved
+		$link = $this->create_yourls_url( $post_id );
 
 		//Save the short URL only if it was generated correctly
 		if ( $link ) {
@@ -347,9 +377,19 @@ class Better_YOURLS_Actions {
 	 */
 	private function validate_url( $url ) {
 
-		$pattern = "/^(http|https|ftp):\/\/([A-Z0-9][A-Z0-9_-]*(?:\.[A-Z0-9][A-Z0-9_-]*)+):?(\d+)?\/?/i";
+		$pattern = '/^(http|https|ftp):\/\/([A-Z0-9][A-Z0-9_-]*(?:\.[A-Z0-9][A-Z0-9_-]*)+):?(\d+)?\/?/i';
 
 		return (bool) preg_match( $pattern, $url );
+
+	}
+
+	public function yourls_keyword_metabox() {
+
+		global $post;
+
+		$link = get_post_meta( $post->ID, '_better_yourls_short_link', true );
+
+		echo '<input type="text" id="better-yourls-keyword" name="better-yourls-keyword" style="width: 100%;" value="' . esc_url( $link ) . '" />';
 
 	}
 }

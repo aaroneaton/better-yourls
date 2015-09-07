@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Better YOURLS 1.0.5\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/better-yourls\n"
-"POT-Creation-Date: 2015-08-11 13:51:50+00:00\n"
+"POT-Creation-Date: 2015-09-07 21:46:04+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,94 +13,98 @@ msgstr ""
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "X-Generator: grunt-wp-i18n 0.5.3\n"
 
-#: classes/class-better-yourls-actions.php:79
+#: classes/class-better-yourls-actions.php:68
+msgid "YOURLs Keyword"
+msgstr ""
+
+#: classes/class-better-yourls-actions.php:104
 msgid "YOURLS"
 msgstr ""
 
-#: classes/class-better-yourls-actions.php:88
+#: classes/class-better-yourls-actions.php:113
 msgid "YOURLS Link"
 msgstr ""
 
-#: classes/class-better-yourls-actions.php:96
+#: classes/class-better-yourls-actions.php:121
 msgid "Link Stats"
 msgstr ""
 
-#: classes/class-better-yourls-actions.php:330
+#: classes/class-better-yourls-actions.php:199
 msgid "Your YOURLS short link is: "
+msgstr ""
+
+#: classes/class-better-yourls-admin.php:99
+#: classes/class-better-yourls-admin.php:314
+msgid "Better Yourls"
+msgstr ""
+
+#: classes/class-better-yourls-admin.php:107
+msgid "Support This Plugin"
+msgstr ""
+
+#: classes/class-better-yourls-admin.php:115
+msgid "Need help?"
+msgstr ""
+
+#: classes/class-better-yourls-admin.php:124
+msgid "Configure Better YOURLS"
+msgstr ""
+
+#: classes/class-better-yourls-admin.php:132
+msgid "YOURLS Domain"
+msgstr ""
+
+#: classes/class-better-yourls-admin.php:140
+msgid "YOURLS  Token"
 msgstr ""
 
 #. Plugin Name of the plugin/theme
 msgid "Better YOURLS"
 msgstr ""
 
-#: classes/class-better-yourls-admin.php:107
-#: classes/class-better-yourls-admin.php:301
-msgid "Better Yourls"
+#: classes/class-better-yourls-admin.php:197
+msgid "Settings"
 msgstr ""
 
-#: classes/class-better-yourls-admin.php:115
-msgid "Support This Plugin"
-msgstr ""
-
-#: classes/class-better-yourls-admin.php:123
-msgid "Need help?"
-msgstr ""
-
-#: classes/class-better-yourls-admin.php:132
-msgid "Configure Better YOURLS"
-msgstr ""
-
-#: classes/class-better-yourls-admin.php:140
-msgid "YOURLS Domain"
-msgstr ""
-
-#: classes/class-better-yourls-admin.php:148
-msgid "YOURLS  Token"
-msgstr ""
-
-#: classes/class-better-yourls-admin.php:187
+#: classes/class-better-yourls-admin.php:227
 msgid "Use the settings below to configure Better Yourls for your site."
 msgstr ""
 
-#: classes/class-better-yourls-admin.php:194
+#: classes/class-better-yourls-admin.php:234
 msgid "Save Changes"
 msgstr ""
 
-#: classes/class-better-yourls-admin.php:213
+#: classes/class-better-yourls-admin.php:253
 msgid ""
 "Have you found this plugin useful? Please help support it's continued "
 "development with a donation of $20, $50, or even $100."
 msgstr ""
 
-#: classes/class-better-yourls-admin.php:226
+#: classes/class-better-yourls-admin.php:266
 msgid "Short on funds?"
 msgstr ""
 
-#: classes/class-better-yourls-admin.php:230
+#: classes/class-better-yourls-admin.php:270
 msgid "Rate Better YOURLS 5-stars on WordPress.org"
 msgstr ""
 
-#: classes/class-better-yourls-admin.php:232
+#: classes/class-better-yourls-admin.php:272
 msgid "Talk about it on your site and link back to the "
 msgstr ""
 
-#: classes/class-better-yourls-admin.php:232
+#: classes/class-better-yourls-admin.php:272
 msgid "plugin page."
 msgstr ""
 
-#: classes/class-better-yourls-admin.php:234
+#: classes/class-better-yourls-admin.php:274
 msgid "Tweet about it. "
 msgstr ""
 
-#: classes/class-better-yourls-admin.php:280
-msgid "Settings"
-msgstr ""
-
-#: classes/class-better-yourls-admin.php:371
+#: classes/class-better-yourls-admin.php:384
 msgid "The short domain you are using for YOURLS. Enter only the domain name."
 msgstr ""
 
-#: classes/class-better-yourls-admin.php:391
+#: classes/class-better-yourls-admin.php:404
 msgid "This can be found on the tools page in your YOURLS installation.."
 msgstr ""
 

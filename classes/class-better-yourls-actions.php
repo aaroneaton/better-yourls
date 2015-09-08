@@ -39,7 +39,7 @@ class Better_YOURLS_Actions {
 
 			add_action( 'add_meta_boxes', array( $this, 'action_add_meta_boxes' ) );
 			add_action( 'admin_bar_menu', array( $this, 'action_admin_bar_menu' ), 100 );
-			add_action( 'save_post', array( $this, 'action_save_post' ) );
+			add_action( 'save_post', array( $this, 'action_save_post' ), 11 );
 			add_action( 'wp_enqueue_scripts', array( $this, 'action_wp_enqueue_scripts' ) );
 
 			add_filter( 'get_shortlink', array( $this, 'filter_get_shortlink' ), 10, 3 );
@@ -143,19 +143,13 @@ class Better_YOURLS_Actions {
 	 */
 	public function action_save_post( $post_id ) {
 
-		// Store custom keyword (if set)
-		if ( isset( $_POST['better-yourls-keyword'] ) ) {
-
-			// sanitize it
-			$keyword = sanitize_title( trim( $_POST['better-yourls-keyword'] ) );
-
-			//Get the short URL. Note this will use the meta if it was already saved
-			$link = $this->create_yourls_url( $post_id, $keyword );
-
-			//Save the short URL only if it was generated correctly
-			if ( $link ) {
-				update_post_meta( $post_id, '_better_yourls_short_link', $link );
-			}
+		// Only save at normal times
+		if (
+			( defined( 'DOING_AUTOSAVE' ) && true === DOING_AJAX ) ||
+			( defined( 'DOING_AJAX' ) && true === DOING_AUTOSAVE ) ||
+			( defined( 'DOING_CRON' ) && true === DOING_CRON )
+		) {
+			return;
 		}
 
 		/**
@@ -174,14 +168,20 @@ class Better_YOURLS_Actions {
 			return;
 		}
 
+		$keyword = '';
+
+		// Store custom keyword (if set)
+		if ( isset( $_POST['better-yourls-keyword'] ) ) {
+			$keyword = sanitize_title( trim( $_POST['better-yourls-keyword'] ) );
+		}
+
 		//Get the short URL. Note this will use the meta if it was already saved
-		$link = $this->create_yourls_url( $post_id );
+		$link = $this->create_yourls_url( $post_id, $keyword );
 
 		//Save the short URL only if it was generated correctly
 		if ( $link ) {
 			update_post_meta( $post_id, '_better_yourls_short_link', $link );
 		}
-
 	}
 
 	/**

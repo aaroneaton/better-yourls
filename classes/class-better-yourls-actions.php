@@ -69,7 +69,7 @@ class Better_YOURLS_Actions {
 			array( $this, 'yourls_keyword_metabox' ),
 			$post->post_type,
 			'side',
-			'high'
+			'core'
 		);
 
 	}

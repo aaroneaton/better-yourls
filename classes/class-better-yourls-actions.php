@@ -178,6 +178,11 @@ class Better_YOURLS_Actions {
 		//Get the short URL. Note this will use the meta if it was already saved
 		$link = $this->create_yourls_url( $post_id, $keyword );
 
+		// Keyword would be a duplicate so use a standard one.
+		if ( '' !== $keyword && ! $link ) {
+			$link = $this->create_yourls_url( $post_id );
+		}
+
 		//Save the short URL only if it was generated correctly
 		if ( $link ) {
 			update_post_meta( $post_id, '_better_yourls_short_link', $link );

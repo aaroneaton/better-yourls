@@ -5,7 +5,7 @@
  *
  * Various unit tests performed against a WordPress single-site instance.
  *
- * @package better_yourls
+ * @package better-yourls
  *
  * @since   2.0.0
  *

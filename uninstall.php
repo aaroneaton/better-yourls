@@ -5,7 +5,7 @@
  *
  * Used when clicking "Delete" from inside of WordPress's plugins page.
  *
- * @package better_yourls
+ * @package better-yourls
  *
  * @since   2.0.0
  *

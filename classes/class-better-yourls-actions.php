@@ -5,7 +5,7 @@
  *
  * Non admin-specific actions.
  *
- * @package better_yourls
+ * @package better-yourls
  *
  * @since   0.0.1
  *
@@ -65,7 +65,7 @@ class Better_YOURLS_Actions {
 
 		add_meta_box(
 			'yourls_keywork',
-			__( 'YOURLs Keyword', 'better_yourls' ),
+			__( 'YOURLs Keyword', 'better-yourls' ),
 			array( $this, 'yourls_keyword_metabox' ),
 			$post->post_type,
 			'side',
@@ -101,7 +101,7 @@ class Better_YOURLS_Actions {
 				array(
 					'href'  => '',
 					'id'    => 'better_yourls',
-					'title' => __( 'YOURLS', 'better_yourls' ),
+					'title' => __( 'YOURLS', 'better-yourls' ),
 				)
 			);
 
@@ -110,7 +110,7 @@ class Better_YOURLS_Actions {
 					'href'   => '',
 					'parent' => 'better_yourls',
 					'id'     => 'better_yourls-link',
-					'title'  => __( 'YOURLS Link', 'better_yourls' ),
+					'title'  => __( 'YOURLS Link', 'better-yourls' ),
 				)
 			);
 
@@ -118,7 +118,7 @@ class Better_YOURLS_Actions {
 				array(
 					'parent' => 'better_yourls',
 					'id'     => 'better_yourls-stats',
-					'title'  => __( 'Link Stats', 'better_yourls' ),
+					'title'  => __( 'Link Stats', 'better-yourls' ),
 					'href'   => $stats_url,
 					'meta'   => array(
 						'target' => '_blank',
@@ -213,7 +213,7 @@ class Better_YOURLS_Actions {
 				'better_yourls',
 				'better_yourls',
 				array(
-					'text'       => __( 'Your YOURLS short link is: ', 'better_yourls' ),
+					'text'       => __( 'Your YOURLS short link is: ', 'better-yourls' ),
 					'yourls_url' => wp_get_shortlink( $post->ID ),
 				)
 			);
@@ -407,7 +407,7 @@ class Better_YOURLS_Actions {
 		}
 
 		echo '<input type="text" id="better-yourls-keyword" name="better-yourls-keyword" style="width: 100%;" value="' . esc_url( $link ) . '" ' . $readonly . '/>';
-		echo '<p><em>' . __( 'If a short-url doesn\'t yet exist for this post you can enter a keyword above. If it already exists it will be displayed.', 'better_yourls' ) . '</em></p>';
+		echo '<p><em>' . __( 'If a short-url doesn\'t yet exist for this post you can enter a keyword above. If it already exists it will be displayed.', 'better-yourls' ) . '</em></p>';
 
 	}
 }

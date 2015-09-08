@@ -39,8 +39,7 @@ class Better_YOURLS_Actions {
 
 			add_action( 'add_meta_boxes', array( $this, 'action_add_meta_boxes' ) );
 			add_action( 'admin_bar_menu', array( $this, 'action_admin_bar_menu' ), 100 );
-			add_action( 'save_post', array( $this, 'action_save_post' ), 10, 2 );
-			add_action( 'save_post', array( $this, 'action_save_post_early' ), 1, 2 );
+			add_action( 'save_post', array( $this, 'action_save_post' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'action_wp_enqueue_scripts' ) );
 
 			add_filter( 'get_shortlink', array( $this, 'filter_get_shortlink' ), 10, 3 );
@@ -138,13 +137,26 @@ class Better_YOURLS_Actions {
 	 *
 	 * @param int     $post_id The post ID.
 	 * @param WP_Post $post    Post object.
+	 * @param bool    $update  Whether this is an existing post being updated or not.
 	 *
 	 * @return void
 	 */
-	public function action_save_post( $post_id, $post ) {
+	public function action_save_post( $post_id ) {
 
-		$a    = $post;
-		$stop = 1;
+		// Store custom keyword (if set)
+		if ( isset( $_POST['better-yourls-keyword'] ) ) {
+
+			// sanitize it
+			$keyword = sanitize_title( trim( $_POST['better-yourls-keyword'] ) );
+
+			//Get the short URL. Note this will use the meta if it was already saved
+			$link = $this->create_yourls_url( $post_id, $keyword );
+
+			//Save the short URL only if it was generated correctly
+			if ( $link ) {
+				update_post_meta( $post_id, '_better_yourls_short_link', $link );
+			}
+		}
 
 		/**
 		 * Filter Better YOURLs post statuses
@@ -251,7 +263,7 @@ class Better_YOURLS_Actions {
 
 			//keyword and title aren't currently used but may be in the future
 			if ( '' != $keyword ) {
-				$request_args['keyword'] = sanitize_text_field( $keyword );
+				$request_args['keyword'] = sanitize_title( $keyword );
 			}
 
 			$request = esc_url_raw( add_query_arg( $request_args, $yourls_url ) );
@@ -387,9 +399,15 @@ class Better_YOURLS_Actions {
 
 		global $post;
 
-		$link = get_post_meta( $post->ID, '_better_yourls_short_link', true );
+		$link     = get_post_meta( $post->ID, '_better_yourls_short_link', true );
+		$readonly = '';
 
-		echo '<input type="text" id="better-yourls-keyword" name="better-yourls-keyword" style="width: 100%;" value="' . esc_url( $link ) . '" />';
+		if ( $link ) {
+			$readonly = 'readonly="readonly" ';
+		}
+
+		echo '<input type="text" id="better-yourls-keyword" name="better-yourls-keyword" style="width: 100%;" value="' . esc_url( $link ) . '" ' . $readonly . '/>';
+		echo '<p><em>' . __( 'If a short-url doesn\'t yet exist for this post you can enter a keyword above. If it already exists it will be displayed.', 'better_yourls' ) . '</em></p>';
 
 	}
 }

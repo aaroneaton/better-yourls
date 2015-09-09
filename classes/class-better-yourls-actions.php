@@ -25,6 +25,8 @@ class Better_YOURLS_Actions {
 	/**
 	 * Better YOURLS constructor.
 	 *
+	 * Register actions and setup local items for the plugin.
+	 *
 	 * @since 0.0.1
 	 *
 	 * @return Better_Yourls_Actions
@@ -35,7 +37,7 @@ class Better_YOURLS_Actions {
 		$this->settings = get_option( 'better_yourls' );
 
 		//add filters and actions if we've set API info
-		if ( isset( $this->settings['domain'] ) && $this->settings['domain'] != '' && isset( $this->settings['key'] ) && $this->settings['key'] != '' ) {
+		if ( isset( $this->settings['domain'] ) && '' != $this->settings['domain'] && isset( $this->settings['key'] ) && '' != $this->settings['key'] ) {
 
 			add_action( 'add_meta_boxes', array( $this, 'action_add_meta_boxes' ) );
 			add_action( 'admin_bar_menu', array( $this, 'action_admin_bar_menu' ), 100 );
@@ -47,7 +49,6 @@ class Better_YOURLS_Actions {
 			add_filter( 'sharing_permalink', array( $this, 'filter_sharing_permalink' ), 10, 2 );
 
 		}
-
 	}
 
 	/**
@@ -64,7 +65,7 @@ class Better_YOURLS_Actions {
 		global $post;
 
 		add_meta_box(
-			'yourls_keywork',
+			'yourls_keyword',
 			__( 'YOURLs Keyword', 'better-yourls' ),
 			array( $this, 'yourls_keyword_metabox' ),
 			$post->post_type,
@@ -76,6 +77,8 @@ class Better_YOURLS_Actions {
 
 	/**
 	 * Add links to the admin bar.
+	 *
+	 * Adds a "Better YOURLs" menu to the admin bar to access the shortlink and stats easily from the front end.
 	 *
 	 * @since 0.0.1
 	 *
@@ -127,7 +130,6 @@ class Better_YOURLS_Actions {
 			);
 
 		}
-
 	}
 
 	/**
@@ -163,7 +165,7 @@ class Better_YOURLS_Actions {
 		 */
 		$post_statuses = apply_filters( 'better_yourls_post_statuses', array( 'publish', 'future' ) );
 
-		// Make sure we're not generating this for drafts or anything else weird
+		// Make sure we're not generating this for drafts or other posts that don't need them
 		if ( ! in_array( get_post_status( $post_id ), $post_statuses ) ) {
 			return;
 		}
@@ -287,7 +289,7 @@ class Better_YOURLS_Actions {
 
 			$url = esc_url( trim( $short_link ) );
 
-			if ( $this->validate_url( $url ) === true ) {
+			if ( true === $this->validate_url( $url ) ) {
 
 				update_post_meta( $post_id, '_better_yourls_short_link', $url );
 
@@ -314,7 +316,7 @@ class Better_YOURLS_Actions {
 	 */
 	public function filter_get_shortlink( $short_link, $id ) {
 
-		if ( is_singular() === false ) {
+		if ( false === is_singular() ) {
 			return false;
 		}
 
@@ -362,6 +364,8 @@ class Better_YOURLS_Actions {
 	/**
 	 * Adds the shortlink to Jetpack Sharing.
 	 *
+	 * If you're using JetPack for sharing links when publishing a post this will make sure the shared link uses your shortlink.
+	 *
 	 * @since 0.0.1
 	 *
 	 * @param string $link    the original link
@@ -385,6 +389,8 @@ class Better_YOURLS_Actions {
 
 	/**
 	 * Validates a URL
+	 *
+	 * A slightly more complex version of a URL validator. (might not need this anymore)
 	 *
 	 * @since 1.2
 	 *

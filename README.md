@@ -1,5 +1,5 @@
 Better YOURLS
-============= 
+=============
 
 Integrate your blog with [YOURLS](http://yourls.org) custom URL generator.
 

@@ -19,7 +19,7 @@ Released under the terms of the GNU General Public License.
 2. Upload the zip file to the `/wp-content/plugins/` directory
 3. Unzip
 4. Activate the plugin through the 'Plugins' menu in WordPress
-5. Visit the Better YOURLS page under settings to add domain and api key
+5. Visit the Better YOURLS page under settings to add domain and API key
 
 ## FAQ
 

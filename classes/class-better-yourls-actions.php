@@ -37,7 +37,7 @@ class Better_YOURLS_Actions {
 		$this->settings = get_option( 'better_yourls' );
 
 		//add filters and actions if we've set API info
-		if ( isset( $this->settings['domain'] ) && '' != $this->settings['domain'] && isset( $this->settings['key'] ) && '' != $this->settings['key'] ) {
+		if ( isset( $this->settings['domain'] ) && '' !== $this->settings['domain'] && isset( $this->settings['key'] ) && '' !== $this->settings['key'] ) {
 
 			add_action( 'add_meta_boxes', array( $this, 'action_add_meta_boxes' ) );
 			add_action( 'admin_bar_menu', array( $this, 'action_admin_bar_menu' ), 100 );
@@ -54,7 +54,7 @@ class Better_YOURLS_Actions {
 	/**
 	 * Adds meta box
 	 *
-	 * Adds the metabox for a custom link
+	 * Adds the metabox for a custom link.
 	 *
 	 * @since 2.0.0
 	 *
@@ -76,7 +76,7 @@ class Better_YOURLS_Actions {
 	}
 
 	/**
-	 * Add links to the admin bar.
+	 * Add links to the admin bar
 	 *
 	 * Adds a "Better YOURLs" menu to the admin bar to access the shortlink and stats easily from the front end.
 	 *
@@ -137,15 +137,13 @@ class Better_YOURLS_Actions {
 	 *
 	 * @since 1.0.3
 	 *
-	 * @param int     $post_id The post ID.
-	 * @param WP_Post $post    Post object.
-	 * @param bool    $update  Whether this is an existing post being updated or not.
+	 * @param int $post_id The post ID.
 	 *
 	 * @return void
 	 */
 	public function action_save_post( $post_id ) {
 
-		// Only save at normal times
+		// Only save at normal times.
 		if (
 			( defined( 'DOING_AUTOSAVE' ) && true === DOING_AJAX ) ||
 			( defined( 'DOING_AJAX' ) && true === DOING_AUTOSAVE ) ||
@@ -165,19 +163,19 @@ class Better_YOURLS_Actions {
 		 */
 		$post_statuses = apply_filters( 'better_yourls_post_statuses', array( 'publish', 'future' ) );
 
-		// Make sure we're not generating this for drafts or other posts that don't need them
+		// Make sure we're not generating this for drafts or other posts that don't need them.
 		if ( ! in_array( get_post_status( $post_id ), $post_statuses ) ) {
 			return;
 		}
 
 		$keyword = '';
 
-		// Store custom keyword (if set)
+		// Store custom keyword (if set).
 		if ( isset( $_POST['better-yourls-keyword'] ) ) {
 			$keyword = sanitize_title( trim( $_POST['better-yourls-keyword'] ) );
 		}
 
-		//Get the short URL. Note this will use the meta if it was already saved
+		// Get the short URL. Note this will use the meta if it was already saved.
 		$link = $this->create_yourls_url( $post_id, $keyword );
 
 		// Keyword would be a duplicate so use a standard one.
@@ -185,7 +183,7 @@ class Better_YOURLS_Actions {
 			$link = $this->create_yourls_url( $post_id );
 		}
 
-		//Save the short URL only if it was generated correctly
+		// Save the short URL only if it was generated correctly.
 		if ( $link ) {
 			update_post_meta( $post_id, '_better_yourls_short_link', $link );
 		}
@@ -229,17 +227,17 @@ class Better_YOURLS_Actions {
 	}
 
 	/**
-	 * Creates YOURLS link.
+	 * Creates YOURLS link
 	 *
 	 * Creates YOURLS link if not in post meta and saves new link to post meta where appropriate.
 	 *
 	 * @since 0.0.1
 	 *
-	 * @param  int   $post_id the current post id
-	 * @param string $keyword optional keyword for shortlink
-	 * @param string $title   optional title for shortlink
+	 * @param  int   $post_id the current post id.
+	 * @param string $keyword optional keyword for shortlink.
+	 * @param string $title   optional title for shortlink.
 	 *
-	 * @return bool|string the yourls shortlink or false
+	 * @return bool|string the yourls shortlink or false.
 	 */
 	public function create_yourls_url( $post_id, $keyword = '', $title = '' ) {
 
@@ -247,7 +245,7 @@ class Better_YOURLS_Actions {
 			return false;
 		}
 
-		if ( 0 != $post_id ) {
+		if ( 0 !== $post_id ) {
 
 			$yourls_shortlink = get_post_meta( $post_id, '_better_yourls_short_link', true );
 
@@ -255,12 +253,12 @@ class Better_YOURLS_Actions {
 				return $yourls_shortlink;
 			}
 
-			//setup call parameters
+			// Setup call parameters.
 			$yourls_url = 'http://' . $this->settings['domain'] . '/yourls-api.php';
 			$timestamp  = current_time( 'timestamp' );
 
 			$request_args = array(
-				'title'     => ( '' == trim( $title ) ) ? get_the_title( $post_id ) : sanitize_text_field( $title ),
+				'title'     => ( '' === trim( $title ) ) ? get_the_title( $post_id ) : sanitize_text_field( $title ),
 				'timestamp' => $timestamp,
 				'signature' => md5( $timestamp . $this->settings['key'] ),
 				'action'    => 'shorturl',
@@ -268,8 +266,8 @@ class Better_YOURLS_Actions {
 				'format'    => 'JSON',
 			);
 
-			//keyword and title aren't currently used but may be in the future
-			if ( '' != $keyword ) {
+			// Keyword and title aren't currently used but may be in the future.
+			if ( '' !== $keyword ) {
 				$request_args['keyword'] = sanitize_title( $keyword );
 			}
 
@@ -309,8 +307,8 @@ class Better_YOURLS_Actions {
 	 *
 	 * @since 0.0.1
 	 *
-	 * @param bool $short_link the shortlink to filter (defaults to false)
-	 * @param int  $id         the post id
+	 * @param bool $short_link the shortlink to filter (defaults to false).
+	 * @param int  $id         the post id.
 	 *
 	 * @return bool the shortlink or false
 	 */
@@ -331,14 +329,14 @@ class Better_YOURLS_Actions {
 	}
 
 	/**
-	 * Filter wp shortlink before display.
+	 * Filter wp shortlink before display
 	 *
-	 * Filters the default WordPress shortlink
+	 * Filters the default WordPress shortlink.
 	 *
 	 * @since 0.0.1
 	 *
-	 * @param bool $short_link the shortlink to filter (defaults to false)
-	 * @param int  $id         the post id
+	 * @param bool $short_link the shortlink to filter (defaults to false).
+	 * @param int  $id         the post id.
 	 *
 	 * @return bool the shortlink or false
 	 */
@@ -350,10 +348,10 @@ class Better_YOURLS_Actions {
 			return $short_link;
 		}
 
-		//If we've already created a shortlink return it or just return the default
+		// If we've already created a shortlink return it or just return the default.
 		$link = get_post_meta( $post->ID, '_better_yourls_short_link', true );
 
-		if ( '' == $link ) {
+		if ( '' === $link ) {
 			return $short_link;
 		}
 
@@ -368,16 +366,16 @@ class Better_YOURLS_Actions {
 	 *
 	 * @since 0.0.1
 	 *
-	 * @param string $link    the original link
-	 * @param int    $post_id the post id
+	 * @param string $link    the original link.
+	 * @param int    $post_id the post id.
 	 *
-	 * @return string the link to share
+	 * @return string the link to share.
 	 */
 	public function filter_sharing_permalink( $link, $post_id ) {
 
 		$yourls_shortlink = $this->create_yourls_url( $post_id );
 
-		if ( false !== $yourls_shortlink && '' != $yourls_shortlink ) {
+		if ( false !== $yourls_shortlink && '' !== $yourls_shortlink ) {
 
 			return $yourls_shortlink;
 
@@ -394,7 +392,7 @@ class Better_YOURLS_Actions {
 	 *
 	 * @since 1.2
 	 *
-	 * @param string $url the url to validate
+	 * @param string $url the url to validate.
 	 *
 	 * @return bool true if valid url else false
 	 */
@@ -406,6 +404,15 @@ class Better_YOURLS_Actions {
 
 	}
 
+	/**
+	 * Show custom metabox
+	 *
+	 * Shows a metabox allowing for a custom slug on the post edit screen.
+	 *
+	 * @since 2.0
+	 *
+	 * @return void
+	 */
 	public function yourls_keyword_metabox() {
 
 		global $post;
@@ -417,8 +424,8 @@ class Better_YOURLS_Actions {
 			$readonly = 'readonly="readonly" ';
 		}
 
-		echo '<input type="text" id="better-yourls-keyword" name="better-yourls-keyword" style="width: 100%;" value="' . esc_url( $link ) . '" ' . $readonly . '/>';
-		echo '<p><em>' . __( 'If a short-url doesn\'t yet exist for this post you can enter a keyword above. If it already exists it will be displayed.', 'better-yourls' ) . '</em></p>';
+		echo '<input type="text" id="better-yourls-keyword" name="better-yourls-keyword" style="width: 100%;" value="' . esc_url( $link ) . '" ' . esc_html( $readonly ) . '/>';
+		echo '<p><em>' . esc_html__( 'If a short-url doesn\'t yet exist for this post you can enter a keyword above. If it already exists it will be displayed.', 'better-yourls' ) . '</em></p>';
 
 	}
 }

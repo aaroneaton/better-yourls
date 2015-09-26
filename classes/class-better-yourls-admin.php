@@ -32,7 +32,7 @@ class Better_YOURLS_Admin {
 
 		$this->settings = get_option( 'better_yourls' );
 
-		add_action( 'admin_enqueue_scripts', array( $this, 'action_admin_enqueue_scripts' ) ); //enqueue scripts for admin page
+		add_action( 'admin_enqueue_scripts', array( $this, 'action_admin_enqueue_scripts' ) ); // Enqueue scripts for admin page.
 		add_action( 'admin_init', array( $this, 'action_admin_init' ) );
 		add_action( 'admin_menu', array( $this, 'action_admin_menu' ) );
 
@@ -49,17 +49,17 @@ class Better_YOURLS_Admin {
 	 */
 	public function action_admin_enqueue_scripts() {
 
-		if ( get_current_screen()->id == 'settings_page_better_yourls' ) {
+		if ( 'settings_page_better_yourls' === get_current_screen()->id ) {
 
 			if ( defined( 'WP_DEBUG' ) && true === WP_DEBUG ) {
 
 				wp_register_script( 'better_yourls_footer', BYOURLS_URL . '/js/admin-footer.js', array( 'jquery' ), BYOURLS_VERSION, true );
-				wp_register_style( 'better_yourls_admin', BYOURLS_URL .  '/css/better-yourls.css', array(), BYOURLS_VERSION ); //add multi-select css
+				wp_register_style( 'better_yourls_admin', BYOURLS_URL .  '/css/better-yourls.css', array(), BYOURLS_VERSION ); // Add multi-select css.
 
 			} else {
 
 				wp_register_script( 'better_yourls_footer', BYOURLS_URL . '/js/admin-footer.min.js', array( 'jquery' ), BYOURLS_VERSION, true );
-				wp_register_style( 'better_yourls_admin', BYOURLS_URL .  '/css/better-yourls.min.css', array(), BYOURLS_VERSION ); //add multi-select css
+				wp_register_style( 'better_yourls_admin', BYOURLS_URL .  '/css/better-yourls.min.css', array(), BYOURLS_VERSION ); // Add multi-select css.
 
 			}
 
@@ -80,7 +80,7 @@ class Better_YOURLS_Admin {
 	 */
 	public function action_admin_init() {
 
-		//add meta boxes
+		// Add meta boxes.
 		add_meta_box(
 			'better_yourls_intro',
 			__( 'Better Yourls', 'better-yourls' ),
@@ -105,7 +105,7 @@ class Better_YOURLS_Admin {
 			'side'
 		);
 
-		//Add Settings sections
+		// Add Settings sections.
 		add_settings_section(
 			'better_yourls',
 			__( 'Configure Better YOURLS', 'better-yourls' ),
@@ -113,7 +113,7 @@ class Better_YOURLS_Admin {
 			'settings_page_better_yourls'
 		);
 
-		//add settings fields
+		// Add settings fields.
 		add_settings_field(
 			'better_yourls[domain]',
 			__( 'YOURLS Domain', 'better-yourls' ),
@@ -130,7 +130,7 @@ class Better_YOURLS_Admin {
 			'better_yourls'
 		);
 
-		//Register the settings field for the entire module
+		// Register the settings field for the entire module.
 		register_setting(
 			'settings_page_better_yourls',
 			'better_yourls',
@@ -156,7 +156,7 @@ class Better_YOURLS_Admin {
 			array( $this, 'render_page' )
 		);
 
-		add_action( 'load-' . $page, array( $this, 'page_actions' ) ); //Load page structure
+		add_action( 'load-' . $page, array( $this, 'page_actions' ) ); // Load page structure.
 
 	}
 
@@ -167,8 +167,8 @@ class Better_YOURLS_Admin {
 	 *
 	 * @since 0.0.1
 	 *
-	 * @param object $links Array of WordPress links
-	 * @param string $file  String name of current file
+	 * @param object $links Array of WordPress links.
+	 * @param string $file  String name of current file.
 	 *
 	 * @return object Array of WordPress links
 	 */
@@ -180,8 +180,8 @@ class Better_YOURLS_Admin {
 			$this_plugin = 'better-yourls/better-yourls.php';
 		}
 
-		if ( $file == $this_plugin ) {
-			$links[] = '<a href="options-general.php?page=better_yourls">' . __( 'Settings', 'better-yourls' ) . '</a>';
+		if ( $file === $this_plugin ) {
+			$links[] = '<a href="options-general.php?page=better_yourls">' . esc_html__( 'Settings', 'better-yourls' ) . '</a>';
 		}
 
 		return $links;
@@ -198,7 +198,7 @@ class Better_YOURLS_Admin {
 
 		$support_page = 'https://wordpress.org/plugins/better-yourls/support/';
 
-		echo '<p>' . __( 'If you need help getting this plugin or have found a bug please visit the <a href="' . $support_page . '" target="_blank">support forums</a>.', 'better-yourls' ) . '</p>';
+		echo '<p>' . esc_html__( 'If you need help getting this plugin or have found a bug please visit the <a href="' . $support_page . '" target="_blank">support forums</a>.', 'better-yourls' ) . '</p>';
 
 	}
 
@@ -211,14 +211,14 @@ class Better_YOURLS_Admin {
 	 */
 	public function metabox_settings() {
 
-		echo '<p>', __( 'Use the settings below to configure Better Yourls for your site.', 'better-yourls' ), '</p>';
+		echo '<p>', esc_html__( 'Use the settings below to configure Better Yourls for your site.', 'better-yourls' ), '</p>';
 
 		?>
 		<form method="post" action="options.php" class="itsec-form" >
 		<?php settings_fields( 'settings_page_better_yourls' ); ?>
 		<?php do_settings_sections( 'settings_page_better_yourls' ); ?>
 		<p class="submit">
-			<input type="submit" class="button-primary" value="<?php _e( 'Save Changes', 'better-yourls' ); ?>"/>
+			<input type="submit" class="button-primary" value="<?php esc_html_e( 'Save Changes', 'better-yourls' ); ?>"/>
 		</p>
 
 	<?php
@@ -237,10 +237,10 @@ class Better_YOURLS_Admin {
 		$wp_page  = 'https://wordpress.org/plugins/better-yourls/';
 		$homepage = 'https://wordpress.org/plugins/better-yourls/';
 
-		echo '<p>' . __( 'Have you found this plugin useful? Please help support it\'s continued development with a donation of $20, $50, or even $100.', 'better-yourls' ) . '</p>';
+		echo '<p>' . esc_html__( 'Have you found this plugin useful? Please help support it\'s continued development with a donation of $20, $50, or even $100.', 'better-yourls' ) . '</p>';
 
 		?>
-		<form></form> <?php //don't ask me why but WordPress filters out the form if I don't add this ?>
+		<form></form> <?php // Don't ask me why but WordPress filters out the form if I don't add this. ?>
 		<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 			<input type="hidden" name="cmd" value="_s-xclick">
 			<input type="hidden" name="hosted_button_id" value="XMS5DSYBPUUNU">
@@ -250,15 +250,15 @@ class Better_YOURLS_Admin {
 		</form>
 
 		<?php
-		echo '<p>' . __( 'Short on funds?', 'better-yourls' ) . '</p>';
+		echo '<p>' . esc_html__( 'Short on funds?', 'better-yourls' ) . '</p>';
 
 		echo '<ul>';
 
-		echo '<li><a href="' . $wp_page . '" target="_blank">' . __( 'Rate Better YOURLS 5-stars on WordPress.org', 'better-yourls' ) . '</a></li>';
+		echo '<li><a href="' . esc_url( $wp_page ) . '" target="_blank">' . esc_html__( 'Rate Better YOURLS 5-stars on WordPress.org', 'better-yourls' ) . '</a></li>';
 
-		echo '<li>' . __( 'Talk about it on your site and link back to the ', 'better-yourls' ) . '<a href="' . $homepage . '" target="_blank">' . __( 'plugin page.', 'better-yourls' ) . '</a></li>';
+		echo '<li>' . esc_html__( 'Talk about it on your site and link back to the ', 'better-yourls' ) . '<a href="' . esc_url( $homepage ) . '" target="_blank">' . esc_html__( 'plugin page.', 'better-yourls' ) . '</a></li>';
 
-		echo '<li><a href="http://twitter.com/home?status=' . urlencode( 'I use Better YOURLS for WordPress by @ChrisWiegman and you should too - ' . $homepage ) . '" target="_blank">' . __( 'Tweet about it. ', 'better-yourls' ) . '</a></li>';
+		echo '<li><a href="http://twitter.com/home?status=' . urlencode( 'I use Better YOURLS for WordPress by @ChrisWiegman and you should too - ' . esc_url( $homepage ) ) . '" target="_blank">' . esc_html__( 'Tweet about it. ', 'better-yourls' ) . '</a></li>';
 
 		echo '</ul>';
 
@@ -273,10 +273,10 @@ class Better_YOURLS_Admin {
 	 */
 	public function page_actions() {
 
-		//Set two columns for all plugins using this framework
+		// Set two columns for all plugins using this framework.
 		add_screen_option( 'layout_columns', array( 'max' => 2, 'default' => 2 ) );
 
-		//Enqueue common scripts and try to keep it simple
+		// Enqueue common scripts and try to keep it simple.
 		wp_enqueue_script( 'common' );
 		wp_enqueue_script( 'wp-lists' );
 		wp_enqueue_script( 'postbox' );
@@ -292,13 +292,13 @@ class Better_YOURLS_Admin {
 	 */
 	public function render_page() {
 
-		$screen = get_current_screen()->id; //the current screen id
+		$screen = get_current_screen()->id; // The current screen id.
 
 		?>
 
 		<div class="wrap">
 
-			<h2><?php _e( 'Better Yourls', 'better-yourls' ); ?></h2>
+			<h2><?php esc_html_e( 'Better Yourls', 'better-yourls' ); ?></h2>
 
 			<?php
 			wp_nonce_field( 'meta-box-order', 'meta-box-order-nonce', false );
@@ -308,7 +308,7 @@ class Better_YOURLS_Admin {
 			<div id="poststuff">
 
 				<div id="post-body"
-				     class="metabox-holder columns-<?php echo 1 == get_current_screen()->get_columns() ? '1' : '2'; ?>">
+				     class="metabox-holder columns-<?php echo 1 === get_current_screen()->get_columns() ? '1' : '2'; ?>">
 
 					<div id="postbox-container-2" class="postbox-container">
 						<?php do_meta_boxes( $screen, 'main', null ); ?>
@@ -336,7 +336,7 @@ class Better_YOURLS_Admin {
 	 *
 	 * @since 0.0.1
 	 *
-	 * @param array $input array of plugin options
+	 * @param array $input array of plugin options.
 	 *
 	 * @return array array of plugin options
 	 */
@@ -367,8 +367,8 @@ class Better_YOURLS_Admin {
 			$domain = sanitize_text_field( $this->settings['domain'] );
 		}
 
-		echo '<input class="text" name="better_yourls[domain]" id="better_yourls_domain" value="' . $domain . '" type="text">';
-		echo '<label for="better_yourls_domain"><p class="description"> ' . __( 'The short domain you are using for YOURLS. Enter only the domain name.', 'better-yourls' ) . '</p></label>';
+		echo '<input class="text" name="better_yourls[domain]" id="better_yourls_domain" value="' . esc_attr( $domain ) . '" type="text">';
+		echo '<label for="better_yourls_domain"><p class="description"> ' . esc_html__( 'The short domain you are using for YOURLS. Enter only the domain name.', 'better-yourls' ) . '</p></label>';
 
 	}
 
@@ -387,8 +387,8 @@ class Better_YOURLS_Admin {
 			$key = sanitize_text_field( $this->settings['key'] );
 		}
 
-		echo '<input class="text" name="better_yourls[key]" id="better_yourls_key" value="' . $key . '" type="text">';
-		echo '<label for="better_yourls_key"><p class="description"> ' . __( 'This can be found on the tools page in your YOURLS installation..', 'better-yourls' ) . '</p></label>';
+		echo '<input class="text" name="better_yourls[key]" id="better_yourls_key" value="' . esc_attr( $key ) . '" type="text">';
+		echo '<label for="better_yourls_key"><p class="description"> ' . esc_html__( 'This can be found on the tools page in your YOURLS installation.', 'better-yourls' ) . '</p></label>';
 
 	}
 }

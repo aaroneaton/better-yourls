@@ -1,6 +1,6 @@
 === Better YOURLS ===
 Contributors: ChrisWiegman
-Donate link: https://www.chriswiegman.com/
+Donate link: https://chriswiegman.com
 Tags: yourls, shortlink, custom shortlink
 Requires at least: 4.2
 Tested up to: 4.3
@@ -30,11 +30,11 @@ Integrates your blog with the <a href="http://yourls.org" target="_blank">YOURLS
 
 == Installation ==
 
-1. Backup your Wordpress database, config file, and .htaccess file
+1. Backup your WordPress database, config file, and .htaccess file
 2. Upload the zip file to the `/wp-content/plugins/` directory
 3. Unzip
 4. Activate the plugin through the 'Plugins' menu in WordPress
-5. Visit the Better YOURLS page under settings to add domain and api key
+5. Visit the Better YOURLS page under settings to add domain and API key
 
 == Frequently Asked Questions ==
 
@@ -74,7 +74,7 @@ Integrates your blog with the <a href="http://yourls.org" target="_blank">YOURLS
 * Minor typo fixes
 
 = 1.0.1 =
-* Don't generate URLs in admin, wait for the first post view.
+* Don't generate URLs in admin, wait for the first post view
 
 = 1.0.0 =
 * Initial Release
@@ -82,10 +82,10 @@ Integrates your blog with the <a href="http://yourls.org" target="_blank">YOURLS
 == Upgrade Notice ==
 
 = 1.0.5 =
-* This is a bugfix release that is recommended for all users.
+* This is a bugfix release that is recommended for all users
 
 = 1.0.1 =
-* This fixes a small bug that could lead to your URL reporting as "Auto Draft" in the URLs admin.
+* This fixes a small bug that could lead to your URL reporting as "Auto Draft" in the URLs admin
 
 = 1.0.0 =
 * Initial release. Thanks for Trying!

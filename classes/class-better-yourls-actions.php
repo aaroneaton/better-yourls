@@ -23,6 +23,13 @@ class Better_YOURLS_Actions {
 	protected $settings;
 
 	/**
+	 * Ability to filter what post types Better YOURLS runs on
+	 *
+	 * @var array
+	 */
+	protected $post_types;
+
+	/**
 	 * Better YOURLS constructor.
 	 *
 	 * Register actions and setup local items for the plugin.
@@ -35,6 +42,9 @@ class Better_YOURLS_Actions {
 
 		//set default options
 		$this->settings = get_option( 'better_yourls' );
+
+		//Set post type(s). Leaving this array empty will cause Better YOURLS to run on all post types
+		$this->post_types = apply_filters( 'better_yourls_post_types', array() );
 
 		//add filters and actions if we've set API info
 		if ( isset( $this->settings['domain'] ) && '' !== $this->settings['domain'] && isset( $this->settings['key'] ) && '' !== $this->settings['key'] ) {
@@ -64,14 +74,18 @@ class Better_YOURLS_Actions {
 
 		global $post;
 
-		add_meta_box(
-			'yourls_keyword',
-			__( 'YOURLs Keyword', 'better-yourls' ),
-			array( $this, 'yourls_keyword_metabox' ),
-			$post->post_type,
-			'side',
-			'core'
-		);
+		if ( in_array( get_post_type( $post->ID ), $this->post_types ) or empty( $this->post_types ) ) {
+
+			add_meta_box(
+				'yourls_keyword',
+				__( 'YOURLs Keyword', 'better-yourls' ),
+				array( $this, 'yourls_keyword_metabox' ),
+				$post->post_type,
+				'side',
+				'core'
+			);
+
+		}
 
 	}
 
@@ -151,6 +165,13 @@ class Better_YOURLS_Actions {
 		) {
 			return;
 		}
+
+        /**
+         * Abort if there are specified posts types and the current post does not match the criteria
+         */
+        if ( !in_array( get_post_type( $post_id ), $this->post_types ) && !empty( $this->post_types ) ) {
+            return;
+        }
 
 		/**
 		 * Filter Better YOURLs post statuses

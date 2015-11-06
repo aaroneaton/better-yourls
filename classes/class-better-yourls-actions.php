@@ -64,14 +64,20 @@ class Better_YOURLS_Actions {
 
 		global $post;
 
-		add_meta_box(
-			'yourls_keyword',
-			__( 'YOURLs Keyword', 'better-yourls' ),
-			array( $this, 'yourls_keyword_metabox' ),
-			$post->post_type,
-			'side',
-			'core'
-		);
+		$post_types = apply_filters( 'better_yourls_post_types', array() );
+
+		if ( in_array( get_post_type( $post->ID ), $post_types ) or empty( $post_types ) ) {
+
+			add_meta_box(
+				'yourls_keyword',
+				__( 'YOURLs Keyword', 'better-yourls' ),
+				array( $this, 'yourls_keyword_metabox' ),
+				$post->post_type,
+				'side',
+				'core'
+			);
+
+		}
 
 	}
 
@@ -151,6 +157,15 @@ class Better_YOURLS_Actions {
 		) {
 			return;
 		}
+
+		$post_types = apply_filters( 'better_yourls_post_types', array() );
+
+        /**
+         * Abort if there are specified posts types and the current post does not match the criteria
+         */
+        if ( !in_array( get_post_type( $post_id ), $post_types ) && !empty( $post_types ) ) {
+            return;
+        }
 
 		/**
 		 * Filter Better YOURLs post statuses

@@ -1,5 +1,5 @@
 === Better YOURLS ===
-Contributors: ChrisWiegman
+Contributors: ChrisWiegman, domsammut
 Donate link: https://chriswiegman.com
 Tags: yourls, shortlink, custom shortlink
 Requires at least: 4.2

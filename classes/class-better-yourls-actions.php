@@ -160,12 +160,12 @@ class Better_YOURLS_Actions {
 
 		$post_types = apply_filters( 'better_yourls_post_types', array() );
 
-        /**
-         * Abort if there are specified posts types and the current post does not match the criteria
-         */
-        if ( !in_array( get_post_type( $post_id ), $post_types ) && !empty( $post_types ) ) {
-            return;
-        }
+		/**
+		 * Abort if there are specified posts types and the current post does not match the criteria
+		 */
+		if (!in_array(get_post_type($post_id), $post_types) && !empty($post_types))
+			return;
+		}
 
 		/**
 		 * Filter Better YOURLs post statuses
@@ -190,16 +190,16 @@ class Better_YOURLS_Actions {
 			$keyword = sanitize_title( trim( $_POST['better-yourls-keyword'] ) );
 		}
 
-        /**
-         * Filter the keyword prior to submitting to YOURLS API.
-         * Post ID supplied to provide context to the filtered keyword
-         *
-         * @since 2.0.2
-         *
-         * @param string $keyword
-         * @param string $post_id
-         */
-        $keyword = apply_filters( 'better_yourls_keyword', $keyword, $post_id );
+		/**
+		 * Filter the keyword prior to submitting to YOURLS API.
+		 * Post ID supplied to provide context to the filtered keyword
+		 *
+		 * @since 2.0.2
+		 *
+		 * @param string $keyword
+		 * @param string $post_id
+		 */
+		$keyword = apply_filters( 'better_yourls_keyword', $keyword, $post_id );
 
 
 		// Get the short URL. Note this will use the meta if it was already saved.

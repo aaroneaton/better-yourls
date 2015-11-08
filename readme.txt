@@ -1,10 +1,10 @@
 === Better YOURLS ===
-Contributors: ChrisWiegman, domsammut
-Donate link: https://chriswiegman.com
+Contributors: ChrisWiegman, michaelbeil, domsammut
+Donate link: https://www.chriswiegman.com
 Tags: yourls, shortlink, custom shortlink
 Requires at least: 4.2
-Tested up to: 4.3
-Stable tag: 2.0.0
+Tested up to: 4.4
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,6 +53,10 @@ Integrates your blog with the <a href="http://yourls.org" target="_blank">YOURLS
 
 == Changelog ==
 
+= 2.0.1 =
+* Fix : Spaces should no longer be eliminated from titles
+* Enhancement: Allow filtering of post types (credit to domsammut)
+
 = 2.0.0 =
 * Enhancement: complete refactor for better efficiency and less bugs
 
@@ -80,6 +84,9 @@ Integrates your blog with the <a href="http://yourls.org" target="_blank">YOURLS
 * Initial Release
 
 == Upgrade Notice ==
+
+= 2.0.1 =
+2.0.1 is a bugfix update that is recommended for all users.
 
 = 1.0.5 =
 * This is a bugfix release that is recommended for all users

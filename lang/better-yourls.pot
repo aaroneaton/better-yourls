@@ -2,9 +2,9 @@
 # This file is distributed under the GPLv2.
 msgid ""
 msgstr ""
-"Project-Id-Version: Better YOURLS 2.0.0\n"
+"Project-Id-Version: Better YOURLS 2.0.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/better-yourls\n"
-"POT-Creation-Date: 2015-09-08 01:07:14+00:00\n"
+"POT-Creation-Date: 2015-11-08 01:28:47+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,27 +13,27 @@ msgstr ""
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "X-Generator: grunt-wp-i18n 0.5.3\n"
 
-#: classes/class-better-yourls-actions.php:68
+#: classes/class-better-yourls-actions.php:73
 msgid "YOURLs Keyword"
 msgstr ""
 
-#: classes/class-better-yourls-actions.php:104
+#: classes/class-better-yourls-actions.php:113
 msgid "YOURLS"
 msgstr ""
 
-#: classes/class-better-yourls-actions.php:113
+#: classes/class-better-yourls-actions.php:122
 msgid "YOURLS Link"
 msgstr ""
 
-#: classes/class-better-yourls-actions.php:121
+#: classes/class-better-yourls-actions.php:130
 msgid "Link Stats"
 msgstr ""
 
-#: classes/class-better-yourls-actions.php:216
+#: classes/class-better-yourls-actions.php:236
 msgid "Your YOURLS short link is: "
 msgstr ""
 
-#: classes/class-better-yourls-actions.php:410
+#: classes/class-better-yourls-actions.php:443
 msgid ""
 "If a short-url doesn't yet exist for this post you can enter a keyword "
 "above. If it already exists it will be displayed."
@@ -111,7 +111,7 @@ msgid "The short domain you are using for YOURLS. Enter only the domain name."
 msgstr ""
 
 #: classes/class-better-yourls-admin.php:391
-msgid "This can be found on the tools page in your YOURLS installation.."
+msgid "This can be found on the tools page in your YOURLS installation."
 msgstr ""
 
 #. Plugin URI of the plugin/theme

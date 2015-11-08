@@ -190,6 +190,18 @@ class Better_YOURLS_Actions {
 			$keyword = sanitize_title( trim( $_POST['better-yourls-keyword'] ) );
 		}
 
+        /**
+         * Filter the keyword prior to submitting to YOURLS API.
+         * Post ID supplied to provide context to the filtered keyword
+         *
+         * @since 2.0.2
+         *
+         * @param string $keyword
+         * @param string $post_id
+         */
+        $keyword = apply_filters( 'better_yourls_keyword', $keyword, $post_id );
+
+
 		// Get the short URL. Note this will use the meta if it was already saved.
 		$link = $this->create_yourls_url( $post_id, $keyword );
 

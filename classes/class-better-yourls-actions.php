@@ -254,7 +254,7 @@ class Better_YOURLS_Actions {
 			}
 
 			// Setup call parameters.
-			$yourls_url = 'http://' . $this->settings['domain'] . '/yourls-api.php';
+			$yourls_url = esc_url_raw( 'http://' . $this->settings['domain'] . '/yourls-api.php' );
 			$timestamp  = current_time( 'timestamp' );
 
 			$request_args = array(
@@ -271,7 +271,7 @@ class Better_YOURLS_Actions {
 				$request_args['keyword'] = sanitize_title( $keyword );
 			}
 
-			$request = esc_url_raw( add_query_arg( $request_args, $yourls_url ) );
+			$request = add_query_arg( $request_args, $yourls_url );
 
 			$response = wp_remote_get( $request );
 

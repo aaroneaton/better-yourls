@@ -163,7 +163,7 @@ class Better_YOURLS_Actions {
 		/**
 		 * Abort if there are specified posts types and the current post does not match the criteria
 		 */
-		if (!in_array(get_post_type($post_id), $post_types) && !empty($post_types))
+		if ( !in_array( get_post_type( $post_id ), $post_types ) && !empty( $post_types ) ) {
 			return;
 		}
 

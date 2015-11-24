@@ -215,11 +215,11 @@ class Better_YOURLS_Actions {
 
 
 		// Get the short URL. Note this will use the meta if it was already saved.
-		$link = $this->create_yourls_url( $post_id, $keyword );
+		$link = $this->create_yourls_url( $post_id, $keyword, '', 'save_post' );
 
 		// Keyword would be a duplicate so use a standard one.
 		if ( '' !== $keyword && ! $link ) {
-			$link = $this->create_yourls_url( $post_id );
+			$link = $this->create_yourls_url( $post_id, '', '', 'save_post' );
 		}
 
 		// Save the short URL only if it was generated correctly.
@@ -275,10 +275,11 @@ class Better_YOURLS_Actions {
 	 * @param  int   $post_id the current post id.
 	 * @param string $keyword optional keyword for shortlink.
 	 * @param string $title   optional title for shortlink.
+	 * @param string $hook    the hook that called this function.
 	 *
 	 * @return bool|string the yourls shortlink or false.
 	 */
-	public function create_yourls_url( $post_id, $keyword = '', $title = '' ) {
+	public function create_yourls_url( $post_id, $keyword = '', $title = '', $hook = '' ) {
 
 		if ( is_preview() && ! is_admin() ) {
 			return false;
@@ -336,6 +337,23 @@ class Better_YOURLS_Actions {
 
 			if ( true === $this->validate_url( $url ) ) {
 
+				/**
+				 * Filter the created shortlink.
+				 *
+				 * @since 2.0
+				 *
+				 * @param string $url     The shortlink or return false to short-circuit.
+				 * @param int    $post_id The post id of the post for which the shortlink was created.
+				 * @param string $hook    The hook which called the creation function.
+				 */
+				$url = apply_filters( 'better_urls_shortlink', $url, $post_id, $hook );
+
+				if ( false === $url ) {
+					return false;
+				}
+
+				$url = esc_url_raw( $url );
+
 				update_post_meta( $post_id, '_better_yourls_short_link', $url );
 
 				return $url;
@@ -367,7 +385,7 @@ class Better_YOURLS_Actions {
 			return false;
 		}
 
-		$link = $this->create_yourls_url( $id );
+		$link = $this->create_yourls_url( $id, '', '', 'get_shortlink' );
 
 		if ( false !== $link ) {
 			return $link;
@@ -429,7 +447,7 @@ class Better_YOURLS_Actions {
 			return $link;
 		}
 
-		$yourls_shortlink = $this->create_yourls_url( $post_id );
+		$yourls_shortlink = $this->create_yourls_url( $post_id, '', '', 'sharing_permalink' );
 
 		if ( false !== $yourls_shortlink && '' !== $yourls_shortlink ) {
 

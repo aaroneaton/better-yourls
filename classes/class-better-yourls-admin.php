@@ -131,6 +131,14 @@ class Better_YOURLS_Admin {
 		);
 
 		add_settings_field(
+			'better_yourls[https_ignore]',
+			__( 'Allow Self-signed https Certificate', 'better-yourls' ),
+			array( $this, 'settings_field_https_ignore' ),
+			'settings_page_better_yourls',
+			'better_yourls'
+		);
+
+		add_settings_field(
 			'better_yourls[key]',
 			__( 'YOURLS  Token', 'better-yourls' ),
 			array( $this, 'settings_field_key' ),
@@ -356,6 +364,7 @@ class Better_YOURLS_Admin {
 		$input['domain'] = trim( $input['domain'], '/' );
 		$input['key']    = isset( $input['key'] ) ? sanitize_text_field( $input['key'] ) : '';
 		$input['https']  = isset( $input['https'] ) && 1 === absint( $input['https'] ) ? true : false;
+		$input['https_ignore']  = isset( $input['https_ignore'] ) && 1 === absint( $input['https_ignore'] ) ? true : false;
 
 		return $input;
 
@@ -398,6 +407,26 @@ class Better_YOURLS_Admin {
 
 		echo '<input name="better_yourls[https]" id="better_yourls_https" value="1" type="checkbox" ' . checked( true, $https, false ) . '>';
 		echo '<label for="better_yourls_https"><p class="description"> ' . esc_html__( 'Check this box to access your YOURLS installation over https.', 'better-yourls' ) . '</p></label>';
+
+	}
+
+	/**
+	 * Echos Allow self-signed certificates field.
+	 *
+	 * @since 2.1
+	 *
+	 * @return void
+	 */
+	public function settings_field_https_ignore() {
+
+		$https_ignore = false;
+
+		if ( isset( $this->settings['https_ignore'] ) && true === $this->settings['https_ignore'] ) {
+			$https_ignore = true;
+		}
+
+		echo '<input name="better_yourls[https_ignore]" id="better_yourls_https_ignore" value="1" type="checkbox" ' . checked( true, $https_ignore, false ) . '>';
+		echo '<label for="better_yourls_https_ignore"><p class="description"> ' . esc_html__( 'Check this box to ignore security checks on your https certificate. Note this is not normal. Only use this if you are using a self-signed certificate to provide https to your YOURLS admin area.', 'better-yourls' ) . '</p></label>';
 
 	}
 

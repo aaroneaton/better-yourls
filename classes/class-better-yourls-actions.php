@@ -281,7 +281,8 @@ class Better_YOURLS_Actions {
 			}
 
 			// Setup call parameters.
-			$yourls_url = esc_url_raw( 'http://' . $this->settings['domain'] . '/yourls-api.php' );
+			$https = ( isset( $this->settings['https'] ) && true === $this->settings['https'] ) ? 's' : '';
+			$yourls_url = esc_url_raw( 'http' . $https . '://' . $this->settings['domain'] . '/yourls-api.php' );
 			$timestamp  = current_time( 'timestamp' );
 
 			$request_args = array(
@@ -300,7 +301,14 @@ class Better_YOURLS_Actions {
 
 			$request = add_query_arg( $request_args, $yourls_url );
 
-			$response = wp_remote_get( $request );
+			// Allow the option to use a self-signed.
+			$args = array();
+
+			if ( isset( $this->settings['https_ignore'] ) && true === $this->settings['https_ignore'] ) {
+				$args['sslverify'] = false;
+			}
+
+			$response = wp_remote_get( $request, $args );
 
 			if ( is_wp_error( $response ) ) {
 				return false;

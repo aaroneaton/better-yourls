@@ -123,6 +123,14 @@ class Better_YOURLS_Admin {
 		);
 
 		add_settings_field(
+			'better_yourls[https]',
+			__( 'Use https', 'better-yourls' ),
+			array( $this, 'settings_field_https' ),
+			'settings_page_better_yourls',
+			'better_yourls'
+		);
+
+		add_settings_field(
 			'better_yourls[key]',
 			__( 'YOURLS  Token', 'better-yourls' ),
 			array( $this, 'settings_field_key' ),
@@ -347,6 +355,7 @@ class Better_YOURLS_Admin {
 		$input['domain'] = str_replace( ' ', '', $input['domain'] );
 		$input['domain'] = trim( $input['domain'], '/' );
 		$input['key']    = isset( $input['key'] ) ? sanitize_text_field( $input['key'] ) : '';
+		$input['https']  = isset( $input['https'] ) && 1 === absint( $input['https'] ) ? true : false;
 
 		return $input;
 
@@ -369,6 +378,26 @@ class Better_YOURLS_Admin {
 
 		echo '<input class="text" name="better_yourls[domain]" id="better_yourls_domain" value="' . esc_attr( $domain ) . '" type="text">';
 		echo '<label for="better_yourls_domain"><p class="description"> ' . esc_html__( 'The short domain you are using for YOURLS. Enter only the domain name.', 'better-yourls' ) . '</p></label>';
+
+	}
+
+	/**
+	 * Echos Allow https field.
+	 *
+	 * @since 2.1
+	 *
+	 * @return void
+	 */
+	public function settings_field_https() {
+
+		$https = false;
+
+		if ( isset( $this->settings['https'] ) && true === $this->settings['https'] ) {
+			$https = true;
+		}
+
+		echo '<input name="better_yourls[https]" id="better_yourls_https" value="1" type="checkbox" ' . checked( true, $https, false ) . '>';
+		echo '<label for="better_yourls_https"><p class="description"> ' . esc_html__( 'Check this box to access your YOURLS installation over https.', 'better-yourls' ) . '</p></label>';
 
 	}
 

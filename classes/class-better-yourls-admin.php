@@ -146,6 +146,14 @@ class Better_YOURLS_Admin {
 			'better_yourls'
 		);
 
+		add_settings_field(
+			'better_yourls[post_types]',
+			__( 'Exclude Post Types', 'better-yourls' ),
+			array( $this, 'settings_field_post_types' ),
+			'settings_page_better_yourls',
+			'better_yourls'
+		);
+
 		// Register the settings field for the entire module.
 		register_setting(
 			'settings_page_better_yourls',
@@ -366,6 +374,21 @@ class Better_YOURLS_Admin {
 		$input['https']  = isset( $input['https'] ) && 1 === absint( $input['https'] ) ? true : false;
 		$input['https_ignore']  = isset( $input['https_ignore'] ) && 1 === absint( $input['https_ignore'] ) ? true : false;
 
+		if ( isset( $input['post_types'] ) && is_array( $input['post_types'] ) ) {
+
+			$excluded_post_types = array();
+			$post_types = get_post_types( array( 'public' => true ) );
+
+			foreach ( $input['post_types'] as $post_type ) {
+
+				if ( in_array( $post_type, $post_types ) ) {
+					$excluded_post_types[] = sanitize_text_field( $post_type );
+				}
+			}
+
+			$input['post_types'] = $excluded_post_types;
+		}
+
 		return $input;
 
 	}
@@ -448,5 +471,37 @@ class Better_YOURLS_Admin {
 		echo '<input class="text" name="better_yourls[key]" id="better_yourls_key" value="' . esc_attr( $key ) . '" type="text">';
 		echo '<label for="better_yourls_key"><p class="description"> ' . esc_html__( 'This can be found on the tools page in your YOURLS installation.', 'better-yourls' ) . '</p></label>';
 
+	}
+
+	/**
+	 * Echo exclude post types field.
+	 *
+	 * @since 2.1
+	 *
+	 * @return void
+	 */
+	public function settings_field_post_types() {
+
+		$post_types = get_post_types( array( 'public' => true ), 'objects' );
+		$excluded_post_types = array();
+
+		// Get the list of post types we've already excluded.
+		if ( isset( $this->settings['post_types'] ) ) {
+			$excluded_post_types = $this->settings['post_types'];
+		}
+
+		foreach( $post_types as $post_type ) {
+
+			$checked = false;
+
+			if ( in_array( $post_type->name, $excluded_post_types ) ) {
+				$checked = true;
+			}
+
+			echo '<input type="checkbox" name="better_yourls[post_types][' . esc_attr( $post_type->name ) . ']" value="' . esc_attr( $post_type->name ) . '" ' . checked( true, $checked, false ) . '><label for="better_yourls[post_types][' . esc_attr( $post_type->name ) . ']">' . sanitize_text_field( $post_type->labels->name ) . '</label><br />';
+
+		}
+
+		echo '<p class="description"> ' . esc_html__( 'Put a check mark next to any post type for which you do NOT want to generate a short link.', 'better-yourls' ) . '</p>';
 	}
 }

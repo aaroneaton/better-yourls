@@ -64,6 +64,12 @@ class Better_YOURLS_Actions {
 
 		global $post;
 
+		$post_type = get_post_type( $post->ID );
+
+		if ( false === $post_type || ( isset( $this->settings['post_types'] ) && is_array( $this->settings['post_types'] ) ) && in_array( $post_type, $this->settings['post_types'] ) ) {
+			return;
+		}
+
 		$post_types = apply_filters( 'better_yourls_post_types', array() );
 
 		if ( in_array( get_post_type( $post->ID ), $post_types ) or empty( $post_types ) ) {
@@ -95,6 +101,12 @@ class Better_YOURLS_Actions {
 		global $wp_admin_bar, $post;
 
 		if ( ! isset( $post->ID ) ) {
+			return;
+		}
+
+		$post_type = get_post_type( $post->ID );
+
+		if ( false === $post_type || ( isset( $this->settings['post_types'] ) && is_array( $this->settings['post_types'] ) ) && in_array( $post_type, $this->settings['post_types'] ) ) {
 			return;
 		}
 
@@ -349,7 +361,9 @@ class Better_YOURLS_Actions {
 	 */
 	public function filter_get_shortlink( $short_link, $id ) {
 
-		if ( false === is_singular() ) {
+		$post_type = get_post_type( $id );
+
+		if ( false === $post_type || ( isset( $this->settings['post_types'] ) && is_array( $this->settings['post_types'] ) ) && in_array( $post_type, $this->settings['post_types'] ) ) {
 			return false;
 		}
 
@@ -377,9 +391,10 @@ class Better_YOURLS_Actions {
 	 */
 	public function filter_pre_get_shortlink( $short_link, $id ) {
 
-		$post = get_post( $id );
+		$post      = get_post( $id );
+		$post_type = get_post_type( $id );
 
-		if ( empty( $post ) ) {
+		if ( empty( $post ) || false === $post_type || ( isset( $this->settings['post_types'] ) && is_array( $this->settings['post_types'] ) ) && in_array( $post_type, $this->settings['post_types'] ) ) {
 			return $short_link;
 		}
 
@@ -407,6 +422,12 @@ class Better_YOURLS_Actions {
 	 * @return string the link to share.
 	 */
 	public function filter_sharing_permalink( $link, $post_id ) {
+
+		$post_type = get_post_type( $post_id );
+
+		if ( false === $post_type || ( isset( $this->settings['post_types'] ) && is_array( $this->settings['post_types'] ) ) && in_array( $post_type, $this->settings['post_types'] ) ) {
+			return $link;
+		}
 
 		$yourls_shortlink = $this->create_yourls_url( $post_id );
 

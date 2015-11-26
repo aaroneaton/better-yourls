@@ -154,6 +154,14 @@ class Better_YOURLS_Admin {
 			'better_yourls'
 		);
 
+		add_settings_field(
+			'better_yourls[multiple]',
+			__( 'Allow Multiple Shortlinks', 'better-yourls' ),
+			array( $this, 'settings_field_multiple' ),
+			'settings_page_better_yourls',
+			'better_yourls'
+		);
+
 		// Register the settings field for the entire module.
 		register_setting(
 			'settings_page_better_yourls',
@@ -268,8 +276,7 @@ class Better_YOURLS_Admin {
 		<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 			<input type="hidden" name="cmd" value="_s-xclick">
 			<input type="hidden" name="hosted_button_id" value="XMS5DSYBPUUNU">
-			<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif"
-			       name="submit" alt="PayPal - The safer, easier way to pay online!">
+			<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif"name="submit" alt="PayPal - The safer, easier way to pay online!">
 			<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
 		</form>
 
@@ -373,6 +380,7 @@ class Better_YOURLS_Admin {
 		$input['key']    = isset( $input['key'] ) ? sanitize_text_field( $input['key'] ) : '';
 		$input['https']  = isset( $input['https'] ) && 1 === absint( $input['https'] ) ? true : false;
 		$input['https_ignore']  = isset( $input['https_ignore'] ) && 1 === absint( $input['https_ignore'] ) ? true : false;
+		$input['multiple']  = isset( $input['multiple'] ) && 1 === absint( $input['multiple'] ) ? true : false;
 
 		if ( isset( $input['post_types'] ) && is_array( $input['post_types'] ) ) {
 
@@ -470,6 +478,26 @@ class Better_YOURLS_Admin {
 
 		echo '<input class="text" name="better_yourls[key]" id="better_yourls_key" value="' . esc_attr( $key ) . '" type="text">';
 		echo '<label for="better_yourls_key"><p class="description"> ' . esc_html__( 'This can be found on the tools page in your YOURLS installation.', 'better-yourls' ) . '</p></label>';
+
+	}
+
+	/**
+	 * Echos Allow multiple shortlinks field.
+	 *
+	 * @since 2.1
+	 *
+	 * @return void
+	 */
+	public function settings_field_multiple() {
+
+		$multiple = false;
+
+		if ( isset( $this->settings['multiple'] ) && true === $this->settings['multiple'] ) {
+			$multiple = true;
+		}
+
+		echo '<input name="better_yourls[multiple]" id="better_yourls_multiple" value="1" type="checkbox" ' . checked( true, $multiple, false ) . '>';
+		echo '<label for="better_yourls_multiple"><p class="description"> ' . esc_html__( 'Check this box to allow for multiple short urls for a given piece of content.', 'better-yourls' ) . '</p></label>';
 
 	}
 

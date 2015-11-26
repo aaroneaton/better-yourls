@@ -213,7 +213,6 @@ class Better_YOURLS_Actions {
 		 */
 		$keyword = apply_filters( 'better_yourls_keyword', $keyword, $post_id );
 
-
 		// Get the short URL. Note this will use the meta if it was already saved.
 		$link = $this->create_yourls_url( $post_id, $keyword, '', 'save_post' );
 
@@ -294,7 +293,7 @@ class Better_YOURLS_Actions {
 			}
 
 			// Setup call parameters.
-			$https = ( isset( $this->settings['https'] ) && true === $this->settings['https'] ) ? 's' : '';
+			$https      = ( isset( $this->settings['https'] ) && true === $this->settings['https'] ) ? 's' : '';
 			$yourls_url = esc_url_raw( 'http' . $https . '://' . $this->settings['domain'] . '/yourls-api.php' );
 			$timestamp  = current_time( 'timestamp' );
 

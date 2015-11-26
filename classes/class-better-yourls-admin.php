@@ -373,14 +373,14 @@ class Better_YOURLS_Admin {
 	 */
 	public function sanitize_module_input( $input ) {
 
-		$input['domain'] = isset( $input['domain'] ) ? sanitize_text_field( $input['domain'] ) : '';
-		$input['domain'] = str_replace( 'http://', '', $input['domain'] );
-		$input['domain'] = str_replace( ' ', '', $input['domain'] );
-		$input['domain'] = trim( $input['domain'], '/' );
-		$input['key']    = isset( $input['key'] ) ? sanitize_text_field( $input['key'] ) : '';
-		$input['https']  = isset( $input['https'] ) && 1 === absint( $input['https'] ) ? true : false;
+		$input['domain']        = isset( $input['domain'] ) ? sanitize_text_field( $input['domain'] ) : '';
+		$input['domain']        = str_replace( 'http://', '', $input['domain'] );
+		$input['domain']        = str_replace( ' ', '', $input['domain'] );
+		$input['domain']        = trim( $input['domain'], '/' );
+		$input['key']           = isset( $input['key'] ) ? sanitize_text_field( $input['key'] ) : '';
+		$input['https']         = isset( $input['https'] ) && 1 === absint( $input['https'] ) ? true : false;
 		$input['https_ignore']  = isset( $input['https_ignore'] ) && 1 === absint( $input['https_ignore'] ) ? true : false;
-		$input['multiple']  = isset( $input['multiple'] ) && 1 === absint( $input['multiple'] ) ? true : false;
+		$input['multiple']      = isset( $input['multiple'] ) && 1 === absint( $input['multiple'] ) ? true : false;
 
 		if ( isset( $input['post_types'] ) && is_array( $input['post_types'] ) ) {
 

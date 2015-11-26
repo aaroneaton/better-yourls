@@ -4,7 +4,7 @@ Donate link: https://www.chriswiegman.com
 Tags: yourls, shortlink, custom shortlink
 Requires at least: 4.2
 Tested up to: 4.4
-Stable tag: 2.0.1
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,6 +53,11 @@ Integrates your blog with the <a href="http://yourls.org" target="_blank">YOURLS
 
 == Changelog ==
 
+= 2.1.0 =
+* Enhancement: Allow for https access to YOURLS installation for API actions
+* Enhancement: Disable short-url creation for specific content types
+* Enhancement: Numerous additional hooks for more finer-grained control of URL creation
+
 = 2.0.1 =
 * Fix : Spaces should no longer be eliminated from titles
 * Enhancement: Allow filtering of post types (credit to domsammut)
@@ -84,6 +89,9 @@ Integrates your blog with the <a href="http://yourls.org" target="_blank">YOURLS
 * Initial Release
 
 == Upgrade Notice ==
+
+= 2.1 =
+* Version 2.1.0 contains new features to improve plugin use for everyone.
 
 = 2.0.1 =
 2.0.1 is a bugfix update that is recommended for all users.

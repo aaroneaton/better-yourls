@@ -108,7 +108,7 @@ class Better_YOURLS_Admin {
 		// Add Settings sections.
 		add_settings_section(
 			'better_yourls',
-			__( 'Configure Better YOURLS', 'better-yourls' ),
+			'',
 			'__return_empty_string',
 			'settings_page_better_yourls'
 		);

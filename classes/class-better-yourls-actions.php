@@ -167,8 +167,11 @@ class Better_YOURLS_Actions {
 	 */
 	public function action_save_post( $post_id ) {
 
+		$post_type = get_post_type( $post_id );
+
 		// Only save at normal times.
 		if (
+			( false === $post_type || ( isset( $this->settings['post_types'] ) && is_array( $this->settings['post_types'] ) ) && in_array( $post_type, $this->settings['post_types'] ) ) ||
 			( defined( 'DOING_AUTOSAVE' ) && true === DOING_AJAX ) ||
 			( defined( 'DOING_AJAX' ) && true === DOING_AUTOSAVE ) ||
 			( defined( 'DOING_CRON' ) && true === DOING_CRON )

@@ -10,6 +10,10 @@
  *
  * @author  Chris Wiegman <chris@chriswiegman.com>
  */
+
+/**
+ * Class Better_YOURLS_Admin
+ */
 class Better_YOURLS_Admin {
 
 	/**
@@ -518,7 +522,7 @@ class Better_YOURLS_Admin {
 			$excluded_post_types = $this->settings['post_types'];
 		}
 
-		foreach( $post_types as $post_type ) {
+		foreach ( $post_types as $post_type ) {
 
 			$checked = false;
 

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * YOURLS actions.
  *
@@ -10,6 +9,10 @@
  * @since   0.0.1
  *
  * @author  Chris Wiegman <chris@chriswiegman.com>
+ */
+
+/**
+ * Class Better_YOURLS_Actions
  */
 class Better_YOURLS_Actions {
 
@@ -33,10 +36,10 @@ class Better_YOURLS_Actions {
 	 */
 	public function __construct() {
 
-		//set default options
+		// Set default options.
 		$this->settings = get_option( 'better_yourls' );
 
-		//add filters and actions if we've set API info
+		// Add filters and actions if we've set API info.
 		if ( isset( $this->settings['domain'] ) && '' !== $this->settings['domain'] && isset( $this->settings['key'] ) && '' !== $this->settings['key'] ) {
 
 			add_action( 'add_meta_boxes', array( $this, 'action_add_meta_boxes' ) );
@@ -93,6 +96,9 @@ class Better_YOURLS_Actions {
 	 * Adds a "Better YOURLs" menu to the admin bar to access the shortlink and stats easily from the front end.
 	 *
 	 * @since 0.0.1
+	 *
+	 * @global $wp_admin_bar WP_Admin_Bar
+	 * @global $post         WP_Post
 	 *
 	 * @return void
 	 */
@@ -186,7 +192,7 @@ class Better_YOURLS_Actions {
 		 *
 		 * @since 2.0.0
 		 *
-		 * @param array Array of post statuses.
+		 * @param array $post_statuses Array of post statuses.
 		 */
 		$post_statuses = apply_filters( 'better_yourls_post_statuses', array( 'publish', 'future' ) );
 
@@ -271,7 +277,7 @@ class Better_YOURLS_Actions {
 	 *
 	 * @since 0.0.1
 	 *
-	 * @param  int   $post_id the current post id.
+	 * @param int    $post_id The current post id.
 	 * @param string $keyword optional keyword for shortlink.
 	 * @param string $title   optional title for shortlink.
 	 * @param string $hook    the hook that called this function.
@@ -408,15 +414,15 @@ class Better_YOURLS_Actions {
 	 */
 	public function filter_pre_get_shortlink( $short_link, $id ) {
 
-		$post      = get_post( $id );
-		$post_type = get_post_type( $id );
+		$current_post = get_post( $id );
+		$post_type    = get_post_type( $id );
 
-		if ( empty( $post ) || false === $post_type || ( isset( $this->settings['post_types'] ) && is_array( $this->settings['post_types'] ) ) && in_array( $post_type, $this->settings['post_types'] ) ) {
+		if ( empty( $current_post ) || false === $post_type || ( isset( $this->settings['post_types'] ) && is_array( $this->settings['post_types'] ) ) && in_array( $post_type, $this->settings['post_types'] ) ) {
 			return $short_link;
 		}
 
 		// If we've already created a shortlink return it or just return the default.
-		$link = get_post_meta( $post->ID, '_better_yourls_short_link', true );
+		$link = get_post_meta( $current_post->ID, '_better_yourls_short_link', true );
 
 		if ( '' === $link ) {
 			return $short_link;

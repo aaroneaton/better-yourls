@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Better YOURLS 2.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/better-yourls\n"
-"POT-Creation-Date: 2015-11-26 15:01:35+00:00\n"
+"POT-Creation-Date: 2015-11-28 21:54:20+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,27 +13,27 @@ msgstr ""
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "X-Generator: grunt-wp-i18n 0.5.3\n"
 
-#: classes/class-better-yourls-actions.php:82
+#: classes/class-better-yourls-actions.php:138
 msgid "YOURLs Keyword"
 msgstr ""
 
-#: classes/class-better-yourls-actions.php:131
+#: classes/class-better-yourls-actions.php:187
 msgid "YOURLS"
 msgstr ""
 
-#: classes/class-better-yourls-actions.php:140
+#: classes/class-better-yourls-actions.php:196
 msgid "YOURLS Link"
 msgstr ""
 
-#: classes/class-better-yourls-actions.php:148
+#: classes/class-better-yourls-actions.php:204
 msgid "Link Stats"
 msgstr ""
 
-#: classes/class-better-yourls-actions.php:265
+#: classes/class-better-yourls-actions.php:291
 msgid "Your YOURLS short link is: "
 msgstr ""
 
-#: classes/class-better-yourls-actions.php:507
+#: classes/class-better-yourls-actions.php:524
 msgid ""
 "If a short-url doesn't yet exist for this post you can enter a keyword "
 "above. If it already exists it will be displayed."

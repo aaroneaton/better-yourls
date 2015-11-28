@@ -54,6 +54,17 @@ class Better_YOURLS_Actions {
 		}
 	}
 
+	/**
+	 * Determine post validity
+	 *
+	 * Absctracts determining whether or not a short link should be created.
+	 *
+	 * @since 2.1
+	 *
+	 * @param int $post_id The post ID to check.
+	 *
+	 * @return bool True if valid post or false
+	 */
 	protected function _check_valid_post( $post_id ) {
 
 		$post_type = get_post_type( $post_id );

@@ -329,30 +329,28 @@ class Better_YOURLS_Actions {
 			$yourls_url = esc_url_raw( 'http' . $https . '://' . $this->settings['domain'] . '/yourls-api.php' );
 			$timestamp  = current_time( 'timestamp' );
 
-			$request_args = array(
-				'title'     => ( '' === trim( $title ) ) ? get_the_title( $post_id ) : sanitize_text_field( $title ),
-				'timestamp' => $timestamp,
-				'signature' => md5( $timestamp . $this->settings['key'] ),
-				'action'    => 'shorturl',
-				'url'       => get_permalink( $post_id ),
-				'format'    => 'JSON',
+			$args = array(
+					'body' => array(
+						'title'     => ( '' === trim( $title ) ) ? get_the_title( $post_id ) : $title,
+						'timestamp' => $timestamp,
+						'signature' => md5( $timestamp . $this->settings['key'] ),
+						'action'    => 'shorturl',
+						'url'       => get_permalink( $post_id ),
+						'format'    => 'JSON',
+					),
 			);
 
 			// Keyword and title aren't currently used but may be in the future.
 			if ( '' !== $keyword ) {
-				$request_args['keyword'] = sanitize_title( $keyword );
+				$args['keyword'] = sanitize_title( $keyword );
 			}
 
-			$request = add_query_arg( $request_args, $yourls_url );
-
 			// Allow the option to use a self-signed.
-			$args = array();
-
 			if ( isset( $this->settings['https_ignore'] ) && true === $this->settings['https_ignore'] ) {
 				$args['sslverify'] = false;
 			}
 
-			$response = wp_remote_get( $request, $args );
+			$response = wp_remote_post( $yourls_url, $args );
 
 			if ( is_wp_error( $response ) ) {
 				return false;

@@ -57,6 +57,7 @@ Integrates your blog with the <a href="http://yourls.org" target="_blank">YOURLS
 * Enhancement: Allow for https access to YOURLS installation for API actions
 * Enhancement: Disable short-url creation for specific content types
 * Enhancement: Numerous additional hooks for more finer-grained control of URL creation
+* Enhancement: Use POST instead of GET for URL creation
 * Fix: Better checking of posts before creating a link to avoid issues
 
 = 2.0.1 =

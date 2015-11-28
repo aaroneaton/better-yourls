@@ -54,6 +54,51 @@ class Better_YOURLS_Actions {
 		}
 	}
 
+	protected function _check_valid_post( $post_id ) {
+
+		$post_type = get_post_type( $post_id );
+
+		// Only save at normal times.
+		if (
+			( false === $post_type || ( isset( $this->settings['post_types'] ) && is_array( $this->settings['post_types'] ) ) && in_array( $post_type, $this->settings['post_types'] ) ) ||
+			( defined( 'DOING_AUTOSAVE' ) && true === DOING_AJAX ) ||
+			( defined( 'DOING_AJAX' ) && true === DOING_AUTOSAVE ) ||
+			( defined( 'DOING_CRON' ) && true === DOING_CRON )
+		) {
+			return false;
+		}
+
+		/**
+		 * Abort if there are specified posts types and the current post does not match the criteria
+		 */
+		$included_post_types = apply_filters( 'better_yourls_post_types', array() );
+		$excluded_post_types = ( isset( $this->settings['post_types'] ) && is_array( $this->settings['post_types'] ) ) ? $this->settings['post_types'] : array();
+		$post_type           = get_post_type( $post_id );
+
+		if ( ( ! empty( $included_post_types ) && ! in_array( $post_type, $included_post_types ) ) || in_array( $post_type, $excluded_post_types ) ) {
+			return false;
+		}
+
+		/**
+		 * Filter Better YOURLs post statuses
+		 *
+		 * The post statuses upon which a URL should be generated.
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param array $post_statuses Array of post statuses.
+		 */
+		$post_statuses = apply_filters( 'better_yourls_post_statuses', array( 'publish', 'future' ) );
+
+		// Make sure we're not generating this for drafts or other posts that don't need them.
+		if ( ! in_array( get_post_status( $post_id ), $post_statuses ) ) {
+			return false;
+		}
+
+		return true;
+
+	}
+
 	/**
 	 * Adds meta box
 	 *
@@ -167,40 +212,7 @@ class Better_YOURLS_Actions {
 	 */
 	public function action_save_post( $post_id ) {
 
-		$post_type = get_post_type( $post_id );
-
-		// Only save at normal times.
-		if (
-			( false === $post_type || ( isset( $this->settings['post_types'] ) && is_array( $this->settings['post_types'] ) ) && in_array( $post_type, $this->settings['post_types'] ) ) ||
-			( defined( 'DOING_AUTOSAVE' ) && true === DOING_AJAX ) ||
-			( defined( 'DOING_AJAX' ) && true === DOING_AUTOSAVE ) ||
-			( defined( 'DOING_CRON' ) && true === DOING_CRON )
-		) {
-			return;
-		}
-
-		$post_types = apply_filters( 'better_yourls_post_types', array() );
-
-		/**
-		 * Abort if there are specified posts types and the current post does not match the criteria
-		 */
-		if ( ! in_array( get_post_type( $post_id ), $post_types ) && ! empty( $post_types ) ) {
-			return;
-		}
-
-		/**
-		 * Filter Better YOURLs post statuses
-		 *
-		 * The post statuses upon which a URL should be generated.
-		 *
-		 * @since 2.0.0
-		 *
-		 * @param array $post_statuses Array of post statuses.
-		 */
-		$post_statuses = apply_filters( 'better_yourls_post_statuses', array( 'publish', 'future' ) );
-
-		// Make sure we're not generating this for drafts or other posts that don't need them.
-		if ( ! in_array( get_post_status( $post_id ), $post_statuses ) ) {
+		if ( false === $this->_check_valid_post( $post_id ) ) {
 			return;
 		}
 
@@ -387,10 +399,8 @@ class Better_YOURLS_Actions {
 	 */
 	public function filter_get_shortlink( $short_link, $id ) {
 
-		$post_type = get_post_type( $id );
-
-		if ( false === $post_type || ( isset( $this->settings['post_types'] ) && is_array( $this->settings['post_types'] ) ) && in_array( $post_type, $this->settings['post_types'] ) ) {
-			return false;
+		if ( false === $this->_check_valid_post( $id ) ) {
+			return $short_link;
 		}
 
 		$link = $this->create_yourls_url( $id, '', '', 'get_shortlink' );
@@ -417,12 +427,11 @@ class Better_YOURLS_Actions {
 	 */
 	public function filter_pre_get_shortlink( $short_link, $id ) {
 
-		$current_post = get_post( $id );
-		$post_type    = get_post_type( $id );
-
-		if ( empty( $current_post ) || false === $post_type || ( isset( $this->settings['post_types'] ) && is_array( $this->settings['post_types'] ) ) && in_array( $post_type, $this->settings['post_types'] ) ) {
+		if ( false === $this->_check_valid_post( $id ) ) {
 			return $short_link;
 		}
+
+		$current_post = get_post( $id );
 
 		// If we've already created a shortlink return it or just return the default.
 		$link = get_post_meta( $current_post->ID, '_better_yourls_short_link', true );
@@ -449,18 +458,14 @@ class Better_YOURLS_Actions {
 	 */
 	public function filter_sharing_permalink( $link, $post_id ) {
 
-		$post_type = get_post_type( $post_id );
-
-		if ( false === $post_type || ( isset( $this->settings['post_types'] ) && is_array( $this->settings['post_types'] ) ) && in_array( $post_type, $this->settings['post_types'] ) ) {
+		if ( false === $this->_check_valid_post( $post_id ) ) {
 			return $link;
 		}
 
 		$yourls_shortlink = $this->create_yourls_url( $post_id, '', '', 'sharing_permalink' );
 
 		if ( false !== $yourls_shortlink && '' !== $yourls_shortlink ) {
-
 			return $yourls_shortlink;
-
 		}
 
 		return $link;

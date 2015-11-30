@@ -329,15 +329,17 @@ class Better_YOURLS_Actions {
 			$yourls_url = esc_url_raw( 'http' . $https . '://' . $this->settings['domain'] . '/yourls-api.php' );
 			$timestamp  = current_time( 'timestamp' );
 
+			list( $permalink, $post_name ) = get_sample_permalink( $post_id );
+
 			$args = array(
-					'body' => array(
-						'title'     => ( '' === trim( $title ) ) ? get_the_title( $post_id ) : $title,
-						'timestamp' => $timestamp,
-						'signature' => md5( $timestamp . $this->settings['key'] ),
-						'action'    => 'shorturl',
-						'url'       => get_permalink( $post_id ),
-						'format'    => 'JSON',
-					),
+				'body' => array(
+					'title'     => ( '' === trim( $title ) ) ? get_the_title( $post_id ) : $title,
+					'timestamp' => $timestamp,
+					'signature' => md5( $timestamp . $this->settings['key'] ),
+					'action'    => 'shorturl',
+					'url'       => str_replace( array( '%pagename%', '%postname%' ), $post_name, $permalink ),
+					'format'    => 'JSON',
+				),
 			);
 
 			// Keyword and title aren't currently used but may be in the future.

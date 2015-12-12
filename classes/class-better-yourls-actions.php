@@ -46,6 +46,7 @@ class Better_YOURLS_Actions {
 			add_action( 'admin_bar_menu', array( $this, 'action_admin_bar_menu' ), 100 );
 			add_action( 'save_post', array( $this, 'action_save_post' ), 11 );
 			add_action( 'wp_enqueue_scripts', array( $this, 'action_wp_enqueue_scripts' ) );
+			add_action( 'transition_post_status', array( $this, 'action_transition_post_status' ), 10, 3 );
 
 			add_filter( 'get_shortlink', array( $this, 'filter_get_shortlink' ), 10, 3 );
 			add_filter( 'pre_get_shortlink', array( $this, 'filter_pre_get_shortlink' ), 11, 2 );
@@ -107,6 +108,52 @@ class Better_YOURLS_Actions {
 		}
 
 		return true;
+
+	}
+
+	/**
+	 * Generates the shortlink on save and transition.
+	 *
+	 * A common handler to use to generate a shortlink on save or transition.
+	 *
+	 * @since 2.1.1
+	 *
+	 * @param int $post_id The ID of the post that needs a shortlink.
+	 *
+	 * @return void
+	 */
+	protected function _generate_post_on_save( $post_id ) {
+
+		$keyword = '';
+
+		// Store custom keyword (if set).
+		if ( isset( $_POST['better-yourls-keyword'] ) ) {
+			$keyword = sanitize_title( trim( $_POST['better-yourls-keyword'] ) );
+		}
+
+		/**
+		 * Filter the keyword prior to submitting to YOURLS API.
+		 * Post ID supplied to provide context to the filtered keyword
+		 *
+		 * @since 2.0.2
+		 *
+		 * @param string $keyword
+		 * @param string $post_id
+		 */
+		$keyword = apply_filters( 'better_yourls_keyword', $keyword, $post_id );
+
+		// Get the short URL. Note this will use the meta if it was already saved.
+		$link = $this->create_yourls_url( $post_id, $keyword, '', 'save_post' );
+
+		// Keyword would be a duplicate so use a standard one.
+		if ( '' !== $keyword && ! $link ) {
+			$link = $this->create_yourls_url( $post_id, '', '', 'save_post' );
+		}
+
+		// Save the short URL only if it was generated correctly.
+		if ( $link ) {
+			update_post_meta( $post_id, '_better_yourls_short_link', $link );
+		}
 
 	}
 
@@ -227,36 +274,29 @@ class Better_YOURLS_Actions {
 			return;
 		}
 
-		$keyword = '';
+		$this->_generate_post_on_save( $post_id );
 
-		// Store custom keyword (if set).
-		if ( isset( $_POST['better-yourls-keyword'] ) ) {
-			$keyword = sanitize_title( trim( $_POST['better-yourls-keyword'] ) );
+	}
+
+	/**
+	 * Create YOURLs link when we save a post
+	 *
+	 * @since 1.0.3
+	 *
+	 * @param string  $new_status New post status.
+	 * @param string  $old_status Old post status.
+	 * @param WP_Post $post       Post object.
+	 *
+	 * @return void
+	 */
+	public function action_transition_post_status( $new_status, $old_status, $post ) {
+
+		if ( false === $this->_check_valid_post( $post->ID ) || 'publish' !== $new_status ) {
+			return;
 		}
 
-		/**
-		 * Filter the keyword prior to submitting to YOURLS API.
-		 * Post ID supplied to provide context to the filtered keyword
-		 *
-		 * @since 2.0.2
-		 *
-		 * @param string $keyword
-		 * @param string $post_id
-		 */
-		$keyword = apply_filters( 'better_yourls_keyword', $keyword, $post_id );
+		$this->_generate_post_on_save( $post->ID );
 
-		// Get the short URL. Note this will use the meta if it was already saved.
-		$link = $this->create_yourls_url( $post_id, $keyword, '', 'save_post' );
-
-		// Keyword would be a duplicate so use a standard one.
-		if ( '' !== $keyword && ! $link ) {
-			$link = $this->create_yourls_url( $post_id, '', '', 'save_post' );
-		}
-
-		// Save the short URL only if it was generated correctly.
-		if ( $link ) {
-			update_post_meta( $post_id, '_better_yourls_short_link', $link );
-		}
 	}
 
 	/**
@@ -330,14 +370,14 @@ class Better_YOURLS_Actions {
 			$timestamp  = current_time( 'timestamp' );
 
 			$args = array(
-					'body' => array(
-						'title'     => ( '' === trim( $title ) ) ? get_the_title( $post_id ) : $title,
-						'timestamp' => $timestamp,
-						'signature' => md5( $timestamp . $this->settings['key'] ),
-						'action'    => 'shorturl',
-						'url'       => get_permalink( $post_id ),
-						'format'    => 'JSON',
-					),
+				'body' => array(
+					'title'     => ( '' === trim( $title ) ) ? get_the_title( $post_id ) : $title,
+					'timestamp' => $timestamp,
+					'signature' => md5( $timestamp . $this->settings['key'] ),
+					'action'    => 'shorturl',
+					'url'       => get_permalink( $post_id ),
+					'format'    => 'JSON',
+				),
 			);
 
 			// Keyword and title aren't currently used but may be in the future.

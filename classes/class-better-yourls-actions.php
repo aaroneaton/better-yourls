@@ -46,7 +46,7 @@ class Better_YOURLS_Actions {
 			add_action( 'admin_bar_menu', array( $this, 'action_admin_bar_menu' ), 100 );
 			add_action( 'save_post', array( $this, 'action_save_post' ), 11 );
 			add_action( 'wp_enqueue_scripts', array( $this, 'action_wp_enqueue_scripts' ) );
-			add_action( 'transition_post_status', array( $this, 'action_transition_post_status' ), 10, 3 );
+			add_action( 'transition_post_status', array( $this, 'action_transition_post_status' ), 9, 3 );
 
 			add_filter( 'get_shortlink', array( $this, 'filter_get_shortlink' ), 10, 3 );
 			add_filter( 'pre_get_shortlink', array( $this, 'filter_pre_get_shortlink' ), 11, 2 );

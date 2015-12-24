@@ -77,7 +77,7 @@ class BetterYourlsTestSingleSite extends WP_UnitTestCase {
 	 */
 	public function tearDown() {
 
-		parent::setUp();
+		parent::tearDown();
 
 	}
 

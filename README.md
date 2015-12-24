@@ -1,4 +1,4 @@
-Better YOURLS
+Better YOURLS [![Build Status](https://travis-ci.org/ChrisWiegman/Better-YOURLS.svg?branch=develop)](https://travis-ci.org/ChrisWiegman/Better-YOURLS)
 =============
 
 Integrate your blog with [YOURLS](http://yourls.org) custom URL generator.

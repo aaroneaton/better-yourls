@@ -48,7 +48,7 @@ class BetterYourlsTestSingleSite extends PHPUnit_Framework_TestCase {
 	 *
 	 * Sets up the necessary data for the test. Fails if ElasicPress isn't available.@deprecated
 	 *
-	 * @since 0.1.0
+	 * @since 2.1.2`
 	 *
 	 * @return void
 	 */
@@ -63,13 +63,28 @@ class BetterYourlsTestSingleSite extends PHPUnit_Framework_TestCase {
 	 *
 	 * Clean up after each test. Reset our mocks
 	 *
-	 * @since 0.1.0
+	 * @since 2.1.2
 	 *
 	 * @return void
 	 */
 	public function tearDown() {
 
 		\WP_Mock::tearDown();
+
+	}
+
+	/**
+	 * Test that suite is working
+	 *
+	 * A simple test to verify WP Mock is working.
+	 *
+	 * @since 2.1.2
+	 *
+	 * @return void
+	 */
+	public function testSuiteWorking() {
+
+		$this->assertEquals( 1, 1 );
 
 	}
 }

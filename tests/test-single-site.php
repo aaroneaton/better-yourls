@@ -11,25 +11,37 @@
  *
  * @author  Chris Wiegman <chris@chriswiegman.com>
  */
-class BetterYourlsTestSingleSite extends WP_UnitTestCase {
+class BetterYourlsTestSingleSite extends PHPUnit_Framework_TestCase {
 
 	/**
 	 * The admin ID created during setup.
 	 *
-	 * @since 0.1.0
+	 * @since 2.1.2
 	 *
 	 * @var int
 	 */
-	protected $admin_id;
+	protected $actions;
 
 	/**
 	 * The file system path to the plugin.
 	 *
-	 * @since 0.2.0
+	 * @since 2.1.2
 	 *
 	 * @var string
 	 */
-	protected $plugin_path;
+	protected $admin;
+
+	/**
+	 * BetterYourlsTestSingleSite constructor.
+	 *
+	 * @since 2.1.2
+	 */
+	public function __construct() {
+
+		$this->actions = new Better_YOURLS_Actions();
+		$this->admin = new Better_YOURLS_Admin();
+
+	}
 
 	/**
 	 * Setup test
@@ -42,13 +54,7 @@ class BetterYourlsTestSingleSite extends WP_UnitTestCase {
 	 */
 	function setUp() {
 
-		parent::setUp();
-
-		$this->admin_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
-
-		$this->plugin_path = dirname( dirname( __FILE__ ) );
-
-		wp_set_current_user( $this->admin_id );
+		\WP_Mock::setUp();
 
 	}
 
@@ -63,9 +69,7 @@ class BetterYourlsTestSingleSite extends WP_UnitTestCase {
 	 */
 	public function tearDown() {
 
-		parent::tearDown();
-
-		$this->fired_actions = array();
+		\WP_Mock::tearDown();
 
 	}
 }

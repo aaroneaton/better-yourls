@@ -11,7 +11,7 @@
  *
  * @author  Chris Wiegman <chris@chriswiegman.com>
  */
-class BetterYourlsTestSingleSite extends PHPUnit_Framework_TestCase {
+class BetterYourlsTestSingleSite extends WP_UnitTestCase {
 
 	/**
 	 * The admin ID created during setup.
@@ -38,6 +38,14 @@ class BetterYourlsTestSingleSite extends PHPUnit_Framework_TestCase {
 	 */
 	public function __construct() {
 
+		if ( ! class_exists( 'Better_YOURLS_Actions' ) ) {
+			require( dirname( dirname( __FILE__ ) ) . '/classes/class-better-yourls-actions.php' );
+		}
+
+		if ( ! class_exists( 'Better_YOURLS_Admin' ) ) {
+			require( dirname( dirname( __FILE__ ) ) . '/classes/class-better-yourls-admin.php' );
+		}
+
 		$this->actions = new Better_YOURLS_Actions();
 		$this->admin = new Better_YOURLS_Admin();
 
@@ -54,7 +62,7 @@ class BetterYourlsTestSingleSite extends PHPUnit_Framework_TestCase {
 	 */
 	function setUp() {
 
-		\WP_Mock::setUp();
+		parent::setUp();
 
 	}
 
@@ -69,7 +77,7 @@ class BetterYourlsTestSingleSite extends PHPUnit_Framework_TestCase {
 	 */
 	public function tearDown() {
 
-		\WP_Mock::tearDown();
+		parent::setUp();
 
 	}
 

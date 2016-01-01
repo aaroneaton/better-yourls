@@ -109,9 +109,10 @@ module.exports = function ( grunt ) {
 
 				options : {
 
-					bin :       'vendor/bin/phpunit',
-					bootstrap : 'tests/php/phpunit.php',
-					colors :    true
+					bin :        './vendor/bin/phpunit',
+					testSuffix : 'Tests.php',
+					bootstrap :  'bootstrap.php',
+					colors :     true
 
 				}
 			},

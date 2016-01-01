@@ -1,4 +1,4 @@
-# Better YOURLS # [![Build Status](https://travis-ci.org/ChrisWiegman/Better-YOURLS.svg)](https://travis-ci.org/ChrisWiegman/Better-YOURLS)
+# Better YOURLS [![Build Status](https://travis-ci.org/ChrisWiegman/Better-YOURLS.svg)](https://travis-ci.org/ChrisWiegman/Better-YOURLS) #
 **Contributors:** ChrisWiegman, michaelbeil, domsammut  
 **Donate link:** https://www.chriswiegman.com  
 **Tags:** yourls, shortlink, custom shortlink  

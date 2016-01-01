@@ -117,14 +117,6 @@ module.exports = function ( grunt ) {
 				}
 			},
 
-			wp_readme_to_markdown: {
-				your_target: {
-					files: {
-						'readme.md': 'readme.txt'
-					}
-				}
-			},
-
 			/**
 			 * Watch scripts and styles for changes
 			 */
@@ -158,6 +150,6 @@ module.exports = function ( grunt ) {
 	);
 
 	// A very basic default task.
-	grunt.registerTask( 'default', ['phpunit', 'uglify:production', 'sass', 'autoprefixer', 'cssmin', 'makepot', 'wp_readme_to_markdown'] );
+	grunt.registerTask( 'default', ['phpunit', 'uglify:production', 'sass', 'autoprefixer', 'cssmin', 'makepot'] );
 
 };

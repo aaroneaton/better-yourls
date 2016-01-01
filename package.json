@@ -13,7 +13,8 @@
 		"load-grunt-tasks":            "*",
 		"grunt-autoprefixer":          "*",
 		"grunt-wp-i18n":               "*",
-		"grunt-phpunit":               "*"
+		"grunt-phpunit":               "*",
+		"grunt-wp-readme-to-markdown": "*"
 	},
 	"author":          "Chris Wiegman",
 	"repository":      {

@@ -1,0 +1,25 @@
+{
+	"name": "better-yourls",
+	"description": "Generate YOURLs short URLs with WordPress.",
+	"version": "1.0.0",
+	"type": "wordpress-plugin",
+	"keywords": [],
+	"homepage": "https://wordpress.org/plugins/better-yourls/",
+	"license": "GPLv2.0+",
+	"authors": [
+		{
+			"name": "Chris Wiegman",
+			"email": "chris@chriswiegman.com",
+			"homepage": "https://www.chriswiegman.com/",
+			"role": "Developer"
+		}
+	],
+	"minimum-stability": "dev",
+	"require": {
+		"php": ">=5.2"
+	},
+	"require-dev": {
+		"phpunit/phpunit"     : "*@stable",
+		"10up/wp_mock"        : "dev-master"
+	}
+}

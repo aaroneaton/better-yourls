@@ -27,7 +27,7 @@ function better_yourls_loader() {
 
 	// Load front end items.
 	if ( ! class_exists( 'Better_YOURLS_Actions' ) ) {
-		require( dirname( __FILE__ ) . '/classes/class-better-yourls-actions.php' );
+		require( dirname( __FILE__ ) . '/includes/class-better-yourls-actions.php' );
 	}
 
 	new Better_Yourls_Actions();
@@ -36,7 +36,7 @@ function better_yourls_loader() {
 	if ( is_admin() ) {
 
 		if ( ! class_exists( 'Better_YOURLS_Admin' ) ) {
-			require( dirname( __FILE__ ) . '/classes/class-better-yourls-admin.php' );
+			require( dirname( __FILE__ ) . '/includes/class-better-yourls-admin.php' );
 		}
 
 		new Better_Yourls_Admin();

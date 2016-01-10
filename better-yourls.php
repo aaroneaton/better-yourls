@@ -1,15 +1,15 @@
 <?php
 /**
-Plugin Name: Better YOURLS
-Plugin URI: https://wordpress.org/plugins/better-yourls/
-Description: Replace WordPress shortlinks with custom YOURLS domain.
-Version: 2.1.1
-Text Domain: better-yourls
-Domain Path: /lang
-Author: Chris Wiegman
-Author URI: https://www.chriswiegman.com/
-License: GPLv2
-Copyright 2015 Chris Wiegman  (email: info@chriswiegman.com)
+ * Plugin Name: Better YOURLS
+ * Plugin URI: https://wordpress.org/plugins/better-yourls/
+ * Description: Replace WordPress shortlinks with custom YOURLS domain.
+ * Version: 2.1.1
+ * Text Domain: better-yourls
+ * Domain Path: /lang
+ * Author: Chris Wiegman
+ * Author URI: https://www.chriswiegman.com/
+ * License: GPLv2
+ * Copyright 2016 Chris Wiegman  (email: info@chriswiegman.com)
  */
 
 define( 'BYOURLS_VERSION', '2.1.1' );

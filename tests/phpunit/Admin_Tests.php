@@ -135,4 +135,28 @@ class Admin_Tests extends Base\TestCase {
 		$this->assertConditionsMet();
 
 	}
+
+	/**
+	 * Test action_admin_menu function.
+	 */
+	public function test_action_admin_menu() {
+
+		// Setup.
+		$admin = new \Better_YOURLS_Admin();
+
+		\WP_Mock::wpPassthruFunction( '__' );
+
+		\WP_Mock::wpFunction( 'add_options_page', array(
+			'times' => 1,
+		) );
+
+		\WP_Mock::expectActionAdded( 'load-' , array( $admin, 'page_actions' ) );
+
+		// Act.
+		$admin->action_admin_menu();
+
+		// Verify.
+		$this->assertConditionsMet();
+
+	}
 }

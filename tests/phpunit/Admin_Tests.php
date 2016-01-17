@@ -64,7 +64,7 @@ class Admin_Tests extends Base\TestCase {
 	public function test_action_admin_enqueue_scripts() {
 
 		// Setup.
-		$screen = new \stdClass;
+		$screen     = new \stdClass;
 		$screen->id = 'settings_page_better_yourls';
 		define( 'BYOURLS_URL', 'http://wordpress.org' );
 		define( 'BYOURLS_VERSION', '2.0' );
@@ -83,12 +83,12 @@ class Admin_Tests extends Base\TestCase {
 		) );
 
 		\WP_Mock::wpFunction( 'wp_enqueue_script', array(
-			'args' => 'better_yourls_footer',
+			'args'  => 'better_yourls_footer',
 			'times' => 1,
 		) );
 
 		\WP_Mock::wpFunction( 'wp_enqueue_style', array(
-			'args' => 'better_yourls_admin',
+			'args'  => 'better_yourls_admin',
 			'times' => 1,
 		) );
 
@@ -96,6 +96,40 @@ class Admin_Tests extends Base\TestCase {
 
 		// Act.
 		$admin->action_admin_enqueue_scripts();
+
+		// Verify.
+		$this->assertConditionsMet();
+
+	}
+
+	/**
+	 * Test admin_init functionality
+	 */
+	public function test_action_admin_init() {
+
+		// Setup.
+		\WP_Mock::wpPassthruFunction( '__' );
+
+		\WP_Mock::wpFunction( 'add_meta_box', array(
+			'times' => 3,
+		) );
+
+		\WP_Mock::wpFunction( 'add_settings_section', array(
+			'times' => 1,
+		) );
+
+		\WP_Mock::wpFunction( 'add_settings_field', array(
+			'times' => 5,
+		) );
+
+		\WP_Mock::wpFunction( 'register_setting', array(
+			'times' => 1,
+		) );
+
+		$admin = new \Better_YOURLS_Admin();
+
+		// Act.
+		$admin->action_admin_init();
 
 		// Verify.
 		$this->assertConditionsMet();

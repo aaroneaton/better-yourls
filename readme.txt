@@ -4,7 +4,7 @@ Donate link: https://www.chriswiegman.com
 Tags: yourls, shortlink, custom shortlink
 Requires at least: 4.2
 Tested up to: 4.5
-Stable tag: 2.1.2
+Stable tag: 2.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,6 +53,9 @@ Integrates your blog with the <a href="http://yourls.org" target="_blank">YOURLS
 
 == Changelog ==
 
+= 2.1.3 =
+* 2.1.3 Cleans out extra files in the packaged plugin that my deployment script didn't catch.
+
 = 2.1.2 =
 * Fix: No longer will generate shortlinks for admin menu items
 * Behind the scenes: Finally started adding proper Unit Tests to improve reliability. Coverage is up to about 25%
@@ -98,6 +101,9 @@ Integrates your blog with the <a href="http://yourls.org" target="_blank">YOURLS
 * Initial Release
 
 == Upgrade Notice ==
+
+= 2.1.3 =
+* Version 2.1.3 is a bugfix update that is recommended for all users.
 
 = 2.1.2 =
 * Version 2.1.2 is a bugfix update that is recommended for all users.

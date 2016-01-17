@@ -25,8 +25,6 @@ class Admin_Tests extends Base\TestCase {
 	/**
 	 * Array of files needed for these tests
 	 *
-	 * @since 1.0.0
-	 *
 	 * @var array
 	 */
 	protected $testFiles = array(
@@ -54,6 +52,50 @@ class Admin_Tests extends Base\TestCase {
 
 		// Act.
 		$admin->__construct();
+
+		// Verify.
+		$this->assertConditionsMet();
+
+	}
+
+	/**
+	 * Test function for enqueing admin scripts
+	 */
+	public function test_action_admin_enqueue_scripts() {
+
+		// Setup.
+		$screen = new \stdClass;
+		$screen->id = 'settings_page_better_yourls';
+		define( 'BYOURLS_URL', 'http://wordpress.org' );
+		define( 'BYOURLS_VERSION', '2.0' );
+
+		\WP_Mock::wpFunction( 'get_current_screen', array(
+			'times'  => 1,
+			'return' => $screen,
+		) );
+
+		\WP_Mock::wpFunction( 'wp_register_script', array(
+			'times' => 1,
+		) );
+
+		\WP_Mock::wpFunction( 'wp_register_style', array(
+			'times' => 1,
+		) );
+
+		\WP_Mock::wpFunction( 'wp_enqueue_script', array(
+			'args' => 'better_yourls_footer',
+			'times' => 1,
+		) );
+
+		\WP_Mock::wpFunction( 'wp_enqueue_style', array(
+			'args' => 'better_yourls_admin',
+			'times' => 1,
+		) );
+
+		$admin = new \Better_YOURLS_Admin();
+
+		// Act.
+		$admin->action_admin_enqueue_scripts();
 
 		// Verify.
 		$this->assertConditionsMet();

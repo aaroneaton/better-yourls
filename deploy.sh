@@ -30,7 +30,7 @@ echo
 # Check version in readme.txt is the same as plugin file
 NEWVERSION1=`grep "^Stable tag" "$GITPATH/readme.txt" | awk -F' ' '{print $3}' | sed 's/[[:space:]]//g'`
 echo "readme version: $NEWVERSION1"
-NEWVERSION2=`grep "^Version" "$GITPATH/$MAINFILE" | awk -F' ' '{print $2}' | sed 's/[[:space:]]//g'`
+NEWVERSION2=`grep "^ \* Version" "$GITPATH/$MAINFILE" | awk -F' ' '{print $3}' | sed 's/[[:space:]]//g'`
 echo "$MAINFILE version: $NEWVERSION2"
 
 if [ "$NEWVERSION1" != "$NEWVERSION2" ]; then echo "Versions don't match. Exiting...."; exit 1; fi
@@ -60,7 +60,15 @@ echo "Ignoring github specific files and deployment script"
 svn propset svn:ignore "deploy.sh
 README.md
 .git
-.gitignore" "$SVNPATH/trunk/"
+.gitignore
+composer.json
+composer.lock
+Gruntfile.js
+package.json
+phpunit.xml
+.travis.yml
+bootstrap.php
+tests" "$SVNPATH/trunk/"
 
 echo "Changing directory to SVN and committing to trunk"
 cd $SVNPATH/trunk/

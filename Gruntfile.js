@@ -7,16 +7,16 @@ module.exports = function ( grunt ) {
 		{
 
 			/**
-			 * Processes and comporesses JavaScript.
+			 * Processes and compresses JavaScript.
 			 */
 			uglify : {
 
 				production : {
 
 					options : {
-						beautify :         false,
+						beautify         : false,
 						preserveComments : false,
-						mangle :           {
+						mangle           : {
 							except : ['jQuery']
 						}
 					},
@@ -25,7 +25,7 @@ module.exports = function ( grunt ) {
 						'assets/js/better-yourls.min.js' : [
 							'assets/js/better-yourls.js'
 						],
-						'assets/js/admin-footer.min.js' :  [
+						'assets/js/admin-footer.min.js'  : [
 							'assets/js/admin-footer.js'
 						]
 					}
@@ -39,14 +39,14 @@ module.exports = function ( grunt ) {
 
 				options : {
 					browsers : ['last 5 versions'],
-					map :      true
+					map      : true
 				},
 
 				files : {
-					expand :  true,
+					expand  : true,
 					flatten : true,
-					src :     ['assets/css/better-yourls.css'],
-					dest :    'assets/css'
+					src     : ['assets/css/better-yourls.css'],
+					dest    : 'assets/css'
 				}
 			},
 
@@ -59,10 +59,10 @@ module.exports = function ( grunt ) {
 
 					files : [{
 						expand : true,
-						cwd :    'assets/css',
-						src :    ['better-yourls.css'],
-						dest :   'assets/css',
-						ext :    '.min.css'
+						cwd    : 'assets/css',
+						src    : ['better-yourls.css'],
+						dest   : 'assets/css',
+						ext    : '.min.css'
 					}]
 
 				}
@@ -76,9 +76,9 @@ module.exports = function ( grunt ) {
 				dist : {
 
 					options : {
-						style :     'expanded',
+						style     : 'expanded',
 						sourceMap : true,
-						noCache :   true
+						noCache   : true
 					},
 
 					files : {
@@ -94,9 +94,9 @@ module.exports = function ( grunt ) {
 
 				target : {
 					options : {
-						type :       'wp-plugin',
+						type       : 'wp-plugin',
 						domainPath : '/lang',
-						mainFile :   'better-yourls.php'
+						mainFile   : 'better-yourls.php'
 					}
 				}
 			},
@@ -109,11 +109,34 @@ module.exports = function ( grunt ) {
 
 				options : {
 
-					bin :        './vendor/bin/phpunit',
+					bin        : './vendor/bin/phpunit',
 					testSuffix : 'Tests.php',
-					bootstrap :  'bootstrap.php',
-					colors :     true
+					bootstrap  : 'bootstrap.php',
+					colors     : true
 
+				}
+			},
+
+			/**
+			 * Clean up the JavaScript
+			 */
+			jshint : {
+				options : {
+					jshintrc : true
+				},
+				all     : ['assets/js/admin-footer.js', 'assets/js/better-yourls.js']
+			},
+
+			/**
+			 * A better browser reloader
+			 */
+			browserSync : {
+				bsFiles : {
+					src : 'assets/**/*.*'
+				},
+				options : {
+					proxy     : 'betteryourls.pv',
+					watchTask : true
 				}
 			},
 
@@ -123,13 +146,14 @@ module.exports = function ( grunt ) {
 			watch : {
 
 				options : {
-					livereload : true
+					livereload : false
 				},
 
 				scripts : {
 
 					files : [
-						'assets/js/**/*'
+						'assets/js/admin-footer.js',
+						'assets/js/better-yourls.js'
 					],
 
 					tasks : ['uglify:production']
@@ -150,6 +174,7 @@ module.exports = function ( grunt ) {
 	);
 
 	// A very basic default task.
-	grunt.registerTask( 'default', ['phpunit', 'uglify:production', 'sass', 'autoprefixer', 'cssmin', 'makepot'] );
+	grunt.registerTask( 'default', ['phpunit', 'jshint', 'uglify:production', 'sass', 'autoprefixer', 'cssmin', 'makepot'] );
+	grunt.registerTask( 'dev', ['default', 'browserSync', 'watch'] );
 
 };

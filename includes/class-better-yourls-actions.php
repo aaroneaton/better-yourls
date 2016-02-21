@@ -315,11 +315,11 @@ class Better_YOURLS_Actions {
 
 			if ( defined( 'WP_DEBUG' ) && true === WP_DEBUG ) {
 
-				wp_register_script( 'better_yourls', BYOURLS_URL . '/assets/js/better-yourls.js', array( 'jquery' ), BYOURLS_VERSION );
+				wp_register_script( 'better_yourls', BYOURLS_URL . 'assets/js/better-yourls.js', array( 'jquery' ), BYOURLS_VERSION );
 
 			} else {
 
-				wp_register_script( 'better_yourls', BYOURLS_URL . '/assets/js/better-yourls.min.js', array( 'jquery' ), BYOURLS_VERSION );
+				wp_register_script( 'better_yourls', BYOURLS_URL . 'assets/js/better-yourls.min.js', array( 'jquery' ), BYOURLS_VERSION );
 
 			}
 

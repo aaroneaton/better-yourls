@@ -57,13 +57,13 @@ class Better_YOURLS_Admin {
 
 			if ( defined( 'WP_DEBUG' ) && true === WP_DEBUG ) {
 
-				wp_register_script( 'better_yourls_footer', BYOURLS_URL . '/js/admin-footer.js', array( 'jquery' ), BYOURLS_VERSION, true );
-				wp_register_style( 'better_yourls_admin', BYOURLS_URL .  '/css/better-yourls.css', array(), BYOURLS_VERSION ); // Add multi-select css.
+				wp_register_script( 'better_yourls_footer', BYOURLS_URL . 'assets/js/admin-footer.js', array( 'jquery' ), BYOURLS_VERSION, true );
+				wp_register_style( 'better_yourls_admin', BYOURLS_URL .  'assets/css/better-yourls.css', array(), BYOURLS_VERSION ); // Add multi-select css.
 
 			} else {
 
-				wp_register_script( 'better_yourls_footer', BYOURLS_URL . '/js/admin-footer.min.js', array( 'jquery' ), BYOURLS_VERSION, true );
-				wp_register_style( 'better_yourls_admin', BYOURLS_URL .  '/css/better-yourls.min.css', array(), BYOURLS_VERSION ); // Add multi-select css.
+				wp_register_script( 'better_yourls_footer', BYOURLS_URL . 'assets/js/admin-footer.min.js', array( 'jquery' ), BYOURLS_VERSION, true );
+				wp_register_style( 'better_yourls_admin', BYOURLS_URL .  'assets/css/better-yourls.min.css', array(), BYOURLS_VERSION ); // Add multi-select css.
 
 			}
 

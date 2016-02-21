@@ -15,6 +15,7 @@
 		"grunt-wp-i18n":        "*",
 		"grunt-phpunit":        "*",
 		"grunt-contrib-jshint": "*",
+		"grunt-browser-sync":   "*"
 	},
 	"author":          "Chris Wiegman",
 	"repository":      {

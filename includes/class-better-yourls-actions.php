@@ -383,7 +383,7 @@ class Better_YOURLS_Actions {
 
 			// Keyword and title aren't currently used but may be in the future.
 			if ( '' !== $keyword ) {
-				$args['keyword'] = sanitize_title( $keyword );
+				$args['body']['keyword'] = sanitize_title( $keyword );
 			}
 
 			// Allow the option to use a self-signed.

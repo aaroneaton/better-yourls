@@ -1,11 +1,14 @@
 module.exports = function ( grunt ) {
 
 	// Start out by loading the grunt modules we'll need
-	require ( 'load-grunt-tasks' ) ( grunt );
+	require( 'load-grunt-tasks' )( grunt );
 
-	grunt.initConfig (
+	grunt.initConfig(
 		{
 
+			/**
+			 * Processes and compresses JavaScript.
+			 */
 			uglify : {
 
 				production : {
@@ -26,11 +29,12 @@ module.exports = function ( grunt ) {
 							'assets/js/admin-footer.js'
 						]
 					}
-
 				}
-
 			},
 
+			/**
+			 * Auto-prefix CSS Elements after SASS is processed.
+			 */
 			autoprefixer : {
 
 				options : {
@@ -44,9 +48,11 @@ module.exports = function ( grunt ) {
 					src     : ['assets/css/better-yourls.css'],
 					dest    : 'assets/css'
 				}
-
 			},
 
+			/**
+			 * Minify CSS after prefixes are added
+			 */
 			cssmin : {
 
 				target : {
@@ -60,9 +66,11 @@ module.exports = function ( grunt ) {
 					}]
 
 				}
-
 			},
 
+			/**
+			 * Process SASS
+			 */
 			sass : {
 
 				dist : {
@@ -76,11 +84,12 @@ module.exports = function ( grunt ) {
 					files : {
 						'assets/css/better-yourls.css' : 'assets/css/better-yourls.scss'
 					}
-
 				}
-
 			},
 
+			/**
+			 * Update translation file.
+			 */
 			makepot : {
 
 				target : {
@@ -90,19 +99,61 @@ module.exports = function ( grunt ) {
 						mainFile   : 'better-yourls.php'
 					}
 				}
-
 			},
 
+			phpunit : {
+
+				classes : {
+					dir : 'tests/'
+				},
+
+				options : {
+
+					bin        : './vendor/bin/phpunit',
+					testSuffix : 'Tests.php',
+					bootstrap  : 'bootstrap.php',
+					colors     : true
+
+				}
+			},
+
+			/**
+			 * Clean up the JavaScript
+			 */
+			jshint : {
+				options : {
+					jshintrc : true
+				},
+				all     : ['assets/js/admin-footer.js', 'assets/js/better-yourls.js']
+			},
+
+			/**
+			 * A better browser reloader
+			 */
+			browserSync : {
+				bsFiles : {
+					src : 'assets/**/*.*'
+				},
+				options : {
+					proxy     : 'betteryourls.pv',
+					watchTask : true
+				}
+			},
+
+			/**
+			 * Watch scripts and styles for changes
+			 */
 			watch : {
 
 				options : {
-					livereload : true
+					livereload : false
 				},
 
 				scripts : {
 
 					files : [
-						'assets/js/**/*'
+						'assets/js/admin-footer.js',
+						'assets/js/better-yourls.js'
 					],
 
 					tasks : ['uglify:production']
@@ -118,13 +169,12 @@ module.exports = function ( grunt ) {
 					tasks : ['sass', 'autoprefixer', 'cssmin']
 
 				}
-
 			}
-
 		}
 	);
 
 	// A very basic default task.
-	grunt.registerTask ( 'default', ['uglify:production', 'sass', 'autoprefixer', 'cssmin', 'makepot'] );
+	grunt.registerTask( 'default', ['phpunit', 'jshint', 'uglify:production', 'sass', 'autoprefixer', 'cssmin', 'makepot'] );
+	grunt.registerTask( 'dev', ['default', 'browserSync', 'watch'] );
 
 };

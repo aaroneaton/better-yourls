@@ -3,8 +3,8 @@ Contributors: ChrisWiegman, michaelbeil, domsammut
 Donate link: https://www.chriswiegman.com
 Tags: yourls, shortlink, custom shortlink
 Requires at least: 4.2
-Tested up to: 4.4
-Stable tag: 2.0.1
+Tested up to: 4.5
+Stable tag: 2.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -53,6 +53,23 @@ Integrates your blog with the <a href="http://yourls.org" target="_blank">YOURLS
 
 == Changelog ==
 
+= 2.1.3 =
+* 2.1.3 Cleans out extra files in the packaged plugin that my deployment script didn't catch.
+
+= 2.1.2 =
+* Fix: No longer will generate shortlinks for admin menu items
+* Behind the scenes: Finally started adding proper Unit Tests to improve reliability. Coverage is up to about 25%
+
+= 2.1.1 =
+* Fix: ShortURL generation will now work better with many social sharing plugins such as Jetpack
+
+= 2.1.0 =
+* Enhancement: Allow for https access to YOURLS installation for API actions
+* Enhancement: Disable short-url creation for specific content types
+* Enhancement: Numerous additional hooks for more finer-grained control of URL creation
+* Enhancement: Use POST instead of GET for URL creation
+* Fix: Better checking of posts before creating a link to avoid issues
+
 = 2.0.1 =
 * Fix : Spaces should no longer be eliminated from titles
 * Enhancement: Allow filtering of post types (credit to domsammut)
@@ -84,6 +101,18 @@ Integrates your blog with the <a href="http://yourls.org" target="_blank">YOURLS
 * Initial Release
 
 == Upgrade Notice ==
+
+= 2.1.3 =
+* Version 2.1.3 is a bugfix update that is recommended for all users.
+
+= 2.1.2 =
+* Version 2.1.2 is a bugfix update that is recommended for all users.
+
+= 2.1.1 =
+* Version 2.1.1 is a bugfix update that is recommended for all users.
+
+= 2.1 =
+* Version 2.1.0 contains new features to improve plugin use for everyone.
 
 = 2.0.1 =
 2.0.1 is a bugfix update that is recommended for all users.

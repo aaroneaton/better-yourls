@@ -1,5 +1,4 @@
 <?php
-
 /**
  * YOURLS actions.
  *
@@ -10,6 +9,10 @@
  * @since   0.0.1
  *
  * @author  Chris Wiegman <chris@chriswiegman.com>
+ */
+
+/**
+ * Class Better_YOURLS_Actions
  */
 class Better_YOURLS_Actions {
 
@@ -33,22 +36,126 @@ class Better_YOURLS_Actions {
 	 */
 	public function __construct() {
 
-		//set default options
+		// Set default options.
 		$this->settings = get_option( 'better_yourls' );
 
-		//add filters and actions if we've set API info
+		// Add filters and actions if we've set API info.
 		if ( isset( $this->settings['domain'] ) && '' !== $this->settings['domain'] && isset( $this->settings['key'] ) && '' !== $this->settings['key'] ) {
 
 			add_action( 'add_meta_boxes', array( $this, 'action_add_meta_boxes' ) );
 			add_action( 'admin_bar_menu', array( $this, 'action_admin_bar_menu' ), 100 );
 			add_action( 'save_post', array( $this, 'action_save_post' ), 11 );
 			add_action( 'wp_enqueue_scripts', array( $this, 'action_wp_enqueue_scripts' ) );
+			add_action( 'transition_post_status', array( $this, 'action_transition_post_status' ), 9, 3 );
 
 			add_filter( 'get_shortlink', array( $this, 'filter_get_shortlink' ), 10, 3 );
 			add_filter( 'pre_get_shortlink', array( $this, 'filter_pre_get_shortlink' ), 11, 2 );
 			add_filter( 'sharing_permalink', array( $this, 'filter_sharing_permalink' ), 10, 2 );
 
 		}
+	}
+
+	/**
+	 * Determine post validity
+	 *
+	 * Absctracts determining whether or not a short link should be created.
+	 *
+	 * @since 2.1
+	 *
+	 * @param int $post_id The post ID to check.
+	 *
+	 * @return bool True if valid post or false
+	 */
+	protected function _check_valid_post( $post_id ) {
+
+		$post_type = get_post_type( $post_id );
+
+		// Only save at normal times.
+		if (
+			( false === $post_type || ( isset( $this->settings['post_types'] ) && is_array( $this->settings['post_types'] ) ) && in_array( $post_type, $this->settings['post_types'] ) ) ||
+			'nav_menu_item' === $post_type ||
+			( defined( 'DOING_AUTOSAVE' ) && true === DOING_AJAX ) ||
+			( defined( 'DOING_AJAX' ) && true === DOING_AUTOSAVE ) ||
+			( defined( 'DOING_CRON' ) && true === DOING_CRON )
+		) {
+			return false;
+		}
+
+		/**
+		 * Abort if there are specified posts types and the current post does not match the criteria
+		 */
+		$included_post_types = apply_filters( 'better_yourls_post_types', array() );
+		$excluded_post_types = ( isset( $this->settings['post_types'] ) && is_array( $this->settings['post_types'] ) ) ? $this->settings['post_types'] : array();
+		$post_type           = get_post_type( $post_id );
+
+		if ( ( ! empty( $included_post_types ) && ! in_array( $post_type, $included_post_types ) ) || in_array( $post_type, $excluded_post_types ) ) {
+			return false;
+		}
+
+		/**
+		 * Filter Better YOURLs post statuses
+		 *
+		 * The post statuses upon which a URL should be generated.
+		 *
+		 * @since 2.0.0
+		 *
+		 * @param array $post_statuses Array of post statuses.
+		 */
+		$post_statuses = apply_filters( 'better_yourls_post_statuses', array( 'publish', 'future' ) );
+
+		// Make sure we're not generating this for drafts or other posts that don't need them.
+		if ( ! in_array( get_post_status( $post_id ), $post_statuses ) ) {
+			return false;
+		}
+
+		return true;
+
+	}
+
+	/**
+	 * Generates the shortlink on save and transition.
+	 *
+	 * A common handler to use to generate a shortlink on save or transition.
+	 *
+	 * @since 2.1.1
+	 *
+	 * @param int $post_id The ID of the post that needs a shortlink.
+	 *
+	 * @return void
+	 */
+	protected function _generate_post_on_save( $post_id ) {
+
+		$keyword = '';
+
+		// Store custom keyword (if set).
+		if ( isset( $_POST['better-yourls-keyword'] ) ) {
+			$keyword = sanitize_title( trim( $_POST['better-yourls-keyword'] ) );
+		}
+
+		/**
+		 * Filter the keyword prior to submitting to YOURLS API.
+		 * Post ID supplied to provide context to the filtered keyword
+		 *
+		 * @since 2.0.2
+		 *
+		 * @param string $keyword
+		 * @param string $post_id
+		 */
+		$keyword = apply_filters( 'better_yourls_keyword', $keyword, $post_id );
+
+		// Get the short URL. Note this will use the meta if it was already saved.
+		$link = $this->create_yourls_url( $post_id, $keyword, '', 'save_post' );
+
+		// Keyword would be a duplicate so use a standard one.
+		if ( '' !== $keyword && ! $link ) {
+			$link = $this->create_yourls_url( $post_id, '', '', 'save_post' );
+		}
+
+		// Save the short URL only if it was generated correctly.
+		if ( $link ) {
+			update_post_meta( $post_id, '_better_yourls_short_link', $link );
+		}
+
 	}
 
 	/**
@@ -63,6 +170,12 @@ class Better_YOURLS_Actions {
 	public function action_add_meta_boxes() {
 
 		global $post;
+
+		$post_type = get_post_type( $post->ID );
+
+		if ( false === $post_type || ( isset( $this->settings['post_types'] ) && is_array( $this->settings['post_types'] ) ) && in_array( $post_type, $this->settings['post_types'] ) ) {
+			return;
+		}
 
 		$post_types = apply_filters( 'better_yourls_post_types', array() );
 
@@ -88,6 +201,9 @@ class Better_YOURLS_Actions {
 	 *
 	 * @since 0.0.1
 	 *
+	 * @global $wp_admin_bar WP_Admin_Bar
+	 * @global $post         WP_Post
+	 *
 	 * @return void
 	 */
 	public function action_admin_bar_menu() {
@@ -95,6 +211,12 @@ class Better_YOURLS_Actions {
 		global $wp_admin_bar, $post;
 
 		if ( ! isset( $post->ID ) ) {
+			return;
+		}
+
+		$post_type = get_post_type( $post->ID );
+
+		if ( false === $post_type || ( isset( $this->settings['post_types'] ) && is_array( $this->settings['post_types'] ) ) && in_array( $post_type, $this->settings['post_types'] ) ) {
 			return;
 		}
 
@@ -149,71 +271,33 @@ class Better_YOURLS_Actions {
 	 */
 	public function action_save_post( $post_id ) {
 
-		// Only save at normal times.
-		if (
-			( defined( 'DOING_AUTOSAVE' ) && true === DOING_AJAX ) ||
-			( defined( 'DOING_AJAX' ) && true === DOING_AUTOSAVE ) ||
-			( defined( 'DOING_CRON' ) && true === DOING_CRON )
-		) {
+		if ( false === $this->_check_valid_post( $post_id ) ) {
 			return;
 		}
 
-		$post_types = apply_filters( 'better_yourls_post_types', array() );
+		$this->_generate_post_on_save( $post_id );
 
-		/**
-		 * Abort if there are specified posts types and the current post does not match the criteria
-		 */
-		if ( !in_array( get_post_type( $post_id ), $post_types ) && !empty( $post_types ) ) {
+	}
+
+	/**
+	 * Create YOURLs link when we save a post
+	 *
+	 * @since 1.0.3
+	 *
+	 * @param string  $new_status New post status.
+	 * @param string  $old_status Old post status.
+	 * @param WP_Post $post       Post object.
+	 *
+	 * @return void
+	 */
+	public function action_transition_post_status( $new_status, $old_status, $post ) {
+
+		if ( false === $this->_check_valid_post( $post->ID ) || 'publish' !== $new_status ) {
 			return;
 		}
 
-		/**
-		 * Filter Better YOURLs post statuses
-		 *
-		 * The post statuses upon which a URL should be generated.
-		 *
-		 * @since 2.0.0
-		 *
-		 * @param array Array of post statuses.
-		 */
-		$post_statuses = apply_filters( 'better_yourls_post_statuses', array( 'publish', 'future' ) );
+		$this->_generate_post_on_save( $post->ID );
 
-		// Make sure we're not generating this for drafts or other posts that don't need them.
-		if ( ! in_array( get_post_status( $post_id ), $post_statuses ) ) {
-			return;
-		}
-
-		$keyword = '';
-
-		// Store custom keyword (if set).
-		if ( isset( $_POST['better-yourls-keyword'] ) ) {
-			$keyword = sanitize_title( trim( $_POST['better-yourls-keyword'] ) );
-		}
-
-		/**
-		 * Filter the keyword prior to submitting to YOURLS API.
-		 * Post ID supplied to provide context to the filtered keyword
-		 *
-		 * @since 2.0.2
-		 *
-		 * @param string $keyword
-		 * @param string $post_id
-		 */
-		$keyword = apply_filters( 'better_yourls_keyword', $keyword, $post_id );
-
-
-		// Get the short URL. Note this will use the meta if it was already saved.
-		$link = $this->create_yourls_url( $post_id, $keyword );
-
-		// Keyword would be a duplicate so use a standard one.
-		if ( '' !== $keyword && ! $link ) {
-			$link = $this->create_yourls_url( $post_id );
-		}
-
-		// Save the short URL only if it was generated correctly.
-		if ( $link ) {
-			update_post_meta( $post_id, '_better_yourls_short_link', $link );
-		}
 	}
 
 	/**
@@ -231,11 +315,11 @@ class Better_YOURLS_Actions {
 
 			if ( defined( 'WP_DEBUG' ) && true === WP_DEBUG ) {
 
-				wp_register_script( 'better_yourls', BYOURLS_URL . '/assets/js/better-yourls.js', array( 'jquery' ), BYOURLS_VERSION );
+				wp_register_script( 'better_yourls', BYOURLS_URL . 'assets/js/better-yourls.js', array( 'jquery' ), BYOURLS_VERSION );
 
 			} else {
 
-				wp_register_script( 'better_yourls', BYOURLS_URL . '/assets/js/better-yourls.min.js', array( 'jquery' ), BYOURLS_VERSION );
+				wp_register_script( 'better_yourls', BYOURLS_URL . 'assets/js/better-yourls.min.js', array( 'jquery' ), BYOURLS_VERSION );
 
 			}
 
@@ -260,13 +344,14 @@ class Better_YOURLS_Actions {
 	 *
 	 * @since 0.0.1
 	 *
-	 * @param  int   $post_id the current post id.
+	 * @param int    $post_id The current post id.
 	 * @param string $keyword optional keyword for shortlink.
 	 * @param string $title   optional title for shortlink.
+	 * @param string $hook    the hook that called this function.
 	 *
 	 * @return bool|string the yourls shortlink or false.
 	 */
-	public function create_yourls_url( $post_id, $keyword = '', $title = '' ) {
+	public function create_yourls_url( $post_id, $keyword = '', $title = '', $hook = '' ) {
 
 		if ( is_preview() && ! is_admin() ) {
 			return false;
@@ -281,26 +366,32 @@ class Better_YOURLS_Actions {
 			}
 
 			// Setup call parameters.
-			$yourls_url = esc_url_raw( 'http://' . $this->settings['domain'] . '/yourls-api.php' );
+			$https      = ( isset( $this->settings['https'] ) && true === $this->settings['https'] ) ? 's' : '';
+			$yourls_url = esc_url_raw( 'http' . $https . '://' . $this->settings['domain'] . '/yourls-api.php' );
 			$timestamp  = current_time( 'timestamp' );
 
-			$request_args = array(
-				'title'     => ( '' === trim( $title ) ) ? get_the_title( $post_id ) : sanitize_text_field( $title ),
-				'timestamp' => $timestamp,
-				'signature' => md5( $timestamp . $this->settings['key'] ),
-				'action'    => 'shorturl',
-				'url'       => get_permalink( $post_id ),
-				'format'    => 'JSON',
+			$args = array(
+				'body' => array(
+					'title'     => ( '' === trim( $title ) ) ? get_the_title( $post_id ) : $title,
+					'timestamp' => $timestamp,
+					'signature' => md5( $timestamp . $this->settings['key'] ),
+					'action'    => 'shorturl',
+					'url'       => get_permalink( $post_id ),
+					'format'    => 'JSON',
+				),
 			);
 
 			// Keyword and title aren't currently used but may be in the future.
 			if ( '' !== $keyword ) {
-				$request_args['keyword'] = sanitize_title( $keyword );
+				$args['keyword'] = sanitize_title( $keyword );
 			}
 
-			$request = add_query_arg( $request_args, $yourls_url );
+			// Allow the option to use a self-signed.
+			if ( isset( $this->settings['https_ignore'] ) && true === $this->settings['https_ignore'] ) {
+				$args['sslverify'] = false;
+			}
 
-			$response = wp_remote_get( $request );
+			$response = wp_remote_post( $yourls_url, $args );
 
 			if ( is_wp_error( $response ) ) {
 				return false;
@@ -315,6 +406,23 @@ class Better_YOURLS_Actions {
 			$url = esc_url( trim( $short_link ) );
 
 			if ( true === $this->validate_url( $url ) ) {
+
+				/**
+				 * Filter the created shortlink.
+				 *
+				 * @since 2.0
+				 *
+				 * @param string $url     The shortlink or return false to short-circuit.
+				 * @param int    $post_id The post id of the post for which the shortlink was created.
+				 * @param string $hook    The hook which called the creation function.
+				 */
+				$url = apply_filters( 'better_urls_shortlink', $url, $post_id, $hook );
+
+				if ( false === $url ) {
+					return false;
+				}
+
+				$url = esc_url_raw( $url );
 
 				update_post_meta( $post_id, '_better_yourls_short_link', $url );
 
@@ -341,11 +449,11 @@ class Better_YOURLS_Actions {
 	 */
 	public function filter_get_shortlink( $short_link, $id ) {
 
-		if ( false === is_singular() ) {
-			return false;
+		if ( false === $this->_check_valid_post( $id ) ) {
+			return $short_link;
 		}
 
-		$link = $this->create_yourls_url( $id );
+		$link = $this->create_yourls_url( $id, '', '', 'get_shortlink' );
 
 		if ( false !== $link ) {
 			return $link;
@@ -369,14 +477,14 @@ class Better_YOURLS_Actions {
 	 */
 	public function filter_pre_get_shortlink( $short_link, $id ) {
 
-		$post = get_post( $id );
-
-		if ( empty( $post ) ) {
+		if ( false === $this->_check_valid_post( $id ) ) {
 			return $short_link;
 		}
 
+		$current_post = get_post( $id );
+
 		// If we've already created a shortlink return it or just return the default.
-		$link = get_post_meta( $post->ID, '_better_yourls_short_link', true );
+		$link = get_post_meta( $current_post->ID, '_better_yourls_short_link', true );
 
 		if ( '' === $link ) {
 			return $short_link;
@@ -400,12 +508,14 @@ class Better_YOURLS_Actions {
 	 */
 	public function filter_sharing_permalink( $link, $post_id ) {
 
-		$yourls_shortlink = $this->create_yourls_url( $post_id );
+		if ( false === $this->_check_valid_post( $post_id ) ) {
+			return $link;
+		}
+
+		$yourls_shortlink = $this->create_yourls_url( $post_id, '', '', 'sharing_permalink' );
 
 		if ( false !== $yourls_shortlink && '' !== $yourls_shortlink ) {
-
 			return $yourls_shortlink;
-
 		}
 
 		return $link;

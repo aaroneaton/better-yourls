@@ -58,7 +58,7 @@ class Better_YOURLS_Actions {
 	/**
 	 * Determine post validity
 	 *
-	 * Absctracts determining whether or not a short link should be created.
+	 * Abstracts determining whether or not a short link should be created.
 	 *
 	 * @since 2.1
 	 *
@@ -74,8 +74,8 @@ class Better_YOURLS_Actions {
 		if (
 			( false === $post_type || ( isset( $this->settings['post_types'] ) && is_array( $this->settings['post_types'] ) ) && in_array( $post_type, $this->settings['post_types'] ) ) ||
 			'nav_menu_item' === $post_type ||
-			( defined( 'DOING_AUTOSAVE' ) && true === DOING_AJAX ) ||
-			( defined( 'DOING_AJAX' ) && true === DOING_AUTOSAVE ) ||
+			( defined( 'DOING_AUTOSAVE' ) && true === DOING_AUTOSAVE ) ||
+			( defined( 'DOING_AJAX' ) && true === DOING_AJAX ) ||
 			( defined( 'DOING_CRON' ) && true === DOING_CRON )
 		) {
 			return false;
@@ -383,7 +383,7 @@ class Better_YOURLS_Actions {
 
 			// Keyword and title aren't currently used but may be in the future.
 			if ( '' !== $keyword ) {
-				$args['keyword'] = sanitize_title( $keyword );
+				$args['body']['keyword'] = sanitize_title( $keyword );
 			}
 
 			// Allow the option to use a self-signed.

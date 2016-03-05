@@ -501,7 +501,7 @@ class Better_YOURLS_Admin {
 				$checked = true;
 			}
 
-			echo '<input type="checkbox" name="better_yourls[post_types][' . esc_attr( $post_type->name ) . ']" value="' . esc_attr( $post_type->name ) . '" ' . checked( true, $checked, false ) . '><label for="better_yourls[post_types][' . esc_attr( $post_type->name ) . ']">' . sanitize_text_field( $post_type->labels->name ) . '</label><br />';
+			echo '<input type="checkbox" name="better_yourls[post_types][' . esc_attr( $post_type->name ) . ']" value="' . esc_attr( $post_type->name ) . '" ' . checked( true, $checked, false ) . '><label for="better_yourls[post_types][' . esc_attr( $post_type->name ) . ']">' . esc_html( $post_type->labels->name ) . '</label><br />';
 
 		}
 

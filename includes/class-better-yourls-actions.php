@@ -183,7 +183,7 @@ class Better_YOURLS_Actions {
 
 			add_meta_box(
 				'yourls_keyword',
-				__( 'YOURLs Keyword', 'better-yourls' ),
+				esc_html__( 'YOURLs Keyword', 'better-yourls' ),
 				array( $this, 'yourls_keyword_metabox' ),
 				$post->post_type,
 				'side',
@@ -232,7 +232,7 @@ class Better_YOURLS_Actions {
 				array(
 					'href'  => '',
 					'id'    => 'better_yourls',
-					'title' => __( 'YOURLS', 'better-yourls' ),
+					'title' => esc_html__( 'YOURLS', 'better-yourls' ),
 				)
 			);
 
@@ -241,7 +241,7 @@ class Better_YOURLS_Actions {
 					'href'   => '',
 					'parent' => 'better_yourls',
 					'id'     => 'better_yourls-link',
-					'title'  => __( 'YOURLS Link', 'better-yourls' ),
+					'title'  => esc_html__( 'YOURLS Link', 'better-yourls' ),
 				)
 			);
 
@@ -249,7 +249,7 @@ class Better_YOURLS_Actions {
 				array(
 					'parent' => 'better_yourls',
 					'id'     => 'better_yourls-stats',
-					'title'  => __( 'Link Stats', 'better-yourls' ),
+					'title'  => esc_html__( 'Link Stats', 'better-yourls' ),
 					'href'   => $stats_url,
 					'meta'   => array(
 						'target' => '_blank',
@@ -329,7 +329,7 @@ class Better_YOURLS_Actions {
 				'better_yourls',
 				'better_yourls',
 				array(
-					'text'       => __( 'Your YOURLS short link is: ', 'better-yourls' ),
+					'text'       => esc_html__( 'Your YOURLS short link is: ', 'better-yourls' ),
 					'yourls_url' => wp_get_shortlink( $post->ID ),
 				)
 			);

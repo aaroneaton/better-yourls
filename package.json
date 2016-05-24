@@ -5,15 +5,17 @@
 	"description":     "Grunt base for the Better YOURLs Plugin.",
 	"dependencies":    {},
 	"devDependencies": {
-		"grunt":                       "*",
-		"grunt-contrib-uglify":        "*",
-		"grunt-contrib-watch":         "*",
-		"grunt-sass":                  "*",
-		"grunt-contrib-cssmin":        "*",
-		"load-grunt-tasks":            "*",
-		"grunt-autoprefixer":          "*",
-		"grunt-wp-i18n":               "*",
-		"grunt-phpunit":               "*"
+		"grunt":                "*",
+		"grunt-contrib-uglify": "*",
+		"grunt-contrib-watch":  "*",
+		"grunt-sass":           "*",
+		"grunt-contrib-cssmin": "*",
+		"load-grunt-tasks":     "*",
+		"grunt-autoprefixer":   "*",
+		"grunt-wp-i18n":        "*",
+		"grunt-phpunit":        "*",
+		"grunt-contrib-jshint": "*",
+		"grunt-browser-sync":   "*"
 	},
 	"author":          "Chris Wiegman",
 	"repository":      {

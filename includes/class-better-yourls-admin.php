@@ -57,13 +57,13 @@ class Better_YOURLS_Admin {
 
 			if ( defined( 'WP_DEBUG' ) && true === WP_DEBUG ) {
 
-				wp_register_script( 'better_yourls_footer', BYOURLS_URL . '/js/admin-footer.js', array( 'jquery' ), BYOURLS_VERSION, true );
-				wp_register_style( 'better_yourls_admin', BYOURLS_URL .  '/css/better-yourls.css', array(), BYOURLS_VERSION ); // Add multi-select css.
+				wp_register_script( 'better_yourls_footer', BYOURLS_URL . 'assets/js/admin-footer.js', array( 'jquery' ), BYOURLS_VERSION, true );
+				wp_register_style( 'better_yourls_admin', BYOURLS_URL .  'assets/css/better-yourls.css', array(), BYOURLS_VERSION ); // Add multi-select css.
 
 			} else {
 
-				wp_register_script( 'better_yourls_footer', BYOURLS_URL . '/js/admin-footer.min.js', array( 'jquery' ), BYOURLS_VERSION, true );
-				wp_register_style( 'better_yourls_admin', BYOURLS_URL .  '/css/better-yourls.min.css', array(), BYOURLS_VERSION ); // Add multi-select css.
+				wp_register_script( 'better_yourls_footer', BYOURLS_URL . 'assets/js/admin-footer.min.js', array( 'jquery' ), BYOURLS_VERSION, true );
+				wp_register_style( 'better_yourls_admin', BYOURLS_URL .  'assets/css/better-yourls.min.css', array(), BYOURLS_VERSION ); // Add multi-select css.
 
 			}
 
@@ -87,7 +87,7 @@ class Better_YOURLS_Admin {
 		// Add meta boxes.
 		add_meta_box(
 			'better_yourls_intro',
-			__( 'Better Yourls', 'better-yourls' ),
+			esc_html__( 'Better Yourls', 'better-yourls' ),
 			array( $this, 'metabox_settings' ),
 			'settings_page_better_yourls',
 			'main'
@@ -95,7 +95,7 @@ class Better_YOURLS_Admin {
 
 		add_meta_box(
 			'better_yourls_support',
-			__( 'Support This Plugin', 'better-yourls' ),
+			esc_html__( 'Support This Plugin', 'better-yourls' ),
 			array( $this, 'metabox_support' ),
 			'settings_page_better_yourls',
 			'side'
@@ -103,7 +103,7 @@ class Better_YOURLS_Admin {
 
 		add_meta_box(
 			'better_yourls_help',
-			__( 'Need help?', 'better-yourls' ),
+			esc_html__( 'Need help?', 'better-yourls' ),
 			array( $this, 'metabox_help' ),
 			'settings_page_better_yourls',
 			'side'
@@ -120,7 +120,7 @@ class Better_YOURLS_Admin {
 		// Add settings fields.
 		add_settings_field(
 			'better_yourls[domain]',
-			__( 'YOURLS Domain', 'better-yourls' ),
+			esc_html__( 'YOURLS Domain', 'better-yourls' ),
 			array( $this, 'settings_field_domain' ),
 			'settings_page_better_yourls',
 			'better_yourls'
@@ -128,7 +128,7 @@ class Better_YOURLS_Admin {
 
 		add_settings_field(
 			'better_yourls[https]',
-			__( 'Use https', 'better-yourls' ),
+			esc_html__( 'Use https', 'better-yourls' ),
 			array( $this, 'settings_field_https' ),
 			'settings_page_better_yourls',
 			'better_yourls'
@@ -136,7 +136,7 @@ class Better_YOURLS_Admin {
 
 		add_settings_field(
 			'better_yourls[https_ignore]',
-			__( 'Allow Self-signed https Certificate', 'better-yourls' ),
+			esc_html__( 'Allow Self-signed https Certificate', 'better-yourls' ),
 			array( $this, 'settings_field_https_ignore' ),
 			'settings_page_better_yourls',
 			'better_yourls'
@@ -144,7 +144,7 @@ class Better_YOURLS_Admin {
 
 		add_settings_field(
 			'better_yourls[key]',
-			__( 'YOURLS  Token', 'better-yourls' ),
+			esc_html__( 'YOURLS  Token', 'better-yourls' ),
 			array( $this, 'settings_field_key' ),
 			'settings_page_better_yourls',
 			'better_yourls'
@@ -152,7 +152,7 @@ class Better_YOURLS_Admin {
 
 		add_settings_field(
 			'better_yourls[post_types]',
-			__( 'Exclude Post Types', 'better-yourls' ),
+			esc_html__( 'Exclude Post Types', 'better-yourls' ),
 			array( $this, 'settings_field_post_types' ),
 			'settings_page_better_yourls',
 			'better_yourls'
@@ -177,8 +177,8 @@ class Better_YOURLS_Admin {
 	public function action_admin_menu() {
 
 		$page = add_options_page(
-			__( 'Better YOURLS', 'better-yourls' ),
-			__( 'Better YOURLS', 'better-yourls' ),
+			esc_html__( 'Better YOURLS', 'better-yourls' ),
+			esc_html__( 'Better YOURLS', 'better-yourls' ),
 			'manage_options',
 			'better_yourls',
 			array( $this, 'render_page' )
@@ -226,7 +226,11 @@ class Better_YOURLS_Admin {
 
 		$support_page = 'https://wordpress.org/plugins/better-yourls/support/';
 
-		echo '<p>' . esc_html__( 'If you need help getting this plugin or have found a bug please visit the <a href="' . $support_page . '" target="_blank">support forums</a>.', 'better-yourls' ) . '</p>';
+		printf (
+			esc_html__( 'If you need help getting this plugin or have found a bug please visit the %ssupport forums%s.', 'better-yourls' ),
+			'<a href="' . $support_page . '" target="_blank">',
+			'</a>'
+		);
 
 	}
 
@@ -501,7 +505,7 @@ class Better_YOURLS_Admin {
 				$checked = true;
 			}
 
-			echo '<input type="checkbox" name="better_yourls[post_types][' . esc_attr( $post_type->name ) . ']" value="' . esc_attr( $post_type->name ) . '" ' . checked( true, $checked, false ) . '><label for="better_yourls[post_types][' . esc_attr( $post_type->name ) . ']">' . sanitize_text_field( $post_type->labels->name ) . '</label><br />';
+			echo '<input type="checkbox" name="better_yourls[post_types][' . esc_attr( $post_type->name ) . ']" value="' . esc_attr( $post_type->name ) . '" ' . checked( true, $checked, false ) . '><label for="better_yourls[post_types][' . esc_attr( $post_type->name ) . ']">' . esc_html( $post_type->labels->name ) . '</label><br />';
 
 		}
 

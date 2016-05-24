@@ -58,7 +58,7 @@ class Better_YOURLS_Actions {
 	/**
 	 * Determine post validity
 	 *
-	 * Absctracts determining whether or not a short link should be created.
+	 * Abstracts determining whether or not a short link should be created.
 	 *
 	 * @since 2.1
 	 *
@@ -74,8 +74,8 @@ class Better_YOURLS_Actions {
 		if (
 			( false === $post_type || ( isset( $this->settings['post_types'] ) && is_array( $this->settings['post_types'] ) ) && in_array( $post_type, $this->settings['post_types'] ) ) ||
 			'nav_menu_item' === $post_type ||
-			( defined( 'DOING_AUTOSAVE' ) && true === DOING_AJAX ) ||
-			( defined( 'DOING_AJAX' ) && true === DOING_AUTOSAVE ) ||
+			( defined( 'DOING_AUTOSAVE' ) && true === DOING_AUTOSAVE ) ||
+			( defined( 'DOING_AJAX' ) && true === DOING_AJAX ) ||
 			( defined( 'DOING_CRON' ) && true === DOING_CRON )
 		) {
 			return false;
@@ -183,7 +183,7 @@ class Better_YOURLS_Actions {
 
 			add_meta_box(
 				'yourls_keyword',
-				__( 'YOURLs Keyword', 'better-yourls' ),
+				esc_html__( 'YOURLs Keyword', 'better-yourls' ),
 				array( $this, 'yourls_keyword_metabox' ),
 				$post->post_type,
 				'side',
@@ -232,7 +232,7 @@ class Better_YOURLS_Actions {
 				array(
 					'href'  => '',
 					'id'    => 'better_yourls',
-					'title' => __( 'YOURLS', 'better-yourls' ),
+					'title' => esc_html__( 'YOURLS', 'better-yourls' ),
 				)
 			);
 
@@ -241,7 +241,7 @@ class Better_YOURLS_Actions {
 					'href'   => '',
 					'parent' => 'better_yourls',
 					'id'     => 'better_yourls-link',
-					'title'  => __( 'YOURLS Link', 'better-yourls' ),
+					'title'  => esc_html__( 'YOURLS Link', 'better-yourls' ),
 				)
 			);
 
@@ -249,7 +249,7 @@ class Better_YOURLS_Actions {
 				array(
 					'parent' => 'better_yourls',
 					'id'     => 'better_yourls-stats',
-					'title'  => __( 'Link Stats', 'better-yourls' ),
+					'title'  => esc_html__( 'Link Stats', 'better-yourls' ),
 					'href'   => $stats_url,
 					'meta'   => array(
 						'target' => '_blank',
@@ -315,11 +315,11 @@ class Better_YOURLS_Actions {
 
 			if ( defined( 'WP_DEBUG' ) && true === WP_DEBUG ) {
 
-				wp_register_script( 'better_yourls', BYOURLS_URL . '/assets/js/better-yourls.js', array( 'jquery' ), BYOURLS_VERSION );
+				wp_register_script( 'better_yourls', BYOURLS_URL . 'assets/js/better-yourls.js', array( 'jquery' ), BYOURLS_VERSION );
 
 			} else {
 
-				wp_register_script( 'better_yourls', BYOURLS_URL . '/assets/js/better-yourls.min.js', array( 'jquery' ), BYOURLS_VERSION );
+				wp_register_script( 'better_yourls', BYOURLS_URL . 'assets/js/better-yourls.min.js', array( 'jquery' ), BYOURLS_VERSION );
 
 			}
 
@@ -329,7 +329,7 @@ class Better_YOURLS_Actions {
 				'better_yourls',
 				'better_yourls',
 				array(
-					'text'       => __( 'Your YOURLS short link is: ', 'better-yourls' ),
+					'text'       => esc_html__( 'Your YOURLS short link is: ', 'better-yourls' ),
 					'yourls_url' => wp_get_shortlink( $post->ID ),
 				)
 			);
@@ -383,7 +383,7 @@ class Better_YOURLS_Actions {
 
 			// Keyword and title aren't currently used but may be in the future.
 			if ( '' !== $keyword ) {
-				$args['keyword'] = sanitize_title( $keyword );
+				$args['body']['keyword'] = sanitize_title( $keyword );
 			}
 
 			// Allow the option to use a self-signed.

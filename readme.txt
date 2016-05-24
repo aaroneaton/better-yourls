@@ -54,6 +54,7 @@ Integrates your blog with the <a href="http://yourls.org" target="_blank">YOURLS
 == Changelog ==
 
 = 2.1.4 =
+* Fixed custom keyword issue (Credit Dom Sammut)
 * Various typo and other minor fixes.
 
 = 2.1.3 =

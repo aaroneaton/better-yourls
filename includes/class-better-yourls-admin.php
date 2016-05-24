@@ -226,7 +226,11 @@ class Better_YOURLS_Admin {
 
 		$support_page = 'https://wordpress.org/plugins/better-yourls/support/';
 
-		echo '<p>' . esc_html__( 'If you need help getting this plugin or have found a bug please visit the <a href="' . $support_page . '" target="_blank">support forums</a>.', 'better-yourls' ) . '</p>';
+		printf (
+			esc_html__( 'If you need help getting this plugin or have found a bug please visit the %ssupport forums%s.', 'better-yourls' ),
+			'<a href="' . $support_page . '" target="_blank">',
+			'</a>'
+		);
 
 	}
 

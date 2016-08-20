@@ -226,9 +226,9 @@ class Better_YOURLS_Admin {
 
 		$support_page = 'https://wordpress.org/plugins/better-yourls/support/';
 
-		printf (
+		printf(
 			esc_html__( 'If you need help getting this plugin or have found a bug please visit the %ssupport forums%s.', 'better-yourls' ),
-			'<a href="' . $support_page . '" target="_blank">',
+			'<a href="' . esc_url( $support_page ) . '" target="_blank">',
 			'</a>'
 		);
 
@@ -246,7 +246,7 @@ class Better_YOURLS_Admin {
 		echo '<p>', esc_html__( 'Use the settings below to configure Better Yourls for your site.', 'better-yourls' ), '</p>';
 
 		?>
-		<form method="post" action="options.php" class="itsec-form" >
+		<form method="post" action="options.php" class="better-yourls-form" >
 		<?php settings_fields( 'settings_page_better_yourls' ); ?>
 		<?php do_settings_sections( 'settings_page_better_yourls' ); ?>
 		<p class="submit">
@@ -388,7 +388,7 @@ class Better_YOURLS_Admin {
 
 			foreach ( $input['post_types'] as $post_type ) {
 
-				if ( in_array( $post_type, $post_types ) ) {
+				if ( in_array( $post_type, $post_types, true ) ) {
 					$excluded_post_types[] = sanitize_text_field( $post_type );
 				}
 			}
@@ -501,7 +501,7 @@ class Better_YOURLS_Admin {
 
 			$checked = false;
 
-			if ( in_array( $post_type->name, $excluded_post_types ) ) {
+			if ( in_array( $post_type->name, $excluded_post_types, true ) ) {
 				$checked = true;
 			}
 

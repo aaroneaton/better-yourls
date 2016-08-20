@@ -108,7 +108,7 @@ class Admin_Tests extends Base\TestCase {
 	public function test_action_admin_init() {
 
 		// Setup.
-		\WP_Mock::wpPassthruFunction( '__' );
+		\WP_Mock::wpPassthruFunction( 'esc_html__' );
 
 		\WP_Mock::wpFunction( 'add_meta_box', array(
 			'times' => 3,

@@ -72,7 +72,7 @@ class Better_YOURLS_Actions {
 
 		// Only save at normal times.
 		if (
-			( false === $post_type || ( isset( $this->settings['post_types'] ) && is_array( $this->settings['post_types'] ) ) && in_array( $post_type, $this->settings['post_types'] ) ) ||
+			( false === $post_type || ( isset( $this->settings['post_types'] ) && is_array( $this->settings['post_types'] ) ) && in_array( $post_type, $this->settings['post_types'], true ) ) ||
 			'nav_menu_item' === $post_type ||
 			( defined( 'DOING_AUTOSAVE' ) && true === DOING_AUTOSAVE ) ||
 			( defined( 'DOING_AJAX' ) && true === DOING_AJAX ) ||
@@ -88,7 +88,7 @@ class Better_YOURLS_Actions {
 		$excluded_post_types = ( isset( $this->settings['post_types'] ) && is_array( $this->settings['post_types'] ) ) ? $this->settings['post_types'] : array();
 		$post_type           = get_post_type( $post_id );
 
-		if ( ( ! empty( $included_post_types ) && ! in_array( $post_type, $included_post_types ) ) || in_array( $post_type, $excluded_post_types ) ) {
+		if ( ( ! empty( $included_post_types ) && ! in_array( $post_type, $included_post_types, true ) ) || in_array( $post_type, $excluded_post_types, true ) ) {
 			return false;
 		}
 
@@ -104,7 +104,7 @@ class Better_YOURLS_Actions {
 		$post_statuses = apply_filters( 'better_yourls_post_statuses', array( 'publish', 'future' ) );
 
 		// Make sure we're not generating this for drafts or other posts that don't need them.
-		if ( ! in_array( get_post_status( $post_id ), $post_statuses ) ) {
+		if ( ! in_array( get_post_status( $post_id ), $post_statuses, true ) ) {
 			return false;
 		}
 
@@ -128,8 +128,8 @@ class Better_YOURLS_Actions {
 		$keyword = '';
 
 		// Store custom keyword (if set).
-		if ( isset( $_POST['better-yourls-keyword'] ) ) {
-			$keyword = sanitize_title( trim( $_POST['better-yourls-keyword'] ) );
+		if ( isset( $_POST['better-yourls-keyword'] ) ) { // WPCS: input var ok.
+			$keyword = sanitize_title( trim( $_POST['better-yourls-keyword'] ) ); // WPCS: input var ok.
 		}
 
 		/**
@@ -155,7 +155,6 @@ class Better_YOURLS_Actions {
 		if ( $link ) {
 			update_post_meta( $post_id, '_better_yourls_short_link', $link );
 		}
-
 	}
 
 	/**
@@ -173,13 +172,13 @@ class Better_YOURLS_Actions {
 
 		$post_type = get_post_type( $post->ID );
 
-		if ( false === $post_type || ( isset( $this->settings['post_types'] ) && is_array( $this->settings['post_types'] ) ) && in_array( $post_type, $this->settings['post_types'] ) ) {
+		if ( false === $post_type || ( isset( $this->settings['post_types'] ) && is_array( $this->settings['post_types'] ) ) && in_array( $post_type, $this->settings['post_types'], true ) ) {
 			return;
 		}
 
 		$post_types = apply_filters( 'better_yourls_post_types', array() );
 
-		if ( in_array( get_post_type( $post->ID ), $post_types ) or empty( $post_types ) ) {
+		if ( in_array( get_post_type( $post->ID ), $post_types, true ) || empty( $post_types ) ) {
 
 			add_meta_box(
 				'yourls_keyword',
@@ -201,8 +200,8 @@ class Better_YOURLS_Actions {
 	 *
 	 * @since 0.0.1
 	 *
-	 * @global $wp_admin_bar WP_Admin_Bar
-	 * @global $post         WP_Post
+	 * @global $wp_admin_bar WP_Admin_Bar An instance of the WP Admin Bar.
+	 * @global $post         WP_Post The global post object
 	 *
 	 * @return void
 	 */
@@ -216,7 +215,7 @@ class Better_YOURLS_Actions {
 
 		$post_type = get_post_type( $post->ID );
 
-		if ( false === $post_type || ( isset( $this->settings['post_types'] ) && is_array( $this->settings['post_types'] ) ) && in_array( $post_type, $this->settings['post_types'] ) ) {
+		if ( false === $post_type || ( isset( $this->settings['post_types'] ) && is_array( $this->settings['post_types'] ) ) && in_array( $post_type, $this->settings['post_types'], true ) ) {
 			return;
 		}
 

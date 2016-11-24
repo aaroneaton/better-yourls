@@ -6,7 +6,7 @@
  *
  * @since   2.1.2
  *
- * @author  Chris Wiegman <chris.wiegman@10up.com>
+ * @author  Chris Wiegman <chris@wiegman.us>
  *
  * @package better-yourls
  */

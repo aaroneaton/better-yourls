@@ -3,10 +3,6 @@ if ( ! defined( 'PROJECT' ) ) {
 	define( 'PROJECT', __DIR__ . '/includes/' );
 }
 
-if ( ! defined( 'BETTER_YOURLS_DIR' ) ) {
-	define( 'BETTER_YOURLS_DIR', __DIR__ . '/' );
-}
-
 // Place any additional bootstrapping requirements here for PHP Unit.
 if ( ! defined( 'WP_LANG_DIR' ) ) {
 	define( 'WP_LANG_DIR', 'lang_dir' );

@@ -8,7 +8,7 @@
  *
  * @since 0.0.1
  *
- * @author  Chris Wiegman <chris@chriswiegman.com>
+ * @author  Chris Wiegman <chris@wiegman.us>
  */
 
 /**

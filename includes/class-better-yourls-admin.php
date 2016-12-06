@@ -29,8 +29,6 @@ class Better_YOURLS_Admin {
 	 * Better YOURLS admin constructor.
 	 *
 	 * @since 0.0.1
-	 *
-	 * @return Better_Yourls_Admin
 	 */
 	public function __construct() {
 
@@ -58,12 +56,12 @@ class Better_YOURLS_Admin {
 			if ( defined( 'WP_DEBUG' ) && true === WP_DEBUG ) {
 
 				wp_register_script( 'better_yourls_footer', BYOURLS_URL . 'assets/js/admin-footer.js', array( 'jquery' ), BYOURLS_VERSION, true );
-				wp_register_style( 'better_yourls_admin', BYOURLS_URL .  'assets/css/better-yourls.css', array(), BYOURLS_VERSION ); // Add multi-select css.
+				wp_register_style( 'better_yourls_admin', BYOURLS_URL . 'assets/css/better-yourls.css', array(), BYOURLS_VERSION ); // Add multi-select css.
 
 			} else {
 
 				wp_register_script( 'better_yourls_footer', BYOURLS_URL . 'assets/js/admin-footer.min.js', array( 'jquery' ), BYOURLS_VERSION, true );
-				wp_register_style( 'better_yourls_admin', BYOURLS_URL .  'assets/css/better-yourls.min.css', array(), BYOURLS_VERSION ); // Add multi-select css.
+				wp_register_style( 'better_yourls_admin', BYOURLS_URL . 'assets/css/better-yourls.min.css', array(), BYOURLS_VERSION ); // Add multi-select css.
 
 			}
 
@@ -227,7 +225,7 @@ class Better_YOURLS_Admin {
 		$support_page = 'https://wordpress.org/plugins/better-yourls/support/';
 
 		printf(
-			esc_html__( 'If you need help getting this plugin or have found a bug please visit the %ssupport forums%s.', 'better-yourls' ),
+			esc_html__( 'If you need help getting this plugin or have found a bug please visit the %1$ssupport forums%2$s.', 'better-yourls' ),
 			'<a href="' . esc_url( $support_page ) . '" target="_blank">',
 			'</a>'
 		);
@@ -243,7 +241,7 @@ class Better_YOURLS_Admin {
 	 */
 	public function metabox_settings() {
 
-		echo '<p>', esc_html__( 'Use the settings below to configure Better Yourls for your site.', 'better-yourls' ), '</p>';
+		echo '<p>', esc_html__( 'Use the settings below to configure Better YOURLs for your site.', 'better-yourls' ), '</p>';
 
 		?>
 		<form method="post" action="options.php" class="better-yourls-form" >
@@ -289,7 +287,7 @@ class Better_YOURLS_Admin {
 
 		echo '<li>' . esc_html__( 'Talk about it on your site and link back to the ', 'better-yourls' ) . '<a href="' . esc_url( $homepage ) . '" target="_blank">' . esc_html__( 'plugin page.', 'better-yourls' ) . '</a></li>';
 
-		echo '<li><a href="http://twitter.com/home?status=' . urlencode( 'I use Better YOURLS for WordPress by @ChrisWiegman and you should too - ' . esc_url( $homepage ) ) . '" target="_blank">' . esc_html__( 'Tweet about it. ', 'better-yourls' ) . '</a></li>';
+		echo '<li><a href="http://twitter.com/home?status=' . rawurldecode( 'I use Better YOURLS for WordPress by @ChrisWiegman and you should too - ' . esc_url( $homepage ) ) . '" target="_blank">' . esc_html__( 'Tweet about it. ', 'better-yourls' ) . '</a></li>';
 
 		echo '</ul>';
 

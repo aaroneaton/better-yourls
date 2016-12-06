@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Better YOURLs uninstaller
  *
@@ -9,7 +8,11 @@
  *
  * @since   2.0.0
  *
- * @author  Chris Wiegman <chris@chriswiegman.com>
+ * @author  Chris Wiegman <chris@wiegman.us>
+ */
+
+/**
+ * Class Better_YOURLs_Uninstaller
  */
 class Better_YOURLs_Uninstaller {
 
@@ -19,32 +22,30 @@ class Better_YOURLs_Uninstaller {
 	 * Perform some checks to make sure plugin can/should be uninstalled
 	 *
 	 * @since 2.0.0
-	 *
-	 * @return Better_YOURLs_Uninstaller
 	 */
 	public function __construct() {
 
-		// Exit if accessed directly
+		// Exit if accessed directly.
 		if ( ! defined( 'ABSPATH' ) ) {
 			$this->exit_uninstaller();
 		}
 
-		// Not uninstalling
+		// Not uninstalling.
 		if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 			$this->exit_uninstaller();
 		}
 
-		// Not uninstalling
+		// Not uninstalling.
 		if ( ! WP_UNINSTALL_PLUGIN ) {
 			$this->exit_uninstaller();
 		}
 
-		// Not uninstalling this plugin
+		// Not uninstalling this plugin.
 		if ( dirname( WP_UNINSTALL_PLUGIN ) !== dirname( plugin_basename( __FILE__ ) ) ) {
 			$this->exit_uninstaller();
 		}
 
-		// Uninstall Better YOURLs
+		// Uninstall Better YOURLs.
 		self::clean_data();
 	}
 

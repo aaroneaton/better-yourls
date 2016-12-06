@@ -128,25 +128,12 @@ module.exports = function ( grunt ) {
 			},
 
 			/**
-			 * A better browser reloader
-			 */
-			browserSync : {
-				bsFiles : {
-					src : 'assets/**/*.*'
-				},
-				options : {
-					proxy     : 'betteryourls.pv',
-					watchTask : true
-				}
-			},
-
-			/**
 			 * Watch scripts and styles for changes
 			 */
 			watch : {
 
 				options : {
-					livereload : false
+					livereload : true
 				},
 
 				scripts : {
@@ -175,6 +162,6 @@ module.exports = function ( grunt ) {
 
 	// A very basic default task.
 	grunt.registerTask( 'default', ['phpunit', 'jshint', 'uglify:production', 'sass', 'autoprefixer', 'cssmin', 'makepot'] );
-	grunt.registerTask( 'dev', ['default', 'browserSync', 'watch'] );
+	grunt.registerTask( 'dev', ['default', 'watch'] );
 
 };

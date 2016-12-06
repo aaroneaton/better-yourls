@@ -8,7 +8,7 @@
  *
  * @since   0.0.1
  *
- * @author  Chris Wiegman <chris@chriswiegman.com>
+ * @author  Chris Wiegman <chris@wiegman.us>
  */
 
 /**
@@ -31,8 +31,6 @@ class Better_YOURLS_Actions {
 	 * Register actions and setup local items for the plugin.
 	 *
 	 * @since 0.0.1
-	 *
-	 * @return Better_Yourls_Actions
 	 */
 	public function __construct() {
 
@@ -125,11 +123,19 @@ class Better_YOURLS_Actions {
 	 */
 	protected function _generate_post_on_save( $post_id ) {
 
+		// Make sure we are originating from the right place.
+		if (
+			! isset( $_POST['better_yourls_nonce'] ) || // WPCS: input var ok.
+			! wp_verify_nonce( $_POST['better_yourls_nonce'], 'better_yourls_save_post' ) // WPCS: input var ok. Sanitization ok.
+		) {
+			wp_die( esc_html__( 'Security Error', 'better-yourls' ) );
+		}
+
 		$keyword = '';
 
 		// Store custom keyword (if set).
 		if ( isset( $_POST['better-yourls-keyword'] ) ) { // WPCS: input var ok.
-			$keyword = sanitize_title( trim( $_POST['better-yourls-keyword'] ) ); // WPCS: input var ok.
+			$keyword = sanitize_title( trim( $_POST['better-yourls-keyword'] ) ); // WPCS: input var ok. Sanitization ok.
 		}
 
 		/**
@@ -190,7 +196,6 @@ class Better_YOURLS_Actions {
 			);
 
 		}
-
 	}
 
 	/**
@@ -560,6 +565,7 @@ class Better_YOURLS_Actions {
 			$readonly = 'readonly="readonly" ';
 		}
 
+		wp_nonce_field( 'better_yourls_save_post', 'better_yourls_nonce' );
 		echo '<input type="text" id="better-yourls-keyword" name="better-yourls-keyword" style="width: 100%;" value="' . esc_url( $link ) . '" ' . esc_html( $readonly ) . '/>';
 		echo '<p><em>' . esc_html__( 'If a short-url doesn\'t yet exist for this post you can enter a keyword above. If it already exists it will be displayed.', 'better-yourls' ) . '</em></p>';
 

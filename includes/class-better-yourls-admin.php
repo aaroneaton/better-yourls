@@ -508,5 +508,6 @@ class Better_YOURLS_Admin {
 		}
 
 		echo '<p class="description"> ' . esc_html__( 'Put a check mark next to any post type for which you do NOT want to generate a short link.', 'better-yourls' ) . '</p>';
+
 	}
 }

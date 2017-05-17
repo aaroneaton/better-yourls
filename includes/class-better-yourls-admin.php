@@ -488,6 +488,22 @@ class Better_YOURLS_Admin {
 	}
 
 	/**
+	 * Allow processing for private post types.
+	 *
+	 * @since 2.2
+	 *
+	 * @return void
+	 */
+	public function settings_field_private_post_types() {
+
+		$private_post_types = ( isset( $this->settings['private_post_types'] ) && true === $this->settings['private_post_types'] ) ? true : false;
+
+		echo '<input name="better_yourls[private_post_types]" id="better_yourls_private_post_types" value="1" type="checkbox" ' . checked( true, $private_post_types, false ) . '>';
+		echo '<label for="better_yourls_private_post_types"><p class="description"> ' . esc_html__( 'Check this box to allow private post types to be indexed.', 'better-yourls' ) . '</p></label>';
+
+	}
+
+	/**
 	 * Echo exclude post types field.
 	 *
 	 * @since 2.1

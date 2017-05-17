@@ -1,9 +1,9 @@
 === Better YOURLS ===
 Contributors: ChrisWiegman, michaelbeil, domsammut
-Donate link: https://www.chriswiegman.com
+Donate link: https://chriswiegman.com
 Tags: yourls, shortlink, custom shortlink
 Requires at least: 4.2
-Tested up to: 4.7
+Tested up to: 4.8
 Stable tag: 2.1.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html

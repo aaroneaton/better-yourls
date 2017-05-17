@@ -156,6 +156,14 @@ class Better_YOURLS_Admin {
 			'better_yourls'
 		);
 
+		add_settings_field(
+			'better_yourls[private_post_types]',
+			esc_html__( 'Allow Private Post Types', 'better-yourls' ),
+			array( $this, 'settings_field_private_post_types' ),
+			'settings_page_better_yourls',
+			'better_yourls'
+		);
+
 		// Register the settings field for the entire module.
 		register_setting(
 			'settings_page_better_yourls',

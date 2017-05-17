@@ -1,167 +1,170 @@
-module.exports = function ( grunt ) {
+module.exports = function (grunt) {
 
-	// Start out by loading the grunt modules we'll need
-	require( 'load-grunt-tasks' )( grunt );
+    // Start out by loading the grunt modules we'll need
+    require('load-grunt-tasks')(grunt);
 
-	grunt.initConfig(
-		{
+    // Show elapsed time
+    require('time-grunt')(grunt);
 
-			/**
-			 * Processes and compresses JavaScript.
-			 */
-			uglify : {
+    grunt.initConfig(
+        {
 
-				production : {
+            /**
+             * Processes and compresses JavaScript.
+             */
+            uglify: {
 
-					options : {
-						beautify         : false,
-						preserveComments : false,
-						mangle           : {
-							except : ['jQuery']
-						}
-					},
+                production: {
 
-					files : {
-						'assets/js/better-yourls.min.js' : [
-							'assets/js/better-yourls.js'
-						],
-						'assets/js/admin-footer.min.js'  : [
-							'assets/js/admin-footer.js'
-						]
-					}
-				}
-			},
+                    options: {
+                        beautify: false,
+                        preserveComments: false,
+                        mangle: {
+                            reserved: ['jQuery']
+                        }
+                    },
 
-			/**
-			 * Auto-prefix CSS Elements after SASS is processed.
-			 */
-			autoprefixer : {
+                    files: {
+                        'assets/js/better-yourls.min.js': [
+                            'assets/js/better-yourls.js'
+                        ],
+                        'assets/js/admin-footer.min.js': [
+                            'assets/js/admin-footer.js'
+                        ]
+                    }
+                }
+            },
 
-				options : {
-					browsers : ['last 5 versions'],
-					map      : true
-				},
+            /**
+             * Auto-prefix CSS Elements after SASS is processed.
+             */
+            autoprefixer: {
 
-				files : {
-					expand  : true,
-					flatten : true,
-					src     : ['assets/css/better-yourls.css'],
-					dest    : 'assets/css'
-				}
-			},
+                options: {
+                    browsers: ['last 5 versions'],
+                    map: true
+                },
 
-			/**
-			 * Minify CSS after prefixes are added
-			 */
-			cssmin : {
+                files: {
+                    expand: true,
+                    flatten: true,
+                    src: ['assets/css/better-yourls.css'],
+                    dest: 'assets/css'
+                }
+            },
 
-				target : {
+            /**
+             * Minify CSS after prefixes are added
+             */
+            cssmin: {
 
-					files : [{
-						expand : true,
-						cwd    : 'assets/css',
-						src    : ['better-yourls.css'],
-						dest   : 'assets/css',
-						ext    : '.min.css'
-					}]
+                target: {
 
-				}
-			},
+                    files: [{
+                        expand: true,
+                        cwd: 'assets/css',
+                        src: ['better-yourls.css'],
+                        dest: 'assets/css',
+                        ext: '.min.css'
+                    }]
 
-			/**
-			 * Process SASS
-			 */
-			sass : {
+                }
+            },
 
-				dist : {
+            /**
+             * Process SASS
+             */
+            sass: {
 
-					options : {
-						style     : 'expanded',
-						sourceMap : true,
-						noCache   : true
-					},
+                dist: {
 
-					files : {
-						'assets/css/better-yourls.css' : 'assets/css/better-yourls.scss'
-					}
-				}
-			},
+                    options: {
+                        style: 'expanded',
+                        sourceMap: true,
+                        noCache: true
+                    },
 
-			/**
-			 * Update translation file.
-			 */
-			makepot : {
+                    files: {
+                        'assets/css/better-yourls.css': 'assets/css/better-yourls.scss'
+                    }
+                }
+            },
 
-				target : {
-					options : {
-						type       : 'wp-plugin',
-						domainPath : '/lang',
-						mainFile   : 'better-yourls.php'
-					}
-				}
-			},
+            /**
+             * Update translation file.
+             */
+            makepot: {
 
-			phpunit : {
+                target: {
+                    options: {
+                        type: 'wp-plugin',
+                        domainPath: '/lang',
+                        mainFile: 'better-yourls.php'
+                    }
+                }
+            },
 
-				classes : {
-					dir : 'tests/'
-				},
+            phpunit: {
 
-				options : {
+                classes: {
+                    dir: 'tests/'
+                },
 
-					bin        : './vendor/bin/phpunit',
-					testSuffix : 'Tests.php',
-					bootstrap  : 'bootstrap.php',
-					colors     : true
+                options: {
 
-				}
-			},
+                    bin: './vendor/bin/phpunit',
+                    testSuffix: 'Tests.php',
+                    bootstrap: 'bootstrap.php',
+                    colors: true
 
-			/**
-			 * Clean up the JavaScript
-			 */
-			jshint : {
-				options : {
-					jshintrc : true
-				},
-				all     : ['assets/js/admin-footer.js', 'assets/js/better-yourls.js']
-			},
+                }
+            },
 
-			/**
-			 * Watch scripts and styles for changes
-			 */
-			watch : {
+            /**
+             * Clean up the JavaScript
+             */
+            jshint: {
+                options: {
+                    jshintrc: true
+                },
+                all: ['assets/js/admin-footer.js', 'assets/js/better-yourls.js']
+            },
 
-				options : {
-					livereload : true
-				},
+            /**
+             * Watch scripts and styles for changes
+             */
+            watch: {
 
-				scripts : {
+                options: {
+                    livereload: true
+                },
 
-					files : [
-						'assets/js/admin-footer.js',
-						'assets/js/better-yourls.js'
-					],
+                scripts: {
 
-					tasks : ['uglify:production']
+                    files: [
+                        'assets/js/admin-footer.js',
+                        'assets/js/better-yourls.js'
+                    ],
 
-				},
+                    tasks: ['uglify:production']
 
-				styles : {
+                },
 
-					files : [
-						'assets/css/*.scss'
-					],
+                styles: {
 
-					tasks : ['sass', 'autoprefixer', 'cssmin']
+                    files: [
+                        'assets/css/*.scss'
+                    ],
 
-				}
-			}
-		}
-	);
+                    tasks: ['sass', 'autoprefixer', 'cssmin']
 
-	// A very basic default task.
-	grunt.registerTask( 'default', ['phpunit', 'jshint', 'uglify:production', 'sass', 'autoprefixer', 'cssmin', 'makepot'] );
-	grunt.registerTask( 'dev', ['default', 'watch'] );
+                }
+            }
+        }
+    );
+
+    // A very basic default task.
+    grunt.registerTask('default', ['phpunit', 'jshint', 'uglify:production', 'sass', 'autoprefixer', 'cssmin', 'makepot']);
+    grunt.registerTask('dev', ['default', 'watch']);
 
 };

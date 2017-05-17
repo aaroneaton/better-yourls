@@ -1,22 +1,23 @@
 {
-	"name":            "Better-YOURLs",
-	"private":         true,
-	"description":     "Grunt base for the Better YOURLs Plugin.",
-	"devDependencies": {
-		"grunt":                "~1.0.1",
-		"grunt-contrib-uglify": "~3.0.0",
-		"grunt-contrib-watch":  "~1.0.0",
-		"grunt-sass":           "~2.0.0",
-		"grunt-contrib-cssmin": "~2.2.0",
-		"load-grunt-tasks":     "~3.5.2",
-		"grunt-autoprefixer":   "~3.0.4",
-		"grunt-wp-i18n":        "~1.0.0",
-		"grunt-phpunit":        "~0.3.6",
-		"grunt-contrib-jshint": "~1.1.0"
-	},
-	"author":          "Chris Wiegman",
-	"repository":      {
-		"type": "git",
-		"url":  "https://github.com/ChrisWiegman/Better-YOURLS"
-	}
+  "name": "Better-YOURLs",
+  "private": true,
+  "description": "Grunt base for the Better YOURLs Plugin.",
+  "devDependencies": {
+    "grunt": "~1.0.1",
+    "grunt-contrib-uglify": "~3.0.0",
+    "grunt-contrib-watch": "~1.0.0",
+    "grunt-sass": "~2.0.0",
+    "grunt-contrib-cssmin": "~2.2.0",
+    "load-grunt-tasks": "~3.5.2",
+    "grunt-autoprefixer": "~3.0.4",
+    "grunt-wp-i18n": "~1.0.0",
+    "grunt-phpunit": "~0.3.6",
+    "grunt-contrib-jshint": "~1.1.0",
+    "time-grunt": "1.4.0"
+  },
+  "author": "Chris Wiegman",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ChrisWiegman/Better-YOURLS"
+  }
 }

@@ -233,6 +233,7 @@ class Better_YOURLS_Admin {
 		$support_page = 'https://wordpress.org/plugins/better-yourls/support/';
 
 		printf(
+			// translators: %1 is the opening of the support link markup and %2 is the closing for the markup.
 			esc_html__( 'If you need help getting this plugin or have found a bug please visit the %1$ssupport forums%2$s.', 'better-yourls' ),
 			'<a href="' . esc_url( $support_page ) . '" target="_blank">',
 			'</a>'
@@ -282,7 +283,7 @@ class Better_YOURLS_Admin {
 		<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 			<input type="hidden" name="cmd" value="_s-xclick">
 			<input type="hidden" name="hosted_button_id" value="XMS5DSYBPUUNU">
-			<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif"name="submit" alt="PayPal - The safer, easier way to pay online!">
+			<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" name="submit" alt="PayPal - The safer, easier way to pay online!">
 			<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
 		</form>
 
@@ -311,7 +312,12 @@ class Better_YOURLS_Admin {
 	public function page_actions() {
 
 		// Set two columns for all plugins using this framework.
-		add_screen_option( 'layout_columns', array( 'max' => 2, 'default' => 2 ) );
+		$args = array(
+			'max'     => 2,
+			'default' => 2,
+		);
+
+		add_screen_option( 'layout_columns', $args );
 
 		// Enqueue common scripts and try to keep it simple.
 		wp_enqueue_script( 'common' );
@@ -344,8 +350,7 @@ class Better_YOURLS_Admin {
 
 			<div id="poststuff">
 
-				<div id="post-body"
-				     class="metabox-holder columns-<?php echo 1 === get_current_screen()->get_columns() ? '1' : '2'; ?>">
+				<div id="post-body" class="metabox-holder columns-<?php echo 1 === get_current_screen()->get_columns() ? '1' : '2'; ?>">
 
 					<div id="postbox-container-2" class="postbox-container">
 						<?php do_meta_boxes( $screen, 'main', null ); ?>

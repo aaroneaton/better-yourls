@@ -391,7 +391,11 @@ class Better_YOURLS_Admin {
 		if ( isset( $input['post_types'] ) && is_array( $input['post_types'] ) ) {
 
 			$excluded_post_types = array();
-			$post_types = get_post_types( array( 'public' => true ) );
+			$args                = array(
+				'public' => true,
+			 );
+
+			$post_types = get_post_types( $args );
 
 			foreach ( $input['post_types'] as $post_type ) {
 
@@ -436,11 +440,7 @@ class Better_YOURLS_Admin {
 	 */
 	public function settings_field_https() {
 
-		$https = false;
-
-		if ( isset( $this->settings['https'] ) && true === $this->settings['https'] ) {
-			$https = true;
-		}
+		$https = ( isset( $this->settings['https'] ) && true === $this->settings['https'] ) ? true : false;
 
 		echo '<input name="better_yourls[https]" id="better_yourls_https" value="1" type="checkbox" ' . checked( true, $https, false ) . '>';
 		echo '<label for="better_yourls_https"><p class="description"> ' . esc_html__( 'Check this box to access your YOURLS installation over https.', 'better-yourls' ) . '</p></label>';
@@ -456,11 +456,7 @@ class Better_YOURLS_Admin {
 	 */
 	public function settings_field_https_ignore() {
 
-		$https_ignore = false;
-
-		if ( isset( $this->settings['https_ignore'] ) && true === $this->settings['https_ignore'] ) {
-			$https_ignore = true;
-		}
+		$https_ignore = ( isset( $this->settings['https_ignore'] ) && true === $this->settings['https_ignore'] ) ? true : false;
 
 		echo '<input name="better_yourls[https_ignore]" id="better_yourls_https_ignore" value="1" type="checkbox" ' . checked( true, $https_ignore, false ) . '>';
 		echo '<label for="better_yourls_https_ignore"><p class="description"> ' . esc_html__( 'Check this box to ignore security checks on your https certificate. Note this is not normal. Only use this if you are using a self-signed certificate to provide https to your YOURLS admin area.', 'better-yourls' ) . '</p></label>';
@@ -512,7 +508,11 @@ class Better_YOURLS_Admin {
 	 */
 	public function settings_field_post_types() {
 
-		$post_types = get_post_types( array( 'public' => true ), 'objects' );
+		$args = array(
+			'public' => true,
+		);
+
+		$post_types = get_post_types( $args, 'objects' );
 		$excluded_post_types = array();
 
 		// Get the list of post types we've already excluded.
@@ -522,11 +522,7 @@ class Better_YOURLS_Admin {
 
 		foreach ( $post_types as $post_type ) {
 
-			$checked = false;
-
-			if ( in_array( $post_type->name, $excluded_post_types, true ) ) {
-				$checked = true;
-			}
+			$checked = ( in_array( $post_type->name, $excluded_post_types, true ) ) ? true : false;
 
 			echo '<input type="checkbox" name="better_yourls[post_types][' . esc_attr( $post_type->name ) . ']" value="' . esc_attr( $post_type->name ) . '" ' . checked( true, $checked, false ) . '><label for="better_yourls[post_types][' . esc_attr( $post_type->name ) . ']">' . esc_html( $post_type->labels->name ) . '</label><br />';
 

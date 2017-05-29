@@ -119,7 +119,7 @@ class Admin_Tests extends Base\TestCase {
 		) );
 
 		\WP_Mock::wpFunction( 'add_settings_field', array(
-			'times' => 5,
+			'times' => 6,
 		) );
 
 		\WP_Mock::wpFunction( 'register_setting', array(

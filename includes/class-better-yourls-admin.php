@@ -517,6 +517,11 @@ class Better_YOURLS_Admin {
 			'public' => true,
 		);
 
+		// Unset public argument if private posts are listed as true.
+		if ( isset( $this->settings['private_post_types'] ) && true === $this->settings['private_post_types'] ) {
+			unset( $args['public'] );
+		}
+
 		$post_types = get_post_types( $args, 'objects' );
 		$excluded_post_types = array();
 

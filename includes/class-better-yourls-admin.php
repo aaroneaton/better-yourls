@@ -425,6 +425,20 @@ class Better_YOURLS_Admin {
 
 		}
 
+		// Don't automatically include all excluded private post types immediately.
+		if ( ( ! isset( $this->settings['private_post_types'] ) || false === $this->settings['private_post_types'] ) && true === $input['private_post_types'] ) {
+
+			$args = array(
+				'public' => false,
+			);
+
+			$private_post_types = get_post_types( $args );
+
+			foreach ( $private_post_types as $post_type ) {
+				$input['post_types'][] = $post_type;
+			}
+		}
+
 		return $input;
 
 	}
@@ -536,6 +550,8 @@ class Better_YOURLS_Admin {
 		}
 
 		$post_types = get_post_types( $args, 'objects' );
+		uasort( $post_types, array( $this, 'sort_post_types' ) );
+
 		$excluded_post_types = array();
 
 		// Get the list of post types we've already excluded.
@@ -552,6 +568,26 @@ class Better_YOURLS_Admin {
 		}
 
 		echo '<p class="description"> ' . esc_html__( 'Put a check mark next to any post type for which you do NOT want to generate a short link.', 'better-yourls' ) . '</p>';
+
+	}
+
+	/**
+	 * Sort post types alphabetically by labels.
+	 *
+	 * @since 2.2
+	 *
+	 * @param \WP_Post_Type $post_type_a The first post type to sort.
+	 * @param \WP_Post_Type $post_type_b The second post type to sort.
+	 *
+	 * @return int
+	 */
+	public function sort_post_types( $post_type_a, $post_type_b ) {
+
+		if ( $post_type_a->labels->name === $post_type_b->labels->name ) {
+			return 0;
+		}
+
+		return ($post_type_a->labels->name < $post_type_b->labels->name) ? -1 : 1;
 
 	}
 }

@@ -384,6 +384,13 @@ class Better_YOURLS_Admin {
 	 */
 	public function sanitize_module_input( $input ) {
 
+		// Set whether or not we're already handling private post types and act accordingly.
+		$allow_private = false;
+
+		if ( isset( $this->settings['private_post_types'] ) && true === $this->settings['private_post_types'] ) {
+			$allow_private = true;
+		}
+
 		$input['domain']              = isset( $input['domain'] ) ? sanitize_text_field( $input['domain'] ) : '';
 		$input['domain']              = str_replace( 'http://', '', $input['domain'] );
 		$input['domain']              = str_replace( ' ', '', $input['domain'] );
@@ -393,23 +400,29 @@ class Better_YOURLS_Admin {
 		$input['https_ignore']        = isset( $input['https_ignore'] ) && 1 === absint( $input['https_ignore'] ) ? true : false;
 		$input['private_post_types']  = isset( $input['private_post_types'] ) && 1 === absint( $input['private_post_types'] ) ? true : false;
 
+		$excluded_public_post_types = array();
+
+		// Make sure all set post types are valid.
 		if ( isset( $input['post_types'] ) && is_array( $input['post_types'] ) ) {
 
-			$excluded_post_types = array();
-			$args                = array(
-				'public' => true,
-			 );
+			$args = array();
 
-			$post_types = get_post_types( $args );
+			// Set public argument if we're not worried about private post types.
+			if ( false === $allow_private ) {
+				$args['public'] = true;
+			}
+
+			$public_post_types = get_post_types( $args );
 
 			foreach ( $input['post_types'] as $post_type ) {
 
-				if ( in_array( $post_type, $post_types, true ) ) {
-					$excluded_post_types[] = sanitize_text_field( $post_type );
+				if ( in_array( $post_type, $public_post_types, true ) ) {
+					$excluded_public_post_types[] = sanitize_text_field( $post_type );
 				}
 			}
 
-			$input['post_types'] = $excluded_post_types;
+			$input['post_types'] = $excluded_public_post_types;
+
 		}
 
 		return $input;

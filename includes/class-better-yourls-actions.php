@@ -85,6 +85,20 @@ class Better_YOURLS_Actions {
 		$included_post_types = apply_filters( 'better_yourls_post_types', array() );
 		$excluded_post_types = ( isset( $this->settings['post_types'] ) && is_array( $this->settings['post_types'] ) ) ? $this->settings['post_types'] : array();
 
+		// Properly handle private post types and exclude if needed.
+		if ( ! isset( $this->settings['private_post_types'] ) || false === $this->settings['private_post_types'] ) {
+
+			$args = array(
+				'pulic' => true,
+			);
+
+			$post_types = get_post_types( $args, 'objects' );
+
+			if ( ! in_array( $post_type, $post_types, true ) ) {
+				return false;
+			}
+		}
+
 		if ( ( ! empty( $included_post_types ) && ! in_array( $post_type, $included_post_types, true ) ) || in_array( $post_type, $excluded_post_types, true ) ) {
 			return false;
 		}

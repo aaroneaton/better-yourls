@@ -89,13 +89,13 @@ class Better_YOURLS_Actions {
 		if ( ! isset( $this->settings['private_post_types'] ) || false === $this->settings['private_post_types'] ) {
 
 			$args = array(
-				'pulic' => true,
+				'pulic' => false,
 			);
 
 			$post_types = get_post_types( $args, 'objects' );
 
-			if ( ! in_array( $post_type, $post_types, true ) ) {
-				return false;
+			foreach ( $post_types as $post_type ) {
+				$excluded_post_types[] = $post_type->name;
 			}
 		}
 

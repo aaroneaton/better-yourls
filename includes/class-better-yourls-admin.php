@@ -425,17 +425,26 @@ class Better_YOURLS_Admin {
 
 		}
 
-		// Don't automatically include all excluded private post types immediately.
-		if ( ( ! isset( $this->settings['private_post_types'] ) || false === $this->settings['private_post_types'] ) && true === $input['private_post_types'] ) {
+		$args = array(
+			'public' => false,
+		);
 
-			$args = array(
-				'public' => false,
-			);
+		$private_post_types = get_post_types( $args );
 
-			$private_post_types = get_post_types( $args );
+		foreach ( $private_post_types as $post_type ) {
 
-			foreach ( $private_post_types as $post_type ) {
+			// Don't automatically include all excluded private post types immediately.
+			if ( ( ! isset( $this->settings['private_post_types'] ) || false === $this->settings['private_post_types'] ) && true === $input['private_post_types'] ) {
+
 				$input['post_types'][] = $post_type;
+
+			} else {
+
+				$key = array_search( $post_type, $input['post_types'], true );
+
+				if ( false !== $key ) {
+					unset( $input['post_types'][ $key ] );
+				}
 			}
 		}
 

@@ -66,6 +66,7 @@ composer.json
 composer.lock
 Gruntfile.js
 package.json
+package-lock.json
 phpunit.xml
 .travis.yml
 bootstrap.php

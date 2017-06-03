@@ -92,10 +92,10 @@ class Better_YOURLS_Actions {
 				'pulic' => false,
 			);
 
-			$post_types = get_post_types( $args, 'objects' );
+			$private_post_types = get_post_types( $args );
 
-			foreach ( $post_types as $post_type ) {
-				$excluded_post_types[] = $post_type->name;
+			foreach ( $private_post_types as $private_post_type ) {
+				$excluded_post_types[] = $private_post_type;
 			}
 		}
 

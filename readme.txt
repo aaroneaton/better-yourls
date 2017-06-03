@@ -53,6 +53,10 @@ Integrates your blog with the <a href="http://yourls.org" target="_blank">YOURLS
 
 == Changelog ==
 
+= 2.2 =
+* Added ability to properly handle non-public post types.
+* Minor fixes and typo corrections.
+
 = 2.1.6 =
 * Minor code sniffer fixes.
 * Added nonce to keyword form.

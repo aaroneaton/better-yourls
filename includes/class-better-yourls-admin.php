@@ -156,6 +156,14 @@ class Better_YOURLS_Admin {
 			'better_yourls'
 		);
 
+		add_settings_field(
+			'better_yourls[private_post_types]',
+			esc_html__( 'Allow Private Post Types', 'better-yourls' ),
+			array( $this, 'settings_field_private_post_types' ),
+			'settings_page_better_yourls',
+			'better_yourls'
+		);
+
 		// Register the settings field for the entire module.
 		register_setting(
 			'settings_page_better_yourls',
@@ -225,6 +233,7 @@ class Better_YOURLS_Admin {
 		$support_page = 'https://wordpress.org/plugins/better-yourls/support/';
 
 		printf(
+			// translators: %1 is the opening of the support link markup and %2 is the closing for the markup.
 			esc_html__( 'If you need help getting this plugin or have found a bug please visit the %1$ssupport forums%2$s.', 'better-yourls' ),
 			'<a href="' . esc_url( $support_page ) . '" target="_blank">',
 			'</a>'
@@ -274,7 +283,7 @@ class Better_YOURLS_Admin {
 		<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
 			<input type="hidden" name="cmd" value="_s-xclick">
 			<input type="hidden" name="hosted_button_id" value="XMS5DSYBPUUNU">
-			<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif"name="submit" alt="PayPal - The safer, easier way to pay online!">
+			<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" name="submit" alt="PayPal - The safer, easier way to pay online!">
 			<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
 		</form>
 
@@ -303,7 +312,12 @@ class Better_YOURLS_Admin {
 	public function page_actions() {
 
 		// Set two columns for all plugins using this framework.
-		add_screen_option( 'layout_columns', array( 'max' => 2, 'default' => 2 ) );
+		$args = array(
+			'max'     => 2,
+			'default' => 2,
+		);
+
+		add_screen_option( 'layout_columns', $args );
 
 		// Enqueue common scripts and try to keep it simple.
 		wp_enqueue_script( 'common' );
@@ -336,8 +350,7 @@ class Better_YOURLS_Admin {
 
 			<div id="poststuff">
 
-				<div id="post-body"
-				     class="metabox-holder columns-<?php echo 1 === get_current_screen()->get_columns() ? '1' : '2'; ?>">
+				<div id="post-body" class="metabox-holder columns-<?php echo 1 === get_current_screen()->get_columns() ? '1' : '2'; ?>">
 
 					<div id="postbox-container-2" class="postbox-container">
 						<?php do_meta_boxes( $screen, 'main', null ); ?>
@@ -371,27 +384,68 @@ class Better_YOURLS_Admin {
 	 */
 	public function sanitize_module_input( $input ) {
 
-		$input['domain']        = isset( $input['domain'] ) ? sanitize_text_field( $input['domain'] ) : '';
-		$input['domain']        = str_replace( 'http://', '', $input['domain'] );
-		$input['domain']        = str_replace( ' ', '', $input['domain'] );
-		$input['domain']        = trim( $input['domain'], '/' );
-		$input['key']           = isset( $input['key'] ) ? sanitize_text_field( $input['key'] ) : '';
-		$input['https']         = isset( $input['https'] ) && 1 === absint( $input['https'] ) ? true : false;
-		$input['https_ignore']  = isset( $input['https_ignore'] ) && 1 === absint( $input['https_ignore'] ) ? true : false;
+		// Set whether or not we're already handling private post types and act accordingly.
+		$allow_private = false;
 
+		if ( isset( $this->settings['private_post_types'] ) && true === $this->settings['private_post_types'] ) {
+			$allow_private = true;
+		}
+
+		$input['domain']              = isset( $input['domain'] ) ? sanitize_text_field( $input['domain'] ) : '';
+		$input['domain']              = str_replace( 'http://', '', $input['domain'] );
+		$input['domain']              = str_replace( ' ', '', $input['domain'] );
+		$input['domain']              = trim( $input['domain'], '/' );
+		$input['key']                 = isset( $input['key'] ) ? sanitize_text_field( $input['key'] ) : '';
+		$input['https']               = isset( $input['https'] ) && 1 === absint( $input['https'] ) ? true : false;
+		$input['https_ignore']        = isset( $input['https_ignore'] ) && 1 === absint( $input['https_ignore'] ) ? true : false;
+		$input['private_post_types']  = isset( $input['private_post_types'] ) && 1 === absint( $input['private_post_types'] ) ? true : false;
+
+		$excluded_public_post_types = array();
+
+		// Make sure all set post types are valid.
 		if ( isset( $input['post_types'] ) && is_array( $input['post_types'] ) ) {
 
-			$excluded_post_types = array();
-			$post_types = get_post_types( array( 'public' => true ) );
+			$args = array();
+
+			// Set public argument if we're not worried about private post types.
+			if ( false === $allow_private ) {
+				$args['public'] = true;
+			}
+
+			$public_post_types = get_post_types( $args );
 
 			foreach ( $input['post_types'] as $post_type ) {
 
-				if ( in_array( $post_type, $post_types, true ) ) {
-					$excluded_post_types[] = sanitize_text_field( $post_type );
+				if ( in_array( $post_type, $public_post_types, true ) ) {
+					$excluded_public_post_types[] = sanitize_text_field( $post_type );
 				}
 			}
 
-			$input['post_types'] = $excluded_post_types;
+			$input['post_types'] = $excluded_public_post_types;
+
+		}
+
+		$args = array(
+			'public' => false,
+		);
+
+		$private_post_types = get_post_types( $args );
+
+		foreach ( $private_post_types as $post_type ) {
+
+			// Don't automatically include all excluded private post types immediately.
+			if ( ( ! isset( $this->settings['private_post_types'] ) || false === $this->settings['private_post_types'] ) && true === $input['private_post_types'] ) {
+
+				$input['post_types'][] = $post_type;
+
+			} else {
+
+				$key = array_search( $post_type, $input['post_types'], true );
+
+				if ( false !== $key ) {
+					unset( $input['post_types'][ $key ] );
+				}
+			}
 		}
 
 		return $input;
@@ -427,11 +481,7 @@ class Better_YOURLS_Admin {
 	 */
 	public function settings_field_https() {
 
-		$https = false;
-
-		if ( isset( $this->settings['https'] ) && true === $this->settings['https'] ) {
-			$https = true;
-		}
+		$https = ( isset( $this->settings['https'] ) && true === $this->settings['https'] ) ? true : false;
 
 		echo '<input name="better_yourls[https]" id="better_yourls_https" value="1" type="checkbox" ' . checked( true, $https, false ) . '>';
 		echo '<label for="better_yourls_https"><p class="description"> ' . esc_html__( 'Check this box to access your YOURLS installation over https.', 'better-yourls' ) . '</p></label>';
@@ -447,11 +497,7 @@ class Better_YOURLS_Admin {
 	 */
 	public function settings_field_https_ignore() {
 
-		$https_ignore = false;
-
-		if ( isset( $this->settings['https_ignore'] ) && true === $this->settings['https_ignore'] ) {
-			$https_ignore = true;
-		}
+		$https_ignore = ( isset( $this->settings['https_ignore'] ) && true === $this->settings['https_ignore'] ) ? true : false;
 
 		echo '<input name="better_yourls[https_ignore]" id="better_yourls_https_ignore" value="1" type="checkbox" ' . checked( true, $https_ignore, false ) . '>';
 		echo '<label for="better_yourls_https_ignore"><p class="description"> ' . esc_html__( 'Check this box to ignore security checks on your https certificate. Note this is not normal. Only use this if you are using a self-signed certificate to provide https to your YOURLS admin area.', 'better-yourls' ) . '</p></label>';
@@ -479,6 +525,22 @@ class Better_YOURLS_Admin {
 	}
 
 	/**
+	 * Allow processing for private post types.
+	 *
+	 * @since 2.2
+	 *
+	 * @return void
+	 */
+	public function settings_field_private_post_types() {
+
+		$private_post_types = ( isset( $this->settings['private_post_types'] ) && true === $this->settings['private_post_types'] ) ? true : false;
+
+		echo '<input name="better_yourls[private_post_types]" id="better_yourls_private_post_types" value="1" type="checkbox" ' . checked( true, $private_post_types, false ) . '>';
+		echo '<label for="better_yourls_private_post_types"><p class="description"> ' . esc_html__( 'Check this box to allow private post types to be indexed.', 'better-yourls' ) . '</p></label>';
+
+	}
+
+	/**
 	 * Echo exclude post types field.
 	 *
 	 * @since 2.1
@@ -487,7 +549,18 @@ class Better_YOURLS_Admin {
 	 */
 	public function settings_field_post_types() {
 
-		$post_types = get_post_types( array( 'public' => true ), 'objects' );
+		$args = array(
+			'public' => true,
+		);
+
+		// Unset public argument if private posts are listed as true.
+		if ( isset( $this->settings['private_post_types'] ) && true === $this->settings['private_post_types'] ) {
+			unset( $args['public'] );
+		}
+
+		$post_types = get_post_types( $args, 'objects' );
+		uasort( $post_types, array( $this, 'sort_post_types' ) );
+
 		$excluded_post_types = array();
 
 		// Get the list of post types we've already excluded.
@@ -497,17 +570,33 @@ class Better_YOURLS_Admin {
 
 		foreach ( $post_types as $post_type ) {
 
-			$checked = false;
-
-			if ( in_array( $post_type->name, $excluded_post_types, true ) ) {
-				$checked = true;
-			}
+			$checked = ( in_array( $post_type->name, $excluded_post_types, true ) ) ? true : false;
 
 			echo '<input type="checkbox" name="better_yourls[post_types][' . esc_attr( $post_type->name ) . ']" value="' . esc_attr( $post_type->name ) . '" ' . checked( true, $checked, false ) . '><label for="better_yourls[post_types][' . esc_attr( $post_type->name ) . ']">' . esc_html( $post_type->labels->name ) . '</label><br />';
 
 		}
 
 		echo '<p class="description"> ' . esc_html__( 'Put a check mark next to any post type for which you do NOT want to generate a short link.', 'better-yourls' ) . '</p>';
+
+	}
+
+	/**
+	 * Sort post types alphabetically by labels.
+	 *
+	 * @since 2.2
+	 *
+	 * @param \WP_Post_Type $post_type_a The first post type to sort.
+	 * @param \WP_Post_Type $post_type_b The second post type to sort.
+	 *
+	 * @return int
+	 */
+	public function sort_post_types( $post_type_a, $post_type_b ) {
+
+		if ( $post_type_a->labels->name === $post_type_b->labels->name ) {
+			return 0;
+		}
+
+		return ($post_type_a->labels->name < $post_type_b->labels->name) ? -1 : 1;
 
 	}
 }

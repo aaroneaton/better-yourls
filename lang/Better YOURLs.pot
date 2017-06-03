@@ -1,0 +1,176 @@
+# Copyright (C) 2017 Chris Wiegman
+# This file is distributed under the GPLv2.
+msgid ""
+msgstr ""
+"Project-Id-Version: Better YOURLS 2.2\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/better-yourls\n"
+"POT-Creation-Date: 2017-06-03 23:20:53+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"X-Generator: grunt-wp-i18n1.0.0\n"
+
+#: includes/class-better-yourls-actions.php:144
+msgid "Security Error"
+msgstr ""
+
+#: includes/class-better-yourls-actions.php:204
+msgid "YOURLs Keyword"
+msgstr ""
+
+#: includes/class-better-yourls-actions.php:252
+msgid "YOURLS"
+msgstr ""
+
+#: includes/class-better-yourls-actions.php:261
+msgid "YOURLS Link"
+msgstr ""
+
+#: includes/class-better-yourls-actions.php:269
+msgid "Link Stats"
+msgstr ""
+
+#: includes/class-better-yourls-actions.php:349
+msgid "Your YOURLS short link is: "
+msgstr ""
+
+#: includes/class-better-yourls-actions.php:583
+msgid ""
+"If a short-url doesn't yet exist for this post you can enter a keyword "
+"above. If it already exists it will be displayed."
+msgstr ""
+
+#: includes/class-better-yourls-admin.php:88
+#: includes/class-better-yourls-admin.php:344
+msgid "Better Yourls"
+msgstr ""
+
+#: includes/class-better-yourls-admin.php:96
+msgid "Support This Plugin"
+msgstr ""
+
+#: includes/class-better-yourls-admin.php:104
+msgid "Need help?"
+msgstr ""
+
+#: includes/class-better-yourls-admin.php:121
+msgid "YOURLS Domain"
+msgstr ""
+
+#: includes/class-better-yourls-admin.php:129
+msgid "Use https"
+msgstr ""
+
+#: includes/class-better-yourls-admin.php:137
+msgid "Allow Self-signed https Certificate"
+msgstr ""
+
+#: includes/class-better-yourls-admin.php:145
+msgid "YOURLS  Token"
+msgstr ""
+
+#: includes/class-better-yourls-admin.php:153
+msgid "Exclude Post Types"
+msgstr ""
+
+#: includes/class-better-yourls-admin.php:161
+msgid "Allow Private Post Types"
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "Better YOURLS"
+msgstr ""
+
+#: includes/class-better-yourls-admin.php:218
+msgid "Settings"
+msgstr ""
+
+#: includes/class-better-yourls-admin.php:237
+#. translators: %1 is the opening of the support link markup and %2 is the
+#. closing for the markup.
+msgid ""
+"If you need help getting this plugin or have found a bug please visit the "
+"%1$ssupport forums%2$s."
+msgstr ""
+
+#: includes/class-better-yourls-admin.php:253
+msgid "Use the settings below to configure Better YOURLs for your site."
+msgstr ""
+
+#: includes/class-better-yourls-admin.php:260
+msgid "Save Changes"
+msgstr ""
+
+#: includes/class-better-yourls-admin.php:279
+msgid ""
+"Have you found this plugin useful? Please help support it's continued "
+"development with a donation of $20, $50, or even $100."
+msgstr ""
+
+#: includes/class-better-yourls-admin.php:291
+msgid "Short on funds?"
+msgstr ""
+
+#: includes/class-better-yourls-admin.php:295
+msgid "Rate Better YOURLS 5-stars on WordPress.org"
+msgstr ""
+
+#: includes/class-better-yourls-admin.php:297
+msgid "Talk about it on your site and link back to the "
+msgstr ""
+
+#: includes/class-better-yourls-admin.php:297
+msgid "plugin page."
+msgstr ""
+
+#: includes/class-better-yourls-admin.php:299
+msgid "Tweet about it. "
+msgstr ""
+
+#: includes/class-better-yourls-admin.php:471
+msgid "The short domain you are using for YOURLS. Enter only the domain name."
+msgstr ""
+
+#: includes/class-better-yourls-admin.php:487
+msgid "Check this box to access your YOURLS installation over https."
+msgstr ""
+
+#: includes/class-better-yourls-admin.php:503
+msgid ""
+"Check this box to ignore security checks on your https certificate. Note "
+"this is not normal. Only use this if you are using a self-signed "
+"certificate to provide https to your YOURLS admin area."
+msgstr ""
+
+#: includes/class-better-yourls-admin.php:523
+msgid "This can be found on the tools page in your YOURLS installation."
+msgstr ""
+
+#: includes/class-better-yourls-admin.php:539
+msgid "Check this box to allow private post types to be indexed."
+msgstr ""
+
+#: includes/class-better-yourls-admin.php:579
+msgid ""
+"Put a check mark next to any post type for which you do NOT want to "
+"generate a short link."
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://wordpress.org/plugins/better-yourls/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Replace WordPress shortlinks with custom YOURLS domain."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Chris Wiegman"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://www.chriswiegman.com/"
+msgstr ""

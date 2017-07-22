@@ -330,15 +330,9 @@ class Better_YOURLS_Actions {
 
 		if ( is_admin_bar_showing() && isset( $post->ID ) && current_user_can( 'edit_post', $post->ID ) ) {
 
-			if ( defined( 'WP_DEBUG' ) && true === WP_DEBUG ) {
+			$min = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
-				wp_register_script( 'better_yourls', BYOURLS_URL . 'assets/js/better-yourls.js', array( 'jquery' ), BYOURLS_VERSION );
-
-			} else {
-
-				wp_register_script( 'better_yourls', BYOURLS_URL . 'assets/js/better-yourls.min.js', array( 'jquery' ), BYOURLS_VERSION );
-
-			}
+			wp_register_script( 'better_yourls', BYOURLS_URL . 'assets/js/better-yourls' . $min . '.js', array( 'jquery' ), BYOURLS_VERSION );
 
 			wp_enqueue_script( 'better_yourls' );
 

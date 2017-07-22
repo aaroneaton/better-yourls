@@ -37,24 +37,18 @@ if [ "$NEWVERSION1" != "$NEWVERSION2" ]; then echo "Versions don't match. Exitin
 
 echo "Versions match in readme.txt and PHP file. Let's proceed..."
 
-#cd "$GITPATH"
-#echo -e "Enter a commit message for this new version: \c"
-#read COMMITMSG
-# git commit -am "$COMMITMSG"
-
-#echo "Tagging new version in git"
-#git tag -a "$NEWVERSION1" -m "Tagging version $NEWVERSION1"
-
-#echo "Pushing latest commit to origin, with tags"
-#git push origin master
-#git push origin master --tags
-
 echo
 echo "Creating local copy of SVN repo ..."
 svn co $SVNURL $SVNPATH
 
 echo "Exporting the HEAD of master from git to the trunk of SVN"
 git checkout-index -a -f --prefix=$SVNPATH/trunk/
+
+echo "Building plugin assets"
+cd $SVNPATH/trunk/
+composer install
+npm install
+grunt
 
 echo "Ignoring github specific files and deployment script"
 svn propset svn:ignore "
@@ -73,6 +67,8 @@ bootstrap.php
 .jshintrc
 deploy.sh
 README.md
+node_modules
+vendor
 tests" "$SVNPATH/trunk/"
 
 echo "Changing directory to SVN and committing to trunk"

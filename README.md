@@ -34,6 +34,8 @@ Released under the terms of the GNU General Public License.
 
 ## Changelog
 
+##### 2.2.2
+* Fixed deployment error
 
 ##### 2.2.1
 * Fixed error on settings save due to unavailable array.

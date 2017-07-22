@@ -34,6 +34,35 @@ Released under the terms of the GNU General Public License.
 
 ## Changelog
 
+
+##### 2.2.1
+* Fixed error on settings save due to unavailable array.
+* Fixed "Security Error" when saving ignored posts.
+* Minor JS and CSS refactoring for easier debugging
+* Moved .pot file to "languages" folder
+
+##### 2.2
+* Added ability to properly handle non-public post types.
+* Minor fixes and typo corrections.
+
+##### 2.1.6
+* Minor code sniffer fixes.
+* Added nonce to keyword form.
+
+##### 2.1.5
+* Cleaned up various typos and other PHP Codesniffer issues.
+
+##### 2.1.4
+* Fixed custom keyword issue (Credit Dom Sammut)
+* Various typo and other minor fixes.
+
+##### 2.1.3
+* 2.1.3 Cleans out extra files in the packaged plugin that my deployment script didn't catch.
+
+##### 2.1.2
+* Fix: No longer will generate shortlinks for admin menu items
+* Behind the scenes: Finally started adding proper Unit Tests to improve reliability. Coverage is up to about 25%
+
 ##### 2.1.1
 * Fix: ShortURL generation will now work better with many social sharing plugins such as Jetpack
 

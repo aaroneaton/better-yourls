@@ -138,8 +138,11 @@ class Better_YOURLS_Actions {
 
 		// Make sure we are originating from the right place.
 		if (
-			! isset( $_POST['better_yourls_nonce'] ) || // WPCS: input var ok.
-			! wp_verify_nonce( $_POST['better_yourls_nonce'], 'better_yourls_save_post' ) // WPCS: input var ok. Sanitization ok.
+			true === $this->_check_valid_post( $post_id ) &&
+			(
+				! isset( $_POST['better_yourls_nonce'] ) || // WPCS: input var ok.
+				! wp_verify_nonce( $_POST['better_yourls_nonce'], 'better_yourls_save_post' ) // WPCS: input var ok. Sanitization ok.
+			)// WPCS: input var ok. Sanitization ok.
 		) {
 			wp_die( esc_html__( 'Security Error', 'better-yourls' ) );
 		}

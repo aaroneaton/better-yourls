@@ -45,10 +45,31 @@ module.exports = function (grunt) {
 
 					files: {
 						'assets/js/better-yourls.min.js': [
-							'assets/js/better-yourls.js'
+							'assets/js/src/better-yourls.js'
 						],
 						'assets/js/admin-footer.min.js':  [
-							'assets/js/admin-footer.js'
+							'assets/js/src/admin-footer.js'
+						]
+					}
+				},
+
+				dev: {
+
+					options: {
+						beautify:         true,
+						preserveComments: true,
+						sourceMap:        true,
+						mangle:           {
+							reserved: ['jQuery']
+						}
+					},
+
+					files: {
+						'assets/js/better-yourls.js': [
+							'assets/js/src/better-yourls.js'
+						],
+						'assets/js/admin-footer.js':  [
+							'assets/js/src/admin-footer.js'
 						]
 					}
 				}

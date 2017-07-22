@@ -34,6 +34,9 @@ Released under the terms of the GNU General Public License.
 
 ## Changelog
 
+##### 2.2.3
+* Fixed an error that prevented private post types from being handled correctly.
+
 ##### 2.2.2
 * Fixed deployment error
 

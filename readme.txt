@@ -4,7 +4,7 @@ Donate link: https://chriswiegman.com
 Tags: yourls, shortlink, custom shortlink
 Requires at least: 4.2
 Tested up to: 4.8.1
-Stable tag: 2.2.2
+Stable tag: 2.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -52,6 +52,9 @@ Integrates your blog with the <a href="http://yourls.org" target="_blank">YOURLS
 1. Easy to use with only 2 options.
 
 == Changelog ==
+
+= 2.2.3 =
+* Fixed an error that prevented private post types from being handled correctly.
 
 = 2.2.2 =
 * Fixed deployment error

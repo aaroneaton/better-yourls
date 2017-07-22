@@ -125,7 +125,7 @@ module.exports = function (grunt) {
 					},
 
 					files: {
-						'assets/css/better-yourls.css': 'assets/css/better-yourls.scss'
+						'assets/css/better-yourls.css': 'assets/css/scss/better-yourls.scss'
 					}
 				}
 			},
@@ -169,7 +169,7 @@ module.exports = function (grunt) {
 				options: {
 					jshintrc: true
 				},
-				all:     ['assets/js/admin-footer.js', 'assets/js/better-yourls.js']
+				all:     ['assets/js/src/*.js']
 			},
 
 			/**

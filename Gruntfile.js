@@ -37,6 +37,7 @@ module.exports = function (grunt) {
 					options: {
 						beautify:         false,
 						preserveComments: false,
+						sourceMap:        false,
 						mangle:           {
 							reserved: ['jQuery']
 						}

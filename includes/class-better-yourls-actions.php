@@ -138,8 +138,11 @@ class Better_YOURLS_Actions {
 
 		// Make sure we are originating from the right place.
 		if (
-			! isset( $_POST['better_yourls_nonce'] ) || // WPCS: input var ok.
-			! wp_verify_nonce( $_POST['better_yourls_nonce'], 'better_yourls_save_post' ) // WPCS: input var ok. Sanitization ok.
+			true === $this->_check_valid_post( $post_id ) &&
+			(
+				! isset( $_POST['better_yourls_nonce'] ) || // WPCS: input var ok.
+				! wp_verify_nonce( $_POST['better_yourls_nonce'], 'better_yourls_save_post' ) // WPCS: input var ok. Sanitization ok.
+			)// WPCS: input var ok. Sanitization ok.
 		) {
 			wp_die( esc_html__( 'Security Error', 'better-yourls' ) );
 		}
@@ -330,15 +333,9 @@ class Better_YOURLS_Actions {
 
 		if ( is_admin_bar_showing() && isset( $post->ID ) && current_user_can( 'edit_post', $post->ID ) ) {
 
-			if ( defined( 'WP_DEBUG' ) && true === WP_DEBUG ) {
+			$min = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
-				wp_register_script( 'better_yourls', BYOURLS_URL . 'assets/js/better-yourls.js', array( 'jquery' ), BYOURLS_VERSION );
-
-			} else {
-
-				wp_register_script( 'better_yourls', BYOURLS_URL . 'assets/js/better-yourls.min.js', array( 'jquery' ), BYOURLS_VERSION );
-
-			}
+			wp_register_script( 'better_yourls', BYOURLS_URL . 'assets/js/better-yourls' . $min . '.js', array( 'jquery' ), BYOURLS_VERSION );
 
 			wp_enqueue_script( 'better_yourls' );
 

@@ -53,17 +53,10 @@ class Better_YOURLS_Admin {
 
 		if ( 'settings_page_better_yourls' === get_current_screen()->id ) {
 
-			if ( defined( 'WP_DEBUG' ) && true === WP_DEBUG ) {
+			$min = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
 
-				wp_register_script( 'better_yourls_footer', BYOURLS_URL . 'assets/js/admin-footer.js', array( 'jquery' ), BYOURLS_VERSION, true );
-				wp_register_style( 'better_yourls_admin', BYOURLS_URL . 'assets/css/better-yourls.css', array(), BYOURLS_VERSION ); // Add multi-select css.
-
-			} else {
-
-				wp_register_script( 'better_yourls_footer', BYOURLS_URL . 'assets/js/admin-footer.min.js', array( 'jquery' ), BYOURLS_VERSION, true );
-				wp_register_style( 'better_yourls_admin', BYOURLS_URL . 'assets/css/better-yourls.min.css', array(), BYOURLS_VERSION ); // Add multi-select css.
-
-			}
+			wp_register_script( 'better_yourls_footer', BYOURLS_URL . 'assets/js/admin-footer' . $min . '.js', array( 'jquery' ), BYOURLS_VERSION, true );
+			wp_register_style( 'better_yourls_admin', BYOURLS_URL . 'assets/css/better-yourls' . $min . '.css', array(), BYOURLS_VERSION ); // Add multi-select css.
 
 			wp_enqueue_script( 'better_yourls_footer' );
 			wp_enqueue_style( 'better_yourls_admin' );
@@ -432,6 +425,10 @@ class Better_YOURLS_Admin {
 		$private_post_types = get_post_types( $args );
 
 		foreach ( $private_post_types as $post_type ) {
+
+			if ( ! isset( $input['post_types'] ) || ! is_array( $input['post_types'] ) ) {
+				$input['post_types'] = array();
+			}
 
 			// Don't automatically include all excluded private post types immediately.
 			if ( ( ! isset( $this->settings['private_post_types'] ) || false === $this->settings['private_post_types'] ) && true === $input['private_post_types'] ) {

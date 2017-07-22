@@ -71,6 +71,7 @@ phpunit.xml
 .travis.yml
 bootstrap.php
 .jshintrc
+deploy.sh
 tests" "$SVNPATH/trunk/"
 
 echo "Changing directory to SVN and committing to trunk"

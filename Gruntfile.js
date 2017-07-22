@@ -10,6 +10,24 @@ module.exports = function (grunt) {
 		{
 
 			/**
+			 * Clean existing files
+			 */
+			clean: {
+				styles:  {
+					src: [
+						'assets/css/*.css',
+						'assets/css/*.map'
+					]
+				},
+				scripts: {
+					src: [
+						'assets/js/*.js',
+						'assets/js/*.map'
+					]
+				}
+			},
+
+			/**
 			 * Processes and compresses JavaScript.
 			 */
 			uglify: {

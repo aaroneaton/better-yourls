@@ -89,7 +89,7 @@ class Better_YOURLS_Actions {
 		if ( ! isset( $this->settings['private_post_types'] ) || false === $this->settings['private_post_types'] ) {
 
 			$args = array(
-				'pulic' => false,
+				'public' => false,
 			);
 
 			$private_post_types = get_post_types( $args );

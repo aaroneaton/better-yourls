@@ -100,7 +100,8 @@ module.exports = function (grunt) {
 						type:        'wp-plugin',
 						domainPath:  '/languages',
 						mainFile:    'better-yourls.php',
-						potFilename: 'better-yourls.pot'
+						potFilename: 'better-yourls.pot',
+						exclude: ['vendor']
 					}
 				}
 			},

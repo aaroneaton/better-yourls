@@ -5,7 +5,7 @@
  * Description: Replace WordPress shortlinks with custom YOURLS domain.
  * Version: 2.2
  * Text Domain: better-yourls
- * Domain Path: /lang
+ * Domain Path: /languages
  * Author: Chris Wiegman
  * Author URI: https://www.chriswiegman.com/
  * License: GPLv2
@@ -23,7 +23,7 @@ add_action( 'plugins_loaded', 'better_yourls_loader' );
 function better_yourls_loader() {
 
 	// Remember the text domain.
-	load_plugin_textdomain( 'better-yourls', false, dirname( dirname( __FILE__ ) ) . '/lang' );
+	load_plugin_textdomain( 'better-yourls', false, dirname( dirname( __FILE__ ) ) . '/languages' );
 
 	// Load front end items.
 	if ( ! class_exists( 'Better_YOURLS_Actions' ) ) {

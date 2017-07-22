@@ -53,6 +53,12 @@ Integrates your blog with the <a href="http://yourls.org" target="_blank">YOURLS
 
 == Changelog ==
 
+= 2.2.1 =
+* Fixed error on settings save due to unavailable array.
+* Fixed "Security Error" when saving ignored posts.
+* Minor JS and CSS refactoring for easier debugging
+* Moved .pot file to "languages" folder
+
 = 2.2 =
 * Added ability to properly handle non-public post types.
 * Minor fixes and typo corrections.

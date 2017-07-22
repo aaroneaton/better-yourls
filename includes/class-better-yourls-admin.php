@@ -426,6 +426,10 @@ class Better_YOURLS_Admin {
 
 		foreach ( $private_post_types as $post_type ) {
 
+			if ( ! isset( $input['post_types'] ) || ! is_array( $input['post_types'] ) ) {
+				$input['post_types'] = array();
+			}
+
 			// Don't automatically include all excluded private post types immediately.
 			if ( ( ! isset( $this->settings['private_post_types'] ) || false === $this->settings['private_post_types'] ) && true === $input['private_post_types'] ) {
 

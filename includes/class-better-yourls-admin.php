@@ -384,14 +384,14 @@ class Better_YOURLS_Admin {
 			$allow_private = true;
 		}
 
-		$input['domain']              = isset( $input['domain'] ) ? sanitize_text_field( $input['domain'] ) : '';
-		$input['domain']              = str_replace( 'http://', '', $input['domain'] );
-		$input['domain']              = str_replace( ' ', '', $input['domain'] );
-		$input['domain']              = trim( $input['domain'], '/' );
-		$input['key']                 = isset( $input['key'] ) ? sanitize_text_field( $input['key'] ) : '';
-		$input['https']               = isset( $input['https'] ) && 1 === absint( $input['https'] ) ? true : false;
-		$input['https_ignore']        = isset( $input['https_ignore'] ) && 1 === absint( $input['https_ignore'] ) ? true : false;
-		$input['private_post_types']  = isset( $input['private_post_types'] ) && 1 === absint( $input['private_post_types'] ) ? true : false;
+		$input['domain']             = isset( $input['domain'] ) ? sanitize_text_field( $input['domain'] ) : '';
+		$input['domain']             = str_replace( 'http://', '', $input['domain'] );
+		$input['domain']             = str_replace( ' ', '', $input['domain'] );
+		$input['domain']             = trim( $input['domain'], '/' );
+		$input['key']                = isset( $input['key'] ) ? sanitize_text_field( $input['key'] ) : '';
+		$input['https']              = isset( $input['https'] ) && 1 === absint( $input['https'] ) ? true : false;
+		$input['https_ignore']       = isset( $input['https_ignore'] ) && 1 === absint( $input['https_ignore'] ) ? true : false;
+		$input['private_post_types'] = isset( $input['private_post_types'] ) && 1 === absint( $input['private_post_types'] ) ? true : false;
 
 		$excluded_public_post_types = array();
 
@@ -593,7 +593,7 @@ class Better_YOURLS_Admin {
 			return 0;
 		}
 
-		return ($post_type_a->labels->name < $post_type_b->labels->name) ? -1 : 1;
+		return ( $post_type_a->labels->name < $post_type_b->labels->name ) ? -1 : 1;
 
 	}
 }

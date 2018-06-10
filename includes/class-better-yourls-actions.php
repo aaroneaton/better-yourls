@@ -788,7 +788,7 @@ class Better_YOURLS_Actions {
 	 * @return $plugin_array
 	 */
 	function better_yourls_register_tinymce_plugin( $plugin_array ) {
-		$plugin_array['better_yourls_tinymce_button'] = BYOURLS_URL . 'assets/js/better-yourls-tinymce-button.js';
+		$plugin_array['better_yourls_tinymce_button'] = BYOURLS_URL . 'assets/js/src/better-yourls-tinymce-button.js';
 
 		return $plugin_array;
 	}

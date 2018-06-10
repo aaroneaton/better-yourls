@@ -15,5 +15,6 @@ The other to pull the long URL associated with a shortlink or keyword and the as
 
 function:   <b>get-keyword-url</b><br>
 parameters: url     - the full long URL to search for on YOURLS<br>
+            newest  - flag to search for newest long URL, otherwise oldest<br>
 returns:    keyword - shortlink keyword (not full shortlink),<br>
                       boolean false, or string error message

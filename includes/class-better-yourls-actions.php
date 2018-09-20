@@ -103,6 +103,12 @@ class Better_YOURLS_Actions {
 			return false;
 		}
 
+		// Prevent save when using edit
+		global $pagenow;
+		if ($pagenow == 'edit.php' ) {
+			return false;
+		}
+
 		/**
 		 * Filter Better YOURLs post statuses
 		 *

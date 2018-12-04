@@ -1,6 +1,10 @@
 Better YOURLS [![Build Status](https://travis-ci.org/ChrisWiegman/Better-YOURLS.svg?branch=develop)](https://travis-ci.org/ChrisWiegman/Better-YOURLS)
 =============
 
+# This plugin Needs Adoption
+
+This plugin needs adoption. [Contact me](http://www.chriswiegman.com/contact/) for more information.
+
 Integrate your blog with [YOURLS](http://yourls.org) custom URL generator.
 
 ## License

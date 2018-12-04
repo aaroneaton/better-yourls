@@ -1,10 +1,10 @@
 === Better YOURLS ===
 Contributors: ChrisWiegman, michaelbeil, domsammut
 Donate link: https://chriswiegman.com
-Tags: yourls, shortlink, custom shortlink
+Tags: yourls, shortlink, custom shortlink adopt-me
 Requires at least: 4.2
-Tested up to: 4.9
-Stable tag: 2.2.4
+Tested up to: 4.9.8
+Stable tag: 2.2.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,6 +14,10 @@ Integrate your blog with <a href="http://yourls.org" target="_blank">YOURLS</a> 
 Released under the terms of the GNU General Public License.
 
 == Description ==
+
+= This plugin Needs Adoption =
+
+This plugin needs adoption.  <a href="http://www.chriswiegman.com/contact/" target="_blank">Contact me</a> for more information.
 
 Integrates your blog with the <a href="http://yourls.org" target="_blank">YOURLS</a> custom URL generator.
 

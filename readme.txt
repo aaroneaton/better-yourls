@@ -1,10 +1,10 @@
 === Better YOURLS ===
-Contributors: ChrisWiegman, michaelbeil, domsammut
-Donate link: https://chriswiegman.com
-Tags: yourls, shortlink, custom shortlink, adopt-me
+Contributors: channeleaton, ChrisWiegman, michaelbeil, domsammut
+Donate link: https://aaroneaton.blog
+Tags: yourls, shortlink, custom shortlink
 Requires at least: 4.2
-Tested up to: 4.9.8
-Stable tag: 2.2.6
+Tested up to: 5.0.1
+Stable tag: 2.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,10 +14,6 @@ Integrate your blog with <a href="http://yourls.org" target="_blank">YOURLS</a> 
 Released under the terms of the GNU General Public License.
 
 == Description ==
-
-= This plugin Needs Adoption =
-
-This plugin needs adoption.  <a href="http://www.chriswiegman.com/contact/" target="_blank">Contact me</a> for more information.
 
 Integrates your blog with the <a href="http://yourls.org" target="_blank">YOURLS</a> custom URL generator.
 
@@ -43,9 +39,9 @@ Integrates your blog with the <a href="http://yourls.org" target="_blank">YOURLS
 == Frequently Asked Questions ==
 
 = Are you still developing this plugin? =
-* Yes.
+* Yes! This plugin was adopted in 2018 by Aaron Eaton to continue development.
 
-= Does this work with netowork or multisite installations? =
+= Does this work with network or multisite installations? =
 * I don't know. I haven't tried it.
 
 = Can I help? =
@@ -56,6 +52,9 @@ Integrates your blog with the <a href="http://yourls.org" target="_blank">YOURLS
 1. Easy to use with only 2 options.
 
 == Changelog ==
+
+= 2.3.0 =
+* Plugin adopted by <a href="https://aaroneaton.blog" target="_blank">Aaron Eaton</a>
 
 = 2.2.3 =
 * Fixed an error that prevented private post types from being handled correctly.

@@ -1,9 +1,5 @@
-Better YOURLS [![Build Status](https://travis-ci.org/ChrisWiegman/Better-YOURLS.svg?branch=develop)](https://travis-ci.org/ChrisWiegman/Better-YOURLS)
+Better YOURLS [![Build Status](https://travis-ci.org/aaroneaton/better-yourls.svg)](https://travis-ci.org/better-yourls)
 =============
-
-# This plugin Needs Adoption
-
-This plugin needs adoption. [Contact me](http://www.chriswiegman.com/contact/) for more information.
 
 Integrate your blog with [YOURLS](http://yourls.org) custom URL generator.
 
@@ -37,6 +33,9 @@ Released under the terms of the GNU General Public License.
 * Of course! I am in constant need of testers and I would be more than happy to add the right contributor. In addition, I could always use help with translations for internationalization.
 
 ## Changelog
+
+##### 2.3.0
+* 
 
 ##### 2.2.4
 * Minor fixes for coding standards and in 4.9 testing.

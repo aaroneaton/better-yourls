@@ -253,6 +253,8 @@ class Better_YOURLS_Admin {
 	 */
 	public function metabox_settings() {
 
+		echo '<p><strong>This plugin is up for adoption. Please <a href="http://www.chriswiegman.com/contact/">contact me</a> if you would like to continue its development.</strong></p>';
+
 		echo '<p>', esc_html__( 'Use the settings below to configure Better YOURLs for your site.', 'better-yourls' ), '</p>';
 
 		?>

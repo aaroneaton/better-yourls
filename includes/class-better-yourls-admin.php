@@ -40,6 +40,8 @@ class Better_YOURLS_Admin {
 
 		add_filter( 'plugin_action_links', array( $this, 'filter_plugin_action_links' ), 10, 2 );
 
+		add_action( 'enqueue_block_assets', [ $this, 'enqueue_editor_assets' ] );
+
 	}
 
 	/**
@@ -62,6 +64,43 @@ class Better_YOURLS_Admin {
 			wp_enqueue_style( 'better_yourls_admin' );
 
 		}
+	}
+
+	public function enqueue_editor_assets() {
+	    $js  = $this->get_asset_data( 'assets/dist/main.js' );
+		$css = $this->get_asset_data( 'assets/dist/main.css' );
+		$handle = 'gutenberg-starter-kit';
+		$deps   = [
+			'wp-i18n',
+			'wp-blocks',
+			'wp-components',
+			'wp-editor',
+			'wp-plugins',
+			'wp-edit-post',
+		];
+		$locale_data = wp_set_script_translations( $handle, 'better-yourls' );
+		wp_enqueue_script( $handle, $js['src'], $deps, $js['ver'], false );
+		wp_add_inline_script( $handle, sprintf( 'wp.i18n.setLocaleData( %s, "better-yourls" );', wp_json_encode( $locale_data ) ), 'before' );
+		wp_enqueue_style( $handle, $css['src'], [], $css['ver'] );
+	}
+
+	function get_asset_data( $path ) {
+		$plugin_dir_path  = dirname( __FILE__, 3 );
+		$plugin_file_path = "{$plugin_dir_path}/better-yourls/better-yourls.php";
+		// Get built file URL.
+		$src = plugins_url( $path, $plugin_file_path );
+		// Use webpack dev server if SCRIPT_DEBUG or speific debug constant is true.
+		if ( ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) || ( defined( 'HM_GUTENBERG_STARTER_KIT_DEBUG' ) && HM_GUTENBERG_STARTER_KIT_DEBUG ) ) {
+			$src  = str_replace( content_url() . '/plugins/better-yourls/', 'https://localhost:8884/', $src );
+			$ver    = null;
+		} else {
+			$ver = filemtime( "{$plugin_dir_path}/{$path}" );
+		}
+		return [
+			'src' => $src,
+			'ver' => $ver,
+		];
+
 	}
 
 	/**

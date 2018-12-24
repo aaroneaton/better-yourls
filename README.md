@@ -37,7 +37,7 @@ Released under the terms of the GNU General Public License.
 ##### 2.3.0
 * Plugin is now compatible with Gutenberg.
 * Fixed security error when using Bulk Edit. Thanks [@clementduncan](https://github.com/clementduncan)!
-* Plugin transferred to Aaron Eaton
+* Plugin adopted by [Aaron Eaton](https://aaroneaton.blog)
 
 ##### 2.2.4
 * Minor fixes for coding standards and in 4.9 testing.

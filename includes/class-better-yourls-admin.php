@@ -285,7 +285,7 @@ class Better_YOURLS_Admin {
 		<form></form>
 		<form action="https://blog.us8.list-manage.com/subscribe/post?u=d6c5983af28b0d029985583e9&amp;id=af9099f5d0" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
 			<div id="mc_embed_signup_scroll">
-			<h2>Subscribe to our mailing list</h2>
+			<h2>Subscribe for plugin updates, tutorials and more!</h2>
 		<div class="indicates-required"><span class="asterisk">*</span> indicates required</div>
 		<div class="mc-field-group">
 			<label for="mce-EMAIL">Email Address  <span class="asterisk">*</span>

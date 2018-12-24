@@ -271,15 +271,18 @@ class Better_YOURLS_Admin {
 		$wp_page  = 'https://wordpress.org/plugins/better-yourls/';
 		$homepage = 'https://wordpress.org/plugins/better-yourls/';
 
-		echo '<p>' . esc_html__( 'Have you found this plugin useful? Please help support it\'s continued development with a donation of $20, $50, or even $100.', 'better-yourls' ) . '</p>';
+		echo '<p>' . esc_html__( 'Have you found this plugin useful? Please help support it\'s continued development with a donation of $2, $20, or even $50.', 'better-yourls' ) . '</p>';
 
 		?>
 		<form></form> <?php // Don't ask me why but WordPress filters out the form if I don't add this. ?>
+
 		<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-			<input type="hidden" name="cmd" value="_s-xclick">
-			<input type="hidden" name="hosted_button_id" value="XMS5DSYBPUUNU">
-			<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" name="submit" alt="PayPal - The safer, easier way to pay online!">
-			<img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+			<input type="hidden" name="cmd" value="_donations" />
+			<input type="hidden" name="business" value="CFJJ7YCD72RLA" />
+			<input type="hidden" name="item_name" value="Better YOURLs" />
+			<input type="hidden" name="currency_code" value="USD" />
+			<input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
+			<img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" />
 		</form>
 
 		<?php

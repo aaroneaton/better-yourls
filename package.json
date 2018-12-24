@@ -16,9 +16,9 @@
     "time-grunt": "1.4.0",
     "grunt-contrib-clean": "1.1.0"
   },
-  "author": "Chris Wiegman",
+  "author": "J. Aaron Eaton",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ChrisWiegman/Better-YOURLS"
+    "url": "https://github.com/aaroneaton/better-yourls"
   }
 }

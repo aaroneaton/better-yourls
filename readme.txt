@@ -54,6 +54,8 @@ Integrates your blog with the <a href="http://yourls.org" target="_blank">YOURLS
 == Changelog ==
 
 = 2.3.0 =
+* Plugin is now compatible with Gutenberg.
+* Fixed security error when using Bulk Edit. Thanks <a href="https://github.com/clementduncan>@clementduncan</a>!
 * Plugin adopted by <a href="https://aaroneaton.blog" target="_blank">Aaron Eaton</a>
 
 = 2.2.3 =

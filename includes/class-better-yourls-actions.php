@@ -136,9 +136,14 @@ class Better_YOURLS_Actions {
 	 */
 	protected function _generate_post_on_save( $post_id ) {
 
+		// Skip saving if we're performing a rest request.
+		if ( defined( 'REST_REQUEST' ) ) {
+			return;
+		}
+
 		// Make sure we are originating from the right place.
 		if (
-			true === $this->_check_valid_post( $post_id ) &&
+			!true === $this->_check_valid_post( $post_id ) &&
 			(
 				! isset( $_POST['better_yourls_nonce'] ) || // WPCS: input var ok.
 				! wp_verify_nonce( $_POST['better_yourls_nonce'], 'better_yourls_save_post' ) // WPCS: input var ok. Sanitization ok.

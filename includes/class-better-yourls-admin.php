@@ -53,13 +53,15 @@ class Better_YOURLS_Admin {
 
 		if ( 'settings_page_better_yourls' === get_current_screen()->id ) {
 
-			$min = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+// FIX MIN
+	//		$min = ( defined( 'SCRIPT_DEBUG' ) && true === SCRIPT_DEBUG ) ? '' : '.min';
+// FIX MIN
 
 			wp_register_script( 'better_yourls_footer', BYOURLS_URL . 'assets/js/admin-footer' . $min . '.js', array( 'jquery' ), BYOURLS_VERSION, true );
-			wp_register_style( 'better_yourls_admin', BYOURLS_URL . 'assets/css/better-yourls' . $min . '.css', array(), BYOURLS_VERSION ); // Add multi-select css.
+      wp_register_style( 'better_yourls_admin', BYOURLS_URL . 'assets/css/better-yourls' . $min . '.css', array(), BYOURLS_VERSION ); // Add multi-select css.
 
 			wp_enqueue_script( 'better_yourls_footer' );
-			wp_enqueue_style( 'better_yourls_admin' );
+      wp_enqueue_style( 'better_yourls_admin' );
 
 		}
 	}
@@ -161,6 +163,14 @@ class Better_YOURLS_Admin {
 			'better_yourls[private_post_types]',
 			esc_html__( 'Allow Private Post Types', 'better-yourls' ),
 			array( $this, 'settings_field_private_post_types' ),
+			'settings_page_better_yourls',
+			'better_yourls'
+		);
+
+		add_settings_field(
+			'better_yourls[shortlink_integrity]',
+			esc_html__( 'Verify shortlinks', 'better-yourls' ),
+			array( $this, 'settings_field_shortlink_integrity' ),
 			'settings_page_better_yourls',
 			'better_yourls'
 		);
@@ -457,6 +467,10 @@ class Better_YOURLS_Admin {
 		$input['https']              = isset( $input['https'] ) && 1 === absint( $input['https'] ) ? true : false;
 		$input['https_ignore']       = isset( $input['https_ignore'] ) && 1 === absint( $input['https_ignore'] ) ? true : false;
 		$input['private_post_types'] = isset( $input['private_post_types'] ) && 1 === absint( $input['private_post_types'] ) ? true : false;
+		$input['shortlink_integrity']          = isset( $input['shortlink_integrity'] ) && 1 === absint( $input['shortlink_integrity'] ) ? true : false;
+		$input['shortlink_integrity_url']      = isset( $input['shortlink_integrity_url'] ) && 1 === absint( $input['shortlink_integrity_url'] ) ? true : false;
+		$input['shortlink_url_recover']        = isset( $input['shortlink_url_recover'] ) && 1 === absint( $input['shortlink_url_recover'] ) ? true : false;
+		$input['shortlink_url_recover_newest'] = isset( $input['shortlink_url_recover_newest'] ) && 1 === absint( $input['shortlink_url_recover_newest'] ) ? true : false;
 
 		$excluded_public_post_types = array();
 
@@ -661,4 +675,48 @@ class Better_YOURLS_Admin {
 		return ( $post_type_a->labels->name < $post_type_b->labels->name ) ? -1 : 1;
 
 	}
+
+	/**
+	 * Enable shortlink verification on yourls server.
+	 *
+	 * @since 2.1
+	 *
+	 * @return void
+	 */
+	public function settings_field_shortlink_integrity() {
+
+		$shortlink_integrity = ( isset( $this->settings['shortlink_integrity'] ) && true === $this->settings['shortlink_integrity'] ) ? true : false;
+    echo '<input name="better_yourls[shortlink_integrity]" id="better_yourls_shortlink_integrity" value="1" type="checkbox" ' . checked( true, $shortlink_integrity, false ) . '><label for="better_yourls_shortlink_integrity"> ' . esc_html__( 'Check this box to verify existing or new shortlinks on YOURLS server when editing WP content.', 'better-yourls' ) . '</label><br>';
+
+    $shortlink_integrity_url = ( isset( $this->settings['shortlink_integrity_url'] ) && true === $this->settings['shortlink_integrity_url'] ) ? true : false;
+    if ( !$shortlink_integrity ) {
+      $disabled = 'disabled';
+      $checked = false;
+    } else {
+      $disabled = '';
+      $checked = checked( true, $shortlink_integrity_url, false );
+    }
+    echo '<br><p class="description1"><input name="better_yourls[shortlink_integrity_url]" id="better_yourls_shortlink_integrity_url" value="1" type="checkbox" ' . $checked . ' ' . $disabled . '><label for="better_yourls_shortlink_integrity_url"> ' . esc_html__( 'For existing shortlinks, verify the long URL matches on YOURLS server.', 'better-yourls' ) . '</label></p>';
+
+    $shortlink_url_recover = ( isset( $this->settings['shortlink_url_recover'] ) && true === $this->settings['shortlink_url_recover'] ) ? true : false;
+    if ( !$shortlink_integrity ) {
+      $disabled = 'disabled';
+      $checked = false;
+    } else {
+      $disabled = '';
+      $checked = checked( true, $shortlink_url_recover, false );
+    }
+		echo '<br><p class="description1"><input name="better_yourls[shortlink_url_recover]" id="better_yourls_shortlink_url_recover" value="1" type="checkbox" ' . $checked . ' ' . $disabled . '><label for="better_yourls_shortlink_url_recover"> ' . esc_html__( 'If shortlink is missing or corrupt, attempt to recover matching long URL on YOURLS server.', 'better-yourls' ) . '</label></p>';
+
+    $shortlink_url_recover_newest = ( isset( $this->settings['shortlink_url_recover_newest'] ) && true === $this->settings['shortlink_url_recover_newest'] ) ? true : false;
+    if (( !$shortlink_integrity ) || ( !$shortlink_url_recover )) {
+      $disabled = 'disabled';
+      $checked = false;
+    } else {
+      $disabled = '';
+      $checked = checked( true, $shortlink_url_recover_newest, false );
+    }
+    echo '<br><p class="description2"><input name="better_yourls[shortlink_url_recover_newest]" id="better_yourls_shortlink_url_recover_newest" value="1" type="checkbox" ' . $checked . ' ' . $disabled . '><label for="better_yourls_shortlink_url_recover_newest"> ' . esc_html__( 'When searching, choose the newest matching long URL entry on the YOURLS server.', 'better-yourls' ) . '</label></p>';
+  }
+
 }
